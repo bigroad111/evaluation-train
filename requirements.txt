@@ -1,0 +1,10 @@
+matplotlib==2.0.2
+scipy==0.19.1
+seaborn==0.8
+numpy==1.13.1
+SQLAlchemy==1.1.11
+pandas==0.20.2
+lightgbm==2.0.4
+xgboost==0.6a2
+setuptools==20.7.0
+scikit_learn==0.19.0
