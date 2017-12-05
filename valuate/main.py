@@ -47,10 +47,10 @@ if __name__ == "__main__":
     # valuated_model = pd.read_csv('predict/map/valuated_model_detail.csv')
     # valuated_model.to_csv('predict/map/need_valuated_model.csv', index=False)
     predict = pred()
-    predict.predict_all_test_data()
+    # predict.predict_all_test_data()
 
 
-    # predict.predict_test_data(model_slug='bseries_1810')
+    predict.predict_test_data(model_slug='bseries_1810')
 
 
     # result = predict.predict_single(model_slug='qichenR30', model_detail_slug='110195_autotis', city='长春', use_time=239)
