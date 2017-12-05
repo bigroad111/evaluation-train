@@ -1,0 +1,8 @@
+include valuate/conf/*.py
+include valuate/predict/feature_encode/*.csv
+include valuate/predict/feature_encode/*.txt
+include valuate/predict/map/*.csv
+include valuate/predict/model/*.pkl
+include valuate/predict/model/*.model
+include valuate/verify/set/*.csv
+include requirements.txt
