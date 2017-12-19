@@ -1,34 +1,34 @@
-import os
-import time
-import pandas as pd
-import numpy as np
 from datetime import datetime
 
-from sklearn.externals import joblib
-from valuate.db import process_tables
-from valuate.predict.predict_batch import Predict
+import numpy as np
+import pandas as pd
+
+from valuate.predict.predict_batch import Predict as batch
 from valuate.conf import global_settings as gl
+from valuate.db import process_tables
 
 
-def generate_days(df):
+def generate_month(df):
     """
     计算使用时间(通用)
     """
-    online_time = str(df['year'])+'-'+str(df['month'])+'-'+'1'
-    online_time = datetime.strptime(online_time, '%Y-%m-%d')
+    online_year = df['year']
+    online_month = df['month']
     if str(df['sold_time']) == 'nan':
         transaction_time = datetime.strptime(str(df['expired_at']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time - online_time).days
+        return (transaction_time.year - online_year) * 12 + transaction_time.month - online_month
     else:
         transaction_time = datetime.strptime(str(df['sold_time']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time - online_time).days
+        return (transaction_time.year - online_year) * 12 + transaction_time.month - online_month
 
 
-def generate_deal_days(df):
+def generate_deal_month(df):
     """
     计算成交表使用时间
     """
-    return (datetime.strptime(df['deal_date'], '%Y-%m-%d') - datetime.strptime(df['reg_date'], '%Y-%m-%d')).days
+    deal_date = datetime.strptime(df['deal_date'], '%Y-%m-%d')
+    reg_date = datetime.strptime(df['reg_date'], '%Y-%m-%d')
+    return (deal_date.year - reg_date.year) * 12 + deal_date.month - reg_date.month
 
 
 def query_competed_tables():
@@ -63,7 +63,7 @@ class Report(object):
         self.final.loc[(self.final['source_type'].isin(gl.B_2_C)), 'category'] = 'b_2_c'
 
         # 计算使用时间
-        self.final['use_time'] = self.final.apply(generate_days, axis=1)
+        self.final['use_time'] = self.final.apply(generate_month, axis=1)
 
         # 重置索引
         self.final = self.final.drop(['index', 'expired_at', 'year', 'month'], axis=1)
@@ -81,7 +81,7 @@ class Report(object):
         model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
         model_detail_map = model_detail_map.loc[:, ['model_slug', 'model_detail_slug']]
         deal_records = deal_records.loc[:, ['id', 'model_slug', 'model_detail_slug', 'city', 'mile', 'price', 'deal_date', 'reg_date','deal_type']]
-        eval_deal_source = eval_deal_source.loc[:, ['deal_id', 'good', 'domain', 'status']]
+        eval_deal_source = eval_deal_source.loc[:, ['deal_id', 'excellent', 'good', 'fair', 'domain', 'status']]
         open_model_detail = open_model_detail.loc[:, ['price_bn', 'model_detail_slug']]
 
         deal_records = deal_records.rename(columns={'id': 'car_id'})
@@ -91,7 +91,7 @@ class Report(object):
         final['price'] = final['price'] / 100
 
         final = final.drop(final[final['deal_type'].isin([4])].index)
-        final['use_time'] = final.apply(generate_deal_days, axis=1)
+        final['use_time'] = final.apply(generate_deal_month, axis=1)
         final['source_type'] = final['deal_type'].map(gl.DEAL_TYPE_MAP_SOURCE_TYPE)
         final['category'] = final['deal_type'].map(gl.DEAL_TYPE_MAP_CATEGORY)
         final = final.drop(['reg_date', 'deal_type'], axis=1)
@@ -107,56 +107,41 @@ class Report(object):
         self.final = self.final.drop(['index', 'model_slug'], axis=1)
         self.final = self.final.merge(model_detail_map, how='left', on='model_detail_slug')
 
-    def predict_condition(self):
-        """
-        预测车况
-        """
-        # car_condtion = self.final.loc[:, ['use_time', 'mile']]
-        # # car_condtion['transfer_owner'] = 0
-        # car_condition = self.car_condition_model.predict(car_condtion)
-        # self.final['car_condition'] = pd.Series(car_condition).values
-        # self.final = self.final.merge(self.car_condition_match, how='left', on='car_condition')
-        # self.final['desc'] = self.final['desc'].str.lower()
-        # self.final = self.final.rename(columns={'desc': 'condition'})
-        # self.final = self.final.drop(['source_type', 'origin_price'], axis=1)
-        # # 删除车况为bad的记录
-        # self.final = self.final.drop(self.final[self.final['condition'] == 'bad'].index)
-        # # 重置索引
-        # self.final.reset_index(inplace=True)
-        # self.final = self.final.drop('index', axis=1)
-
     def find_predict_price(self):
         """
         查找预测值
         """
-        def process_category_price(df):
+        def process_category_price(df, condition):
             if df['exist'] == 'Y':
                 if df['category'] == 'c_2_c':
                     if df['domain'] == 'jingzhengu.com':
                         return 0
                     elif df['domain'] == 'gongpingjia.com':
-                        return df['good'].split(' ')[1]
+                        return df[condition].split(' ')[1]
                     elif df['domain'] == 'che300.com':
-                        return df['good'].split(',')[3]
+                        return df[condition].split(',')[3]
                 elif df['category'] == 'b_2_c':
                     if df['domain'] == 'jingzhengu.com':
-                        return df['good'].split(',')[2]
+                        return df[condition].split(',')[2]
                     elif df['domain'] == 'gongpingjia.com':
-                        return df['good'].split(' ')[2]
+                        # return df[condition].split(' ')[2]
+                        return 'pass'
                     elif df['domain'] == 'che300.com':
-                        return df['good'].split(',')[5]
+                        return df[condition].split(',')[5]
                 elif df['category'] == 'c_2_b':
                     if df['domain'] == 'jingzhengu.com':
-                        return df['good'].split(';')[0].split(',')[1]
+                        return df[condition].split(';')[0].split(',')[1]
                     elif df['domain'] == 'gongpingjia.com':
-                        return df['good'].split(' ')[0]
+                        return df[condition].split(' ')[0]
                     elif df['domain'] == 'che300.com':
-                        return df['good'].split(',')[1]
+                        return df[condition].split(',')[1]
 
         self.final['exist'] = 'Y'
         self.final.loc[(self.final['good'].isnull()), 'exist'] = 'N'
         self.final.loc[(self.final['good'] == '0,0'), 'exist'] = 'N'
-        self.final['predict_price'] = self.final.apply(process_category_price, axis=1)
+        self.final['predict_price_excellent'] = self.final.apply(process_category_price, args=('excellent',), axis=1)
+        self.final['predict_price_good'] = self.final.apply(process_category_price, args=('good',), axis=1)
+        self.final['predict_price_fair'] = self.final.apply(process_category_price, args=('fair',), axis=1)
 
     def keep_all_have_data(self):
         """
@@ -190,9 +175,9 @@ class Report(object):
         self.final = self.final.drop('index', axis=1)
         return self.final
 
-    def generate_temp_csv_with_predict(self):
+    def generate_adjust_profit_data(self):
         """
-        生成jupyter使用的临时csv,带本地预测
+        生成供给调整值处理的数据
         """
         # 查询竞争数据
         # query_competed_tables()
@@ -206,22 +191,60 @@ class Report(object):
         self.final = self.final.drop(self.final[self.final['exist'] == 'N'].index)
         # 重置索引
         self.final.reset_index(inplace=True)
-        self.final = self.final.drop('index', axis=1)
-
-        # 使用最新的模型预测
+        self.final = self.final.drop(['index', 'excellent', 'fair', 'good'], axis=1)
         gongpingjia = self.final.loc[(self.final['domain'] == 'gongpingjia.com'), :]
-        predict = Predict()
-        result = predict.predict_new(gongpingjia.loc[:, ['car_id', 'city', 'model_slug', 'model_detail_slug',  'source_type', 'price_bn', 'use_time', 'mile']])
+        gongpingjia.reset_index(inplace=True)
+        gongpingjia = gongpingjia.drop('index', axis=1)
+
+        province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+        province_city_map = province_city_map.loc[:, ['province', 'city']]
+        province_popularity_map = pd.read_csv('predict/map/province_popularity_map.csv')
+
+        gongpingjia = gongpingjia.merge(province_city_map, how='left', on='city')
+        gongpingjia = gongpingjia.merge(province_popularity_map, how='left', on=['model_slug', 'province'])
+        gongpingjia['popularity'] = gongpingjia['popularity'].fillna('C')
+
+        gongpingjia = gongpingjia.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'price', 'source_type', 'popularity']]
+        gongpingjia['price'] = gongpingjia['price']*100
+        gongpingjia.to_csv('../tmp/train/adjust_data_recently.csv', index=False)
+
+    def generate_temp_csv_with_predict(self):
+        """
+        生成jupyter使用的临时csv,带本地预测
+        """
+        # 查询竞争数据
+        # query_competed_tables()
+        # 处理竞品表
+        # self.process_competed_tables()
+        # # 处理成交表
+        # self.process_deal_tables()
+        # # 查找预测值
+        # self.find_predict_price()
+        # # 删除没有预测值的记录
+        # self.final = self.final.drop(self.final[self.final['exist'] == 'N'].index)
+        # # 重置索引
+        # self.final.reset_index(inplace=True)
+        # self.final = self.final.drop(['index', 'excellent', 'fair', 'good'], axis=1)
+        #
+        # # # 保留各平台都有的数据并存储
+        # self.keep_all_have_data()
+        #
+        # # 使用最新的模型预测
+        # self.final.to_csv('../tmp/report/man.csv', index=False)
+        self.final = pd.read_csv('../tmp/report/man.csv')
+        gongpingjia = self.final.loc[(self.final['domain'] == 'gongpingjia.com'), :]
+        predict = batch()
+        result = predict.predict_batch(gongpingjia.loc[:, ['car_id', 'city', 'model_slug', 'model_detail_slug',  'source_type', 'price_bn', 'use_time', 'mile']], adjust_profit=True)
         result = result.loc[:, ['car_id', 'predict_price']]
-        gongpingjia = gongpingjia.drop('predict_price', axis=1)
+        result['predict_price_excellent'] = result['predict_price'] * 1.03 / 100
+        result['predict_price_good'] = result['predict_price'] / 100
+        result['predict_price_fair'] = result['predict_price'] * 0.89 / 100
+        result = result.drop('predict_price', axis=1)
+        gongpingjia = gongpingjia.drop(['predict_price_excellent', 'predict_price_good', 'predict_price_fair'], axis=1)
         gongpingjia = gongpingjia.merge(result, how='left', on='car_id')
-        gongpingjia['predict_price'] = gongpingjia['predict_price'] / 100
-        # gongpingjia['predict_price'] = gongpingjia['predict_price'].astype(int)
         self.final = self.final.drop(self.final[self.final['domain'] == 'gongpingjia.com'].index)
         self.final = self.final.append(gongpingjia, ignore_index=True)
         self.final = self.final.sort_values(by=['car_id', 'domain'])
 
-        # 保留各平台都有的数据并存储
-        self.keep_all_have_data()
         self.final.to_csv('../tmp/report/report_compete_data.csv', index=False)
 

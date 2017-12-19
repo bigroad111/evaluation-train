@@ -1,11 +1,12 @@
 import os
 import random
-import pandas as pd
-import numpy as np
 from datetime import datetime
 
-from valuate.db import process_tables
+import numpy as np
+import pandas as pd
+
 from valuate.conf import global_settings as gl
+from valuate.db import process_tables
 
 
 def query_train_data():
@@ -89,7 +90,7 @@ class FeatureEngineering(object):
 
     def __init__(self):
         # 查询训练数据
-        # query_train_data()
+        query_train_data()
         # 加载各类相关表
         self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
         self.train = pd.read_csv('../tmp/train/train_source.csv')
@@ -359,13 +360,15 @@ class FeatureEngineering(object):
         依据车型分割数据
         """
         self.train = pd.read_csv('../tmp/train/train.csv')
-        model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
+        open_category = pd.read_csv('../tmp/train/open_category.csv')
+        open_category = open_category[open_category['parent'].notnull()]
         normal_models = []
-        for model in list(set(model_detail_map.model_slug.values)):
+        for model in list(set(open_category.slug.values)):
             file_name = 'predict/models/'+model+'/data/train.csv'
             temp = self.train.loc[(self.train['model_slug'] == model), :]
             if len(temp) == 0:
-                continue
+                print(model, 'model has no data!')
+                return False
             os.makedirs(os.path.dirname(file_name), exist_ok=True)
             temp.to_csv(file_name, index=False, encoding='utf-8')
             normal_models.append(model)
@@ -381,12 +384,11 @@ class FeatureEngineering(object):
         # self.add_c2b_data()
         # self.add_other_process()
         # self.add_other_process_step2()
-        self.split_models()
+        # self.split_models()
+        pass
 
 # 1.公里数对车辆价格的影响。
 # 1. 正常行驶的车辆以一年2.5万公里为正常基数，低于2.5万公里的价格的浮动在+3.5%以内  大于2.5万公里的若每年的平均行驶里程大于2.5万公里小于5万公里价格浮动在-3.5-7.5%  若年平均形式里程大于5万公里及以上影响价格在-7.5-12.5%之间。
-#
-#
 #
 # 2. 二手车逐年车辆保值率
 # 1. 第1年的车辆贬值：3.5%-23% 96.5-77

@@ -1,19 +1,20 @@
 import os
-import time
 import pickle
-import pandas as pd
-import numpy as np
-import xgboost as xgb
-import lightgbm as lgb
+import time
 
-from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
-from sklearn.ensemble import GradientBoostingRegressor
+import lightgbm as lgb
+import numpy as np
+import pandas as pd
+import xgboost as xgb
 from sklearn import preprocessing
+from sklearn.cluster import KMeans
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
+from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split, GridSearchCV
+
 from valuate.conf import algorithm_settings as als
 from valuate.conf import global_settings as gl
-from sklearn.cluster import KMeans
-from sklearn.externals import joblib
 
 
 class SklearnHelper(object):
