@@ -35,7 +35,7 @@ result_map['intent'] = pd.Series(gl.INTENT_TYPE)
 result_map['intent_source'] = pd.Series(gl.INTENT_TYPE_CAN)
 
 # 调整值映射表
-adjust_profit = pd.read_csv('predict/map/adjust_profit_map.csv')
+adjust_profit = pd.read_csv(path+'predict/map/adjust_profit_map.csv')
 adjust_profit['encode'] = adjust_profit['model_detail_slug']+'_'+adjust_profit['popularity']
 model_detail_slug_popularity_index = list(set(adjust_profit.encode.values))
 adjust_profit = adjust_profit.set_index('encode')

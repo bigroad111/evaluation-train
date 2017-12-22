@@ -23,7 +23,7 @@ setup(
         'scikit_learn==0.19.0',
         'SQLAlchemy==1.1.11',
         'mysql-connector-python==8.0.5',
-        # 'PyMySQL==0.7.2',
+        'PyMySQL==0.7.2',
     ],
 
     include_package_data=True

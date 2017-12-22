@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # while True:
     time1 = time.time()
     predict = api()
-    result = predict.predict(city='南昌', model_detail_slug='109356_autotis', use_time=240, mile=1.9, ret_type='normal')
+    result = predict.predict(city='苏州', model_detail_slug='13442_ah', use_time=75, mile=6.8, ret_type='normal')
     # result = predict.future_price_trend(city='北京', model_detail_slug='109356_autotis', use_time=229, mile=-5, ret_type='normal')
     # result = predict.history_price_trend(city='贺州', model_detail_slug='19429_ah', use_time=10, mile=0, ret_type='normal')
     time2 = time.time()

@@ -213,28 +213,36 @@ class Report(object):
         生成jupyter使用的临时csv,带本地预测
         """
         # 查询竞争数据
-        # query_competed_tables()
+        query_competed_tables()
         # 处理竞品表
-        # self.process_competed_tables()
-        # # 处理成交表
-        # self.process_deal_tables()
-        # # 查找预测值
-        # self.find_predict_price()
-        # # 删除没有预测值的记录
-        # self.final = self.final.drop(self.final[self.final['exist'] == 'N'].index)
-        # # 重置索引
-        # self.final.reset_index(inplace=True)
-        # self.final = self.final.drop(['index', 'excellent', 'fair', 'good'], axis=1)
-        #
-        # # # 保留各平台都有的数据并存储
-        # self.keep_all_have_data()
-        #
-        # # 使用最新的模型预测
-        # self.final.to_csv('../tmp/report/man.csv', index=False)
+        self.process_competed_tables()
+        # 处理成交表
+        self.process_deal_tables()
+        # 查找预测值
+        self.find_predict_price()
+        # 删除没有预测值的记录
+        self.final = self.final.drop(self.final[self.final['exist'] == 'N'].index)
+        # 重置索引
+        self.final.reset_index(inplace=True)
+        self.final = self.final.drop(['index', 'excellent', 'fair', 'good'], axis=1)
+
+        # 保留各平台都有的数据并存储
+        self.keep_all_have_data()
+
+        # 使用最新的模型预测
+        self.final.to_csv('../tmp/report/man.csv', index=False)
         self.final = pd.read_csv('../tmp/report/man.csv')
+        # 匹配流行度
+        province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+        province_city_map = province_city_map.loc[:, ['province', 'city']]
+        province_popularity_map = pd.read_csv('predict/map/province_popularity_map.csv')
+        self.final = self.final.merge(province_city_map, how='left', on='city')
+        self.final = self.final.merge(province_popularity_map, how='left', on=['model_slug', 'province'])
+        self.final['popularity'] = self.final['popularity'].fillna('C')
+        # 公平家模型预测
         gongpingjia = self.final.loc[(self.final['domain'] == 'gongpingjia.com'), :]
         predict = batch()
-        result = predict.predict_batch(gongpingjia.loc[:, ['car_id', 'city', 'model_slug', 'model_detail_slug',  'source_type', 'price_bn', 'use_time', 'mile']], adjust_profit=True)
+        result = predict.predict_batch(gongpingjia.loc[:, ['car_id', 'city', 'model_slug', 'model_detail_slug',  'source_type', 'price_bn', 'use_time', 'mile', 'popularity']], adjust_profit=True)
         result = result.loc[:, ['car_id', 'predict_price']]
         result['predict_price_excellent'] = result['predict_price'] * 1.03 / 100
         result['predict_price_good'] = result['predict_price'] / 100
