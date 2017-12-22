@@ -1,5 +1,23 @@
 from valuate.predict import *
-import cProfile
+
+
+def process_str(df, feature):
+    text = df[feature]
+    text = re.sub(r"1\.\d\d\d\d", '0.9999', text)
+    text = re.sub(r"0\.", '', text)
+    text = re.sub(r"\d\,", '', text)
+    text = re.sub(r"\d\]", '', text)
+    text = text.replace(" ","")
+    text = text.replace("[","")
+    text = text.replace("]","")
+#     text = text[0:120]
+    return text
+
+
+def get_year(df, feature, start, end):
+    text = df[feature]
+    text = text[start:end]
+    return text
 
 
 def find_popularity(df):
@@ -125,7 +143,7 @@ class Predict(object):
         if str(province + model_slug) in province_popularity_map.index:
             self.test_level1['popularity'] = province_popularity_map.loc[str(province + model_slug), 'popularity']
         else:
-            self.test_level1['popularity'] = 'C'
+            self.test_level1['popularity'] = 'B'
         self.test_level1 = self.test_level1.merge(encode_popularity, how='left', on='popularity')
 
         self.test_level1['use_time'] = use_time
@@ -152,11 +170,12 @@ class Predict(object):
         """
         创建所有的测试数据
         """
-        # 加载可预测车型
+        # 加载需要预测车型
         valuated_model = pd.read_csv('predict/map/need_valuated_model_part1.csv')
         models = list(set(valuated_model.model_slug.values))
+        models_bak = list(set(valuated_model.model_slug.values))
 
-        for i, model in enumerate(models):
+        for i, model in enumerate(models_bak):
             time1 = time.time()
             print(i, '开始' + model + '车型的预测！')
             self.predict_test_data(model_slug=model)
@@ -165,6 +184,113 @@ class Predict(object):
             models.remove(model)
             new_model = pd.DataFrame(models, columns=['model_slug'])
             new_model.to_csv('predict/map/need_valuated_model_part1.csv', index=False, encoding='utf-8')
+
+    def process_result_data(self, model):
+        """
+        处理预测后文件,生成供数据库使用文件
+        """
+        model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
+        model_detail_map = model_detail_map.loc[:, ['model_detail_slug_id', 'model_detail_slug']]
+        province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+        province_city_map = province_city_map.loc[:, ['city_id', 'city']]
+
+        time1 = time.time()
+        print(j, '开始' + model + '车型的数据处理！')
+
+        test = pd.read_csv('predict/models/' + model + '/data/result.csv')
+        test['dealer_hedge'] = test.apply(process_str, args=('dealer_hedge',), axis=1)
+        test['cpersonal_hedge'] = test.apply(process_str, args=('cpersonal_hedge',), axis=1)
+        test = test.merge(model_detail_map, how='left', on='model_detail_slug')
+        test = test.merge(province_city_map, how='left', on='city')
+
+        for i in range(0, 40):
+            test['b2c_year_' + str(i)] = test.apply(get_year, args=('dealer_hedge', i * 18, (i + 1) * 18,), axis=1)
+            test['c2c_year_' + str(i)] = test.apply(get_year, args=('cpersonal_hedge', i * 18, (i + 1) * 18,), axis=1)
+        test = test.drop(['model_detail_slug', 'city', 'dealer_hedge', 'cpersonal_hedge'], axis=1)
+        test.to_csv('predict/models/' + model + '/data/final.csv', index=False)
+
+        time2 = time.time()
+        print(j, '完成' + model + '车型的数据处理！,耗时:', time2 - time1)
+
+    def process_all_result_data(self):
+        """
+        处理所有预测后文件,生成供数据库使用文件
+        """
+        model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
+        model_detail_map = model_detail_map.loc[:, ['model_detail_slug_id', 'model_detail_slug']]
+        province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+        province_city_map = province_city_map.loc[:, ['city_id', 'city']]
+
+        # 加载需要处理车型
+        valuated_model = pd.read_csv('predict/map/need_process_models.csv')
+        models = list(set(valuated_model.model_slug.values))
+        models_bak = list(set(valuated_model.model_slug.values))
+
+        for j, model in enumerate(models_bak):
+            file_name = 'predict/models/' + model + '/data/result.csv'
+            if os.path.exists(file_name):
+                time1 = time.time()
+                print(j, '开始' + model + '车型的数据处理！')
+
+                test = pd.read_csv('predict/models/' + model + '/data/result.csv')
+                test['dealer_hedge'] = test.apply(process_str, args=('dealer_hedge',), axis=1)
+                test['cpersonal_hedge'] = test.apply(process_str, args=('cpersonal_hedge',), axis=1)
+                test = test.merge(model_detail_map, how='left', on='model_detail_slug')
+                test = test.merge(province_city_map, how='left', on='city')
+
+                for i in range(0, 40):
+                    test['b2c_year_' + str(i)] = test.apply(get_year, args=('dealer_hedge', i * 18, (i + 1) * 18,), axis=1)
+                    test['c2c_year_' + str(i)] = test.apply(get_year, args=('cpersonal_hedge', i * 18, (i + 1) * 18,),
+                                                            axis=1)
+                test = test.drop(['model_detail_slug', 'city', 'dealer_hedge', 'cpersonal_hedge'], axis=1)
+                test.to_csv('predict/models/' + model + '/data/final.csv', index=False)
+
+                time2 = time.time()
+                print(j, '完成' + model + '车型的数据处理！,耗时:', time2 - time1)
+                models.remove(model)
+                new_model = pd.DataFrame(models, columns=['model_slug'])
+                new_model.to_csv('predict/map/need_process_models.csv', index=False, encoding='utf-8')
+
+    def combine_all_result_data(self):
+        """
+        组合所有预测值
+        """
+        part1_feature = ['model_detail_slug_id', 'city_id', 'popularity']
+        part2_feature = ['model_detail_slug_id', 'city_id', 'popularity']
+        for i in range(0, 20):
+            part1_feature.append('b2c_year_' + str(i))
+            part1_feature.append('c2c_year_' + str(i))
+
+        for i in range(20, 40):
+            part2_feature.append('b2c_year_' + str(i))
+            part2_feature.append('c2c_year_' + str(i))
+        # 加载可预测车型
+        valuated_model = pd.read_csv('predict/map/valuated_model_detail.csv')
+        models = list(set(valuated_model.model_slug.values))
+
+        result = pd.DataFrame()
+        for i, model in enumerate(models):
+            time1 = time.time()
+            file_name = 'predict/models/' + model + '/data/final.csv'
+            # if os.path.exists(file_name):
+            temp = pd.read_csv(file_name, dtype=str, encoding='utf-8')
+            result = result.append(temp)
+            time2 = time.time()
+            print(i, '耗时:', model, time2-time1)
+            if ((i % 100) == 0) & (i != 0):
+                num = int(i / 100)
+                part1 = result.loc[:, part1_feature]
+                part1.to_csv('predict/model/'+str(num)+'valuate_part1.csv', index=False, encoding='utf-8')
+                part2 = result.loc[:, part2_feature]
+                part2.to_csv('predict/model/' + str(num) + 'valuate_part2.csv', index=False, encoding='utf-8')
+                result = pd.DataFrame()
+            if i == (len(models) - 1):
+                num = int(i / 100) + 1
+                part1 = result.loc[:, part1_feature]
+                part1.to_csv('predict/model/' + str(num) + 'valuate_part1.csv', index=False, encoding='utf-8')
+                part2 = result.loc[:, part2_feature]
+                part2.to_csv('predict/model/' + str(num) + 'valuate_part2.csv', index=False, encoding='utf-8')
+
 
 
 

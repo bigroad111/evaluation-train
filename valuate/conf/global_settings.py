@@ -4,12 +4,25 @@ ENCODING = 'utf-8'
 # 生产,测试库配置
 ##########################
 
-# 生产库
-PRODUCE_DB_ADDR = '101.201.143.74'
+# 运行环境[PRODUCT,TEST,LOCAL]
+RUNTIME_ENVIRONMENT = 'PRODUCT'
+
+# 生产库外网
+PRODUCE_DB_ADDR_OUTTER = '101.201.143.74'
 PRODUCE_DB_USER = 'leidengjun'
 PRODUCE_DB_PASSWD = 'ldj_DEV_~!'
-PRODUCE_PINGJIA_ENGINE = 'mysql+pymysql://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR+'/pingjia?charset=utf8'
-PRODUCE_DATASOURCE_ENGINE = 'mysql+pymysql://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR+'/datasource?charset=utf8'
+PRODUCE_PINGJIA_ENGINE = 'mysql+pymysql://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR_OUTTER+'/pingjia?charset=utf8'
+PRODUCE_DATASOURCE_ENGINE = 'mysql+pymysql://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR_OUTTER+'/datasource?charset=utf8'
+PRODUCE_VALUATE_ENGINE_OUTTER_PYMYSQL = 'mysql+pymysql://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR_OUTTER+'/valuate?charset=utf8'
+PRODUCE_VALUATE_ENGINE_OUTTER_MYSQL_CON = 'mysql+mysqlconnector://'+PRODUCE_DB_USER+':'+PRODUCE_DB_PASSWD+'@'+PRODUCE_DB_ADDR_OUTTER+'/valuate?charset=utf8'
+
+# 生产库内网
+# PRODUCE_DB_ADDR_INNER = '10.45.147.49'
+PRODUCE_DB_ADDR_INNER = '100.114.30.239:18056'
+PRODUCE_DB_INNER_USER = 'pingjia'
+PRODUCE_DB_INNER_PASSWD = 'De32wsxC'
+PRODUCE_VALUATE_ENGINE_INNER_PYMYSQL = 'mysql+pymysql://'+PRODUCE_DB_INNER_USER+':'+PRODUCE_DB_INNER_PASSWD+'@'+PRODUCE_DB_ADDR_INNER+'/valuate?charset=utf8'
+PRODUCE_VALUATE_ENGINE_INNER_MYSQL_CON = 'mysql+pymysql://'+PRODUCE_DB_INNER_USER+':'+PRODUCE_DB_INNER_PASSWD+'@'+PRODUCE_DB_ADDR_INNER+'/valuate?charset=utf8'
 
 # 本地库
 LOCAL_DB_ADDR = '192.168.1.47'
@@ -40,10 +53,8 @@ CAR_CONDITION_COEFFICIENT = {'excellent': 1.03, 'good': 1, 'fair': 0.89, 'bad': 
 CAR_CONDITION_COEFFICIENT_VALUES = [1.03, 1, 0.89, 0.82]
 
 # 交易方式
-# INTENT_TYPE = ['sell', 'buy', 'release', 'private', 'lowest', 'cpo', 'replace', 'auction', 'avg-buy', 'avg-sell']
-# INTENT_TYPE_CAN = ['sell_dealer', 'dealer', 'dealer', 'cpersonal', 'dealer', 'dealer', 'dealer', 'dealer', 'dealer', 'dealer']
-INTENT_TYPE = ['sell', 'buy', 'private']
-INTENT_TYPE_CAN = ['sell_dealer', 'dealer', 'cpersonal']
+INTENT_TYPE = ['sell', 'buy', 'release', 'private', 'lowest', 'cpo', 'replace', 'auction', 'avg-buy', 'avg-sell']
+INTENT_TYPE_CAN = ['sell', 'buy', 'buy', 'private', 'buy', 'buy', 'buy', 'buy', 'buy', 'buy']
 
 # 车源交易历史表
 CAR_DEAL_HISTORY = 'car_deal_history'
@@ -61,7 +72,7 @@ LOCAL_CAR_SOURCE_COLUMNS = 'cs.id,cs.model_detail_slug,cs.mile,cs.year,cs.month,
 
 # 款型表
 OPEN_MODEL_DETAIL = 'open_model_detail'
-PRODUCE_OPEN_MODEL_DETAIL_COLUMNS = 'price_bn,global_slug,volume,detail_model_slug'
+PRODUCE_OPEN_MODEL_DETAIL_COLUMNS = 'id,price_bn,global_slug,year,volume,control,detail_model_slug'
 PRODUCE_OPEN_MODEL_DETAIL_QUERY = 'select '+PRODUCE_OPEN_MODEL_DETAIL_COLUMNS+' from ' + OPEN_MODEL_DETAIL + ' where status = \'Y\' or status = \'A\''
 
 # 车型表
@@ -108,8 +119,12 @@ HISTORY_CAR_SOURCE_QUERY = 'select cs.id,cs.model_detail_slug,cs.mile,cs.year,cs
 ###########################
 
 # 公里数阈值和范围
-MILE_THRESHOLD = 0.1667
-MILE_RATE = 0.01
+# 正常行驶的车辆以一年2.5万公里为正常基数，低于2.5万公里的价格的浮动在+3.5%以内
+# 大于2.5万公里的若每年的平均行驶里程大于2.5万公里小于5万公里价格浮动在-3.5-7.5%
+# 若年平均形式里程大于5万公里及以上影响价格在-7.5-12.5%之间
+MILE_THRESHOLD_2_5 = 0.2083
+MILE_THRESHOLD_5 = 0.4167
+MILE_THRESHOLD_10 = 0.8333
 
 # 畅销程度系数
 PROFITS = {'A': (0.06, 0.11, 0.027, 0.02, 0.12, 0.08, 0.09, 0.006, -0.01),
@@ -124,6 +139,9 @@ INTENT_MAP = {'cpo': 'cpo', 'dealer': 'buy', 'odealer': 'buy',
               'buy_dealer': 'buy', 'buy_cpo': 'cpo'
               }
 
+# 估值映射表
+VALUATE_MAP_0_9 = 'valuate_car_source'
+VALUATE_MAP_10_20 = 'valuate_car_source_extend'
 ###########################
 # 平台分析报告相关表
 ###########################
@@ -133,7 +151,7 @@ EVAL_SOURCE = 'eval_source'
 PRODUCE_EVAL_SOURCE_COLUMNS = '*'
 PRODUCE_EVAL_SOURCE_QUERY = 'select '+PRODUCE_EVAL_SOURCE_COLUMNS+' from ' + EVAL_SOURCE
 
-EVAL_SOURCE_QUERY = 'select es.id,es.car_id,es.good,es.domain,es.price,es.status,es.created,cs.title,cs.pub_time,' \
+EVAL_SOURCE_QUERY = 'select es.id,es.car_id,es.excellent,es.good,es.fair,es.domain,es.price,es.status,es.created,cs.title,cs.pub_time,' \
                     'cs.model_slug,cs.model_detail_slug,cs.mile,cs.year,cs.month,cs.city,cs.source_type,cs.expired_at,cs.sold_time,omd.price_bn ' \
                     'from datasource.eval_source as es left join pingjia.car_source as cs on cs.id=es.car_id ' \
                     'left join pingjia.open_model_detail as omd on cs.model_detail_slug = omd.detail_model_slug'

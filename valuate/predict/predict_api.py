@@ -42,36 +42,7 @@ def get_profit_rate(intent, popularity):
     return profit_rate
 
 
-def get_all_condition_values(valuate_price, car_condition):
-    """
-    根据标价计算4个级别车况的价
-    """
-    values = []
-    for con in gl.CAR_CONDITION_VALUES:
-        values.append(valuate_price - (gl.CAR_CONDITION_COEFFICIENT[car_condition] - gl.CAR_CONDITION_COEFFICIENT[con]) * valuate_price)
-    return values
-
-
-def cal_intent_condition(valuate_price, popularity):
-    """
-    计算所有交易方式的4个级别车况价
-    """
-    conditions = get_all_condition_values(valuate_price, 'good')
-    profit_rates = []
-    for i, con in enumerate(gl.INTENT_TYPE):
-        profit_rate = get_profit_rate(con, popularity)
-        profit_rates.append(profit_rate)
-    df1 = pd.DataFrame(profit_rates)
-    df2 = pd.DataFrame([conditions])
-    all_map = df1.dot(df2)
-    all_map.columns = ['excellent', 'good', 'fair', 'bad']
-    all_map['intent'] = pd.Series(gl.INTENT_TYPE).values
-    all_map = all_map.loc[:, ['intent', 'excellent', 'good', 'fair', 'bad']]
-    all_map[['excellent', 'good', 'fair', 'bad']] = all_map[['excellent', 'good', 'fair', 'bad']].astype(int)
-    return all_map
-
-
-def cal_intent_condition_method2(prices,price_bn):
+def cal_intent_condition(prices, price_bn):
     """
     计算所有交易方式的4个级别车况价
     """
@@ -89,21 +60,22 @@ def cal_intent_condition_method2(prices,price_bn):
     return all_map
 
 
-def process_index(df):
-    """
-    装载预测表的索引
-    """
-    return df['model_detail_slug'] + '_' + str(df['use_time'])
-
-
-def process_mile(df):
+def process_mile(price, use_time, mile):
     """
     mile处理
     """
-    if df['mile_per_month'] < gl.MILE_THRESHOLD:
-        return df['predict_price'] + (gl.MILE_RATE/3) * df['predict_price'] * (1 - df['mile_per_month']/gl.MILE_THRESHOLD)
+    # 正常行驶的车辆以一年2.5万公里为正常基数，低于2.5万公里的价格的浮动在+3.5%以内
+    # 大于2.5万公里的若每年的平均行驶里程大于2.5万公里小于5万公里价格浮动在-3.5-7.5%
+    # 若年平均形式里程大于5万公里及以上影响价格在-7.5-12.5%之间
+    mile_per_month = mile / use_time
+    if mile_per_month < gl.MILE_THRESHOLD_2_5:
+        return price + 0.035 * (1 - mile_per_month/gl.MILE_THRESHOLD_2_5) * price
+    elif gl.MILE_THRESHOLD_2_5 <= mile_per_month < gl.MILE_THRESHOLD_5:
+        return price - (0.04 * (mile_per_month/gl.MILE_THRESHOLD_5)+0.035) * price
+    elif gl.MILE_THRESHOLD_5 <= mile_per_month < gl.MILE_THRESHOLD_10:
+        return price - (0.05 * (mile_per_month/gl.MILE_THRESHOLD_5)+0.075) * price
     else:
-        return df['predict_price'] - (gl.MILE_RATE * 2/3) * df['predict_price'] * (1 - gl.MILE_THRESHOLD/df['mile_per_month'])
+        return price - 0.125 * price
 
 
 def process_profit_rate(df):
@@ -139,7 +111,7 @@ def process_unreasonable_history_price(data, nums):
     return data
 
 
-def process_unreasonable_future_price(data):
+def process_unreasonable_future_price(data, nums):
     """
     处理不合理未来价格趋势
     """
@@ -148,11 +120,105 @@ def process_unreasonable_future_price(data):
     for i, value in enumerate(temp):
         data[i+1] = temp[i]
 
-    for i in range(0, 3):
+    for i in range(0, nums):
         if data[i] <= data[i + 1]:
             data[i + 1] = int(data[i] * 0.9)
 
     return data
+
+
+def process_fill_zero(hedge):
+    temp = hedge
+    if len(hedge) < 18:
+        for i in range(0, (18-len(hedge))):
+            temp = '0'+ temp
+    return temp
+
+
+def predict_from_db(model_detail_slug, city, use_time):
+    """
+    从生产库查询预测
+    """
+    # 查找city和model_detail_slug编号
+    city_id = province_city_map.loc[city, 'city_id']
+    model_detail_slug_id = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug_id']
+    # 计算查询字段编号和月编号
+    if (use_time % 6) == 0:
+        column_num = str(int(use_time / 6) - 1)
+        month_num = 6
+    else:
+        column_num = str(int(use_time / 6))
+        month_num = use_time % 6
+    # 查询
+    record = db_operate.query_valuate(model_detail_slug_id, city_id, column_num, use_time)
+    # 查找对应值
+    dealer_hedge = str(record.loc[0, 'b2c_year_'+column_num])
+    dealer_hedge = process_fill_zero(dealer_hedge)
+    dealer_hedge = dealer_hedge[(month_num-1)*3:month_num*3]
+    dealer_hedge = int(dealer_hedge) / 1000
+    cpersonal_hedge = str(record.loc[0, 'c2c_year_'+column_num])
+    cpersonal_hedge = process_fill_zero(cpersonal_hedge)
+    cpersonal_hedge = cpersonal_hedge[(month_num-1)*3:month_num*3]
+    cpersonal_hedge = int(cpersonal_hedge) / 1000
+    return dealer_hedge, cpersonal_hedge
+
+
+def process_prices_relate(dealer_price, cpersonal_price):
+    """
+    人工处理三类价格的相关性
+    """
+    buy = dealer_price
+    private = cpersonal_price
+
+    # 计算buy与private的比例关系
+    private_buy_rate = (buy - private) / private
+    # 人工处理预测不合理的三类价格
+    if (private_buy_rate < 0) | (abs(private_buy_rate) > 0.12):
+        private = int(buy * (1 - 0.0875))
+
+    sell = int(private * (1 - 0.0525))
+    return buy, private, sell
+
+
+def process_adjust_profit(model_detail_slug, popularity):
+    """
+    调整值调整
+    """
+    index = str(model_detail_slug)+'_'+str(popularity)
+    if index in model_detail_slug_popularity_index:
+        rate = adjust_profit.loc[index, 'rate']
+    else:
+        rate = 0
+    return rate
+
+
+def check_params_value(city, model_detail_slug, use_time, mile, category):
+    """
+    校验参数
+    """
+    # 校验city
+    if city not in cities:
+        raise ApiParamsValueError('city', city, 'Unknown city!')
+    # 校验model
+    if model_detail_slug not in models:
+        raise ApiParamsValueError('model_detail_slug', model_detail_slug, 'Unknown model!')
+    # 校验mile
+    if not ((isinstance(mile, int)) | (isinstance(mile, float))):
+        raise ApiParamsTypeError('mile', mile, 'Mile must be int or float!')
+    elif mile < 0:
+        raise ApiParamsValueError('mile', mile, 'Mile must be greater than zero!')
+    # 校验use_time
+    if not isinstance(use_time, int):
+        raise ApiParamsTypeError('use_time', use_time, 'Use_time must be int!')
+    if category == 'valuate':
+        if (use_time < 1) | (use_time > 240):
+            raise ApiParamsValueError('use_time', use_time, 'The use_time of Forecast must be in 1-240!')
+    elif category == 'history':
+        if (use_time < 1) | (use_time > 240):
+            raise ApiParamsValueError('use_time', use_time, 'The use_time of historical trend must be in 1-240!')
+    elif category == 'future':
+        if (use_time < 1) | (use_time > 240):
+            raise ApiParamsValueError('use_time', use_time, 'The use_time of future trend must be in 1-240!')
 
 
 class Predict(object):
@@ -161,303 +227,160 @@ class Predict(object):
         """
         加载各类匹配表和模型
         """
-        self.test_level1 = []
-        self.test_level2 = []
-        self.predict_hedge = []
-        self.predict_price = []
+        self.result = []
+        self.valuate_model = []
 
-    def map_feature_encode(self, car_source):
+    def add_process_intent(self, buy, private, sell, popularity, price_bn):
         """
-        1.匹配特征编码
+        根据交易方式修正预测值
         """
-        self.test_level1 = car_source
+        # 组合结果
+        self.result = result_map.copy()
+        self.result.loc[(self.result['intent'] == 'buy'), 'predict_price'] = buy
+        self.result.loc[(self.result['intent'] == 'private'), 'predict_price'] = private
+        self.result.loc[(self.result['intent'] == 'sell'), 'predict_price'] = sell
+        self.result['predict_price'] = self.result['predict_price'].fillna(buy)
 
-    def model_predict(self):
-        """
-        2.模型预测
-        """
-        # 估值预测
-        pred = self.test_level1.loc[:, feature_name]
-        pred['city_encode'] = 300
-        self.predict_hedge = np.exp(valuate_xgb.predict(xgb.DMatrix(pred)))
-        # self.predict_hedge = valuate_xgb.predict(xgb.DMatrix(pred))
-        self.test_level1['predict_hedge'] = pd.Series(self.predict_hedge).values
-        print(self.test_level1['predict_hedge'].values)
-        # print(self.test_level1)
+        self.result['popularity'] = popularity
+        self.result['profit_rate'] = self.result.apply(process_profit_rate, axis=1)
+        self.result['buy_profit_rate'] = self.result.apply(process_buy_profit_rate, axis=1)
+        self.result['predict_price'] = self.result['predict_price'] / self.result['buy_profit_rate']
+        self.result['predict_price'] = self.result['profit_rate'] * self.result['predict_price']
 
-    # def add_process_mile(self):
-    #     """
-    #     3.根据公里数修正预测值
-    #     """
-    #     self.test_level1['mile_per_month'] = self.test_level1['mile'] / self.test_level1['use_time']
-    #     self.test_level1['predict_price'] = self.test_level1.apply(process_mile, axis=1)
-    #
-    # def add_process_condition(self):
-    #     """
-    #     4.预测车况
-    #     """
-    #     # 评估当前车况
-    #     # temp = self.test_level1.loc[:, ['use_time', 'mile']]
-    #     # car_condition = self.car_condition_model.predict(temp)
-    #     # self.test_level1['car_condition'] = pd.Series(car_condition).values
-    #     # self.test_level1 = self.test_level1.merge(self.car_condition_match, how='left', on='car_condition')
-    #     # self.test_level1['desc'] = self.test_level1['desc'].str.lower()
-    #     # self.test_level1 = self.test_level1.rename(columns={'desc': 'condition'})
-    #
-    # def add_process_prices_relate(self):
-    #     """
-    #     4.人工处理预测不合理的三类价格
-    #     """
-    #     private = self.test_level1.loc[(self.test_level1['intent'] == 'private'), 'predict_price'].values[0]
-    #     buy = self.test_level1.loc[(self.test_level1['intent'] == 'buy'), 'predict_price'].values[0]
-    #     sell = self.test_level1.loc[(self.test_level1['intent'] == 'sell'), 'predict_price'].values[0]
-    #     # 计算三类价格比例关系
-    #     private_buy_rate = (buy - private) / private
-    #     # 人工处理预测不合理的三类价格
-    #     if (private_buy_rate < 0) | (abs(private_buy_rate) > 0.12) | (abs(private_buy_rate) <= 0.055):
-    #         private = int(buy * (1 - 0.0875))
-    #         self.test_level1.loc[(self.test_level1['intent'] == 'private'), 'predict_price'] = int(buy * (1 - 0.0875))
-    #
-    #     private_sell_rate = (sell - private) / private
-    #     if (private_sell_rate > 0) | (abs(private_sell_rate) > 0.085) | (abs(private_sell_rate) <= 0.02):
-    #         self.test_level1.loc[(self.test_level1['intent'] == 'sell'), 'predict_price'] = int(private * (1 - 0.0525))
-    #
-    #     # 计算所有交易类型
-    #     self.test_level1 = cal_intent_condition_method2(self.test_level1.predict_price.values, self.test_level1.loc[0, 'price_bn'])
-    #     # if ~(0.055 <= private_buy_rate <= 0.12):
-    #     #     self.test_level1.loc[(self.test_level1['source_type'] == 'dealer'), 'predict_price'] = int(private * 1.0875)
-    #     #
-    #     # if ~(-0.085 <= private_sell_rate <= -0.02):
-    #     #     self.test_level1.loc[(self.test_level1['intent'] == 'sell'), 'predict_price'] = int(private * (1 - 0.0525))
-    #
-    # def add_process_intent(self, model_detail_slug):
-    #     """
-    #     5.根据交易方式修正预测值
-    #     """
-    #     # self.test_level1['popularity'] = self.test_level1['popularity'].fillna('C')
-    #     self.test_level1['profit_rate'] = self.test_level1.apply(process_profit_rate, axis=1)
-    #     self.test_level1['buy_profit_rate'] = self.test_level1.apply(process_buy_profit_rate, axis=1)
-    #     self.test_level1['predict_price'] = self.test_level1['predict_price'] / self.test_level1['buy_profit_rate']
-    #     self.test_level1['predict_price'] = self.test_level1['profit_rate'] * self.test_level1['predict_price']
-    #
-    # def check_params_value(self, city, model_detail_slug, use_time, mile, category):
-    #     # 校验city
-    #     if city not in cities:
-    #         raise ApiParamsValueError('city', city, 'Unknown city!')
-    #     # 校验model
-    #     if model_detail_slug not in models:
-    #         raise ApiParamsValueError('model_detail_slug', model_detail_slug, 'Unknown model!')
-    #     # 校验mile
-    #     if not ((isinstance(mile, int)) | (isinstance(mile, float))):
-    #         raise ApiParamsTypeError('mile', mile, 'Mile must be int or float!')
-    #     elif mile < 0:
-    #         raise ApiParamsValueError('mile', mile, 'Mile must be greater than zero!')
-    #     # 校验use_time
-    #     if not isinstance(use_time, int):
-    #         raise ApiParamsTypeError('use_time', use_time, 'Use_time must be int!')
-    #     if category == 'valuate':
-    #         if (use_time < 1) | (use_time > 7500):
-    #             raise ApiParamsValueError('use_time', use_time, 'The use_time of Forecast must be in 1-7500!')
-    #     elif category == 'history':
-    #         if (use_time < 1) | (use_time > 7500):
-    #             raise ApiParamsValueError('use_time', use_time, 'The use_time of historical trend must be in 1-7500!')
-    #     elif category == 'future':
-    #         if (use_time < 1) | (use_time > 7500):
-    #             raise ApiParamsValueError('use_time', use_time, 'The use_time of future trend must be in 1-7500!')
+        # 计算所有交易类型
+        self.result = cal_intent_condition(self.result.predict_price.values, price_bn)
 
-    def predict_new(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2):
+    def predict(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2, ret_type='records'):
         """
         预测返回
         """
-        # 预测模型能够预测的所有类型
-        car_source = pd.DataFrame()
-        car_source['source_type'] = pd.Series(gl.INTENT_TYPE_CAN)
-        # 获取交易类型编码
-        car_source['source_type_encode'] = pd.Series(source_type_encode)
-        # 获取品牌和车型编码
-        car_source['model_detail_slug'] = model_detail_slug
-        car_source = car_source.merge(encode_model_detail_map, how='left', on='model_detail_slug')
-        car_source = car_source.merge(encode_model_detail_slug, how='left', on='model_detail_slug')
-        car_source['city'] = city
-        car_source = car_source.merge(encode_city, how='left', on='city')
-        # 获取畅销度编码,根据城市获取省份
-        model_slug = car_source.loc[0, 'model_slug']
+        # 校验参数
+        check_params_value(city, model_detail_slug, use_time, mile, category='valuate')
+
+        # 查找款型对应的新车指导价,调整后的款型
+        price_bn = model_detail_map.loc[model_detail_slug, 'final_price_bn']
+        price_bn = price_bn * 10000
         province = province_city_map.loc[city, 'province']
-        if str(province+model_slug) in province_popularity_map.index:
-            car_source['popularity'] = province_popularity_map.loc[str(province+model_slug), 'popularity']
+        model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
+        final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
+
+        # 预测返回保值率
+        dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
+        dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
+
+        # 处理mile
+        dealer_price = process_mile(dealer_price, use_time, mile)
+        cpersonal_price = process_mile(cpersonal_price, use_time, mile)
+
+        # 处理价格之间的相关性
+        buy, private, sell = process_prices_relate(dealer_price, cpersonal_price)
+
+        # 获取流行度
+        index = str(model_slug)+'_'+str(province)
+        if index in province_popularity_index:
+            popularity = province_popularity_map.loc[index, 'popularity']
         else:
-            car_source['popularity'] = 'C'
-        car_source = car_source.merge(encode_popularity, how='left', on='popularity')
-        # 计算其他参数
-        car_source['use_time'] = use_time
-        car_source['mile'] = mile
-        car_source['mile_per_month'] = mile / use_time
-        car_source['price_bn'] = car_source['price_bn'] * 10000
+            popularity = 'C'
 
-        self.map_feature_encode(car_source)
-        self.model_predict()
-        return self.test_level1
+        # 进行调整值最终调整
+        rate = process_adjust_profit(model_detail_slug, popularity)
+        buy, private, sell = buy*(1+rate), private*(1+rate), sell*(1+rate)
 
-    # def predict(self, city='深圳', model_detail_slug='model_25023_cs', use_time=365, mile=2):
-    #     """
-    #     预测返回
-    #     """
-    #     # 预测模型能够预测的所有类型
-    #     price_bn = model_detail_map.loc[model_detail_slug, 'price_bn']
-    #     car_source = pd.DataFrame()
-    #     car_source['intent'] = pd.Series(gl.INTENT_TYPE)
-    #     car_source['source_type'] = pd.Series(gl.INTENT_TYPE_CAN)
-    #     # 获取交易类型编码
-    #     car_source['source_type_encode'] = pd.Series(source_type_encode)
-    #     # 获取城市编码
-    #     car_source['city'] = city
-    #     car_source['city_encode'] = encode_city.loc[city, 'city_encode']
-    #     # 获取款型编码
-    #     car_source['model_detail_slug'] = model_detail_slug
-    #     car_source['model_detail_slug_encode'] = encode_model_detail_slug.loc[model_detail_slug, 'model_detail_slug_encode']
-    #     car_source['use_time'] = use_time
-    #     car_source['mile'] = mile
-    #     car_source['price_bn'] = price_bn * 10000
-    #     car_source['intent_source'] = car_source['source_type'].map(gl.INTENT_MAP)
-    #
-    #     # 根据款型获取车型
-    #     model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
-    #     car_source['model_slug'] = model_slug
-    #     # 根据城市获取省份
-    #     province = province_city_map.loc[city, 'province']
-    #     car_source['province'] = province
-    #     # 根据城市,车型获取流行度
-    #     if str(province+model_slug) in province_popularity_map.index:
-    #         car_source['popularity'] = province_popularity_map.loc[str(province+model_slug), 'popularity']
-    #     else:
-    #         car_source['popularity'] = 'C'
-    #
-    #     self.map_feature_encode(car_source)
-    #     self.model_predict()
-    #     self.add_process_mile()
-    #     self.add_process_intent(model_detail_slug)
-    #     self.add_process_prices_relate()
-    #     return self.test_level1
-    #
-    # def predict_to_dict(self, city='深圳', model_detail_slug='model_25023_cs', use_time=365, mile=2):
-    #     """
-    #     预测返回
-    #     """
-    #     # 校验参数
-    #     self.check_params_value(city, model_detail_slug, use_time, mile, category='valuate')
-    #     # 预测模型能够预测的所有类型
-    #     price_bn = model_detail_map.loc[model_detail_slug, 'price_bn']
-    #     car_source = pd.DataFrame()
-    #     car_source['intent'] = pd.Series(gl.INTENT_TYPE)
-    #     car_source['source_type'] = pd.Series(gl.INTENT_TYPE_CAN)
-    #     # 获取交易类型编码
-    #     car_source['source_type_encode'] = pd.Series(source_type_encode)
-    #     # 获取城市编码
-    #     car_source['city'] = city
-    #     car_source['city_encode'] = encode_city.loc[city, 'city_encode']
-    #     # 获取款型编码
-    #     car_source['model_detail_slug'] = model_detail_slug
-    #     car_source['model_detail_slug_encode'] = encode_model_detail_slug.loc[model_detail_slug, 'model_detail_slug_encode']
-    #     car_source['use_time'] = use_time
-    #     car_source['mile'] = mile
-    #     car_source['price_bn'] = price_bn * 10000
-    #     car_source['intent_source'] = car_source['source_type'].map(gl.INTENT_MAP)
-    #
-    #     # 根据款型获取车型
-    #     model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
-    #     car_source['model_slug'] = model_slug
-    #     # 根据城市获取省份
-    #     province = province_city_map.loc[city, 'province']
-    #     car_source['province'] = province
-    #     # 根据城市,车型获取流行度
-    #     if str(province+model_slug) in province_popularity_map.index:
-    #         car_source['popularity'] = province_popularity_map.loc[str(province+model_slug), 'popularity']
-    #     else:
-    #         car_source['popularity'] = 'C'
-    #
-    #     self.map_feature_encode(car_source)
-    #     self.model_predict()
-    #     self.add_process_mile()
-    #     self.add_process_intent(model_detail_slug)
-    #     self.add_process_prices_relate()
-    #     return self.test_level1.to_dict('records')
-    #
-    # def history_price_trend(self, city='深圳', model_detail_slug='model_25023_cs', use_time=365, mile=2, ret_type='records'):
-    #     """
-    #     计算历史价格趋势
-    #     """
-    #     # 校验参数
-    #     self.check_params_value(city, model_detail_slug, use_time, mile, category='history')
-    #     # 计算时间
-    #     times = [0, 30, 60, 90, 120, 150, 180]
-    #     times_str = ['0', '-30', '-60', '-90', '-120', '-150', '-180']
-    #     nums = 6
-    #     if use_time < 181:
-    #         times = []
-    #         times_str = []
-    #         nums = int((use_time - 1) / 30)
-    #         for i in range(0, nums+1):
-    #             times.append(i*30)
-    #             times_str.append(str(i*30))
-    #     # 计算车商交易价,车商收购价的历史价格走势
-    #     data_buy = []
-    #     data_sell = []
-    #     data_private = []
-    #     for ut in times:
-    #         temp = self.predict(city, model_detail_slug, use_time-ut, mile)
-    #         data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
-    #         data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
-    #         data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
-    #
-    #     data_buy = process_unreasonable_history_price(data_buy, nums)
-    #     data_sell = process_unreasonable_history_price(data_sell, nums)
-    #     data_private = process_unreasonable_history_price(data_private, nums)
-    #     result_b_2_c = pd.DataFrame([data_buy], columns=times_str)
-    #     result_b_2_c['type'] = 'buy'
-    #     result_c_2_b = pd.DataFrame([data_sell], columns=times_str)
-    #     result_c_2_b['type'] = 'sell'
-    #     result_c_2_c = pd.DataFrame([data_private], columns=times_str)
-    #     result_c_2_c['type'] = 'private'
-    #
-    #     result = result_b_2_c.append(result_c_2_b, ignore_index=True)
-    #     result = result.append(result_c_2_c, ignore_index=True)
-    #
-    #     if ret_type == 'records':
-    #         return result.to_dict('records')
-    #     else:
-    #         return result
-    #
-    # def future_price_trend(self, city='深圳', model_detail_slug='model_25023_cs', use_time=365, mile=2, ret_type='records'):
-    #     """
-    #     计算未来价格趋势
-    #     """
-    #     # 校验参数
-    #     self.check_params_value(city, model_detail_slug, use_time, mile, category='future')
-    #     # 计算个人交易价的未来价格趋势
-    #     data_buy = []
-    #     data_sell = []
-    #     data_private = []
-    #     for ut in [0, 365, 720, 1095]:
-    #         temp = self.predict(city, model_detail_slug, use_time+ut, mile)
-    #         data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
-    #         data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
-    #         data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
-    #
-    #     data_buy = process_unreasonable_future_price(data_buy)
-    #     data_sell = process_unreasonable_future_price(data_sell)
-    #     data_private = process_unreasonable_future_price(data_private)
-    #     result_b_2_c = pd.DataFrame([data_buy], columns=['0', '365', '720', '1095'])
-    #     result_b_2_c['type'] = 'buy'
-    #     result_c_2_b = pd.DataFrame([data_sell], columns=['0', '365', '720', '1095'])
-    #     result_c_2_b['type'] = 'sell'
-    #     result_c_2_c = pd.DataFrame([data_private], columns=['0', '365', '720', '1095'])
-    #     result_c_2_c['type'] = 'private'
-    #
-    #     result = result_b_2_c.append(result_c_2_b, ignore_index=True)
-    #     result = result.append(result_c_2_c, ignore_index=True)
-    #
-    #     if ret_type == 'records':
-    #         return result.to_dict('records')
-    #     else:
-    #         return result
+        # 根据交易方式修正预测值
+        self.add_process_intent(buy, private, sell, popularity, price_bn)
+
+        if ret_type == 'records':
+            return self.result.to_dict('records')
+        else:
+            return self.result
+
+    def history_price_trend(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2, ret_type='records'):
+        """
+        计算历史价格趋势
+        """
+        # 校验参数
+        check_params_value(city, model_detail_slug, use_time, mile, category='history')
+        # 计算时间
+        times = [0, 1, 2, 3, 4, 5, 6]
+        times_str = ['0', '-1', '-2', '-3', '-4', '-5', '-6']
+        nums = 6
+        if use_time <= 6:
+            times = []
+            times_str = []
+            nums = use_time-1
+            for i in range(0, nums+1):
+                times.append(i)
+                times_str.append(str(-i))
+        # 计算车商交易价,车商收购价的历史价格走势
+        data_buy = []
+        data_sell = []
+        data_private = []
+        for ut in times:
+            temp = self.predict(city, model_detail_slug, use_time-ut, mile, ret_type='normal')
+            data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
+            data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
+            data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
+
+        data_buy = process_unreasonable_history_price(data_buy, nums)
+        data_sell = process_unreasonable_history_price(data_sell, nums)
+        data_private = process_unreasonable_history_price(data_private, nums)
+        result_b_2_c = pd.DataFrame([data_buy], columns=times_str)
+        result_b_2_c['type'] = 'buy'
+        result_c_2_b = pd.DataFrame([data_sell], columns=times_str)
+        result_c_2_b['type'] = 'sell'
+        result_c_2_c = pd.DataFrame([data_private], columns=times_str)
+        result_c_2_c['type'] = 'private'
+
+        result = result_b_2_c.append(result_c_2_b, ignore_index=True)
+        result = result.append(result_c_2_c, ignore_index=True)
+
+        if ret_type == 'records':
+            return result.to_dict('records')
+        else:
+            return result
+
+    def future_price_trend(self, city='深圳', model_detail_slug='model_25023_cs', use_time=365, mile=2, ret_type='records'):
+        """
+        计算未来价格趋势
+        """
+        # 校验参数
+        check_params_value(city, model_detail_slug, use_time, mile, category='future')
+        # 计算时间
+        times = [0, 12, 24, 36]
+        times_str = ['0', '12', '24', '36']
+        nums = 3
+        if use_time > 204:
+            times = []
+            times_str = []
+            nums = int((240-use_time) / 12)
+            for i in range(0, nums+1):
+                times.append(i*12)
+                times_str.append(str(i*12))
+        # 计算个人交易价的未来价格趋势
+        data_buy = []
+        data_sell = []
+        data_private = []
+        for ut in times:
+            temp = self.predict(city, model_detail_slug, use_time+ut, mile, ret_type='normal')
+            data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
+            data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
+            data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
+
+        data_buy = process_unreasonable_future_price(data_buy, nums)
+        data_sell = process_unreasonable_future_price(data_sell, nums)
+        data_private = process_unreasonable_future_price(data_private, nums)
+        result_b_2_c = pd.DataFrame([data_buy], columns=times_str)
+        result_b_2_c['type'] = 'buy'
+        result_c_2_b = pd.DataFrame([data_sell], columns=times_str)
+        result_c_2_b['type'] = 'sell'
+        result_c_2_c = pd.DataFrame([data_private], columns=times_str)
+        result_c_2_c['type'] = 'private'
+
+        result = result_b_2_c.append(result_c_2_b, ignore_index=True)
+        result = result.append(result_c_2_c, ignore_index=True)
+
+        if ret_type == 'records':
+            return result.to_dict('records')
+        else:
+            return result
 

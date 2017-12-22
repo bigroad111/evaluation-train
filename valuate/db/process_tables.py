@@ -1,8 +1,8 @@
-import pandas as pd
 import gc
 
+import pandas as pd
+
 from valuate.db import db_operate
-from valuate.conf import global_settings as gl
 
 
 def store_train_data():
@@ -14,37 +14,37 @@ def store_train_data():
     # del history_train
     # gc.collect()
     # print('下载历史训练数据,已完成!')
-    train = db_operate.query_local_train_data()
-    train.to_csv('../tmp/train/train_source.csv', index=False)
-    del train
-    gc.collect()
-
+    # train = db_operate.query_local_train_data()
+    # train.to_csv('../tmp/train/train_source.csv', index=False)
+    # del train
+    # gc.collect()
+    #
     open_model_detail = db_operate.query_produce_open_model_detail()
     open_model_detail = open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
     open_model_detail.to_csv('../tmp/train/open_model_detail.csv', index=False)
     del open_model_detail
     gc.collect()
-
-    open_category = db_operate.query_produce_open_category()
-    open_category.to_csv('../tmp/train/open_category.csv', index=False)
-    del open_category
-    gc.collect()
-
-    open_depreciation = db_operate.query_produce_open_depreciation()
-    open_depreciation.to_csv('../tmp/train/open_depreciation.csv', index=False)
-    del open_depreciation
-    gc.collect()
-
-    open_province_popularity = db_operate.query_produce_open_province_popularity()
-    open_province_popularity.to_csv('../tmp/train/open_province_popularity.csv', index=False)
-    del open_province_popularity
-    gc.collect()
-
-    open_city = db_operate.query_produce_open_city()
-    open_city.to_csv('../tmp/train/open_city.csv', index=False)
-    del open_city
-    gc.collect()
-    print('下载训练数据,已完成!')
+    #
+    # open_category = db_operate.query_produce_open_category()
+    # open_category.to_csv('../tmp/train/open_category.csv', index=False)
+    # del open_category
+    # gc.collect()
+    #
+    # open_depreciation = db_operate.query_produce_open_depreciation()
+    # open_depreciation.to_csv('../tmp/train/open_depreciation.csv', index=False)
+    # del open_depreciation
+    # gc.collect()
+    #
+    # open_province_popularity = db_operate.query_produce_open_province_popularity()
+    # open_province_popularity.to_csv('../tmp/train/open_province_popularity.csv', index=False)
+    # del open_province_popularity
+    # gc.collect()
+    #
+    # open_city = db_operate.query_produce_open_city()
+    # open_city.to_csv('../tmp/train/open_city.csv', index=False)
+    # del open_city
+    # gc.collect()
+    # print('下载训练数据,已完成!')
 
 
 def store_need_udpate_tables():

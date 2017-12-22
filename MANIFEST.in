@@ -1,8 +1,9 @@
 include valuate/conf/*.py
-include valuate/predict/feature_encode/*.csv
-include valuate/predict/feature_encode/*.txt
+include valuate/db/*.py
+include valuate/exception/*.py
 include valuate/predict/map/*.csv
-include valuate/predict/model/*.pkl
-include valuate/predict/model/*.model
-include valuate/verify/set/*.csv
-include requirements.txt
+exclude valuate/predict/predict_batch.py
+exclude valuate/predict/map/need_process_models.csv
+exclude valuate/predict/map/need_valuated_model.csv
+exclude valuate/predict/map/not_in_train_data_details.csv
+exclude valuate/predict/map/valuated_model_detail.csv
