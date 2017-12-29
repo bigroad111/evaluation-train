@@ -1,5 +1,9 @@
+import logging
+from time import perf_counter
+
 from valuate.predict import *
 
+LOGGER = logging.getLogger()
 
 def get_profit_rate(intent, popularity):
     """
@@ -265,7 +269,10 @@ class Predict(object):
         final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
 
         # 预测返回保值率
+        t = perf_counter()
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
+        elapsed_us = int((perf_counter() - t) * 10e6)
+        LOGGER.info('Read-db-elaspsed: %d' % elapsed_us)
         dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
 
         # 处理mile
