@@ -272,7 +272,7 @@ class Predict(object):
         t = perf_counter()
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
         elapsed_ms = round(((perf_counter() - t) * 1000), 2)
-        LOGGER.info('Read-db-elaspsed: %f' % elapsed_ms)
+        LOGGER.info('Read-db-elaspsed: %.2f' % elapsed_ms)
         dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
 
         # 处理mile
