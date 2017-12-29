@@ -271,8 +271,8 @@ class Predict(object):
         # 预测返回保值率
         t = perf_counter()
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
-        elapsed_us = int((perf_counter() - t) * 10e6)
-        LOGGER.info('Read-db-elaspsed: %d' % elapsed_us)
+        elapsed_ms = round(((perf_counter() - t) * 1000), 2)
+        LOGGER.info('Read-db-elaspsed: %f' % elapsed_ms)
         dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
 
         # 处理mile
