@@ -1,9 +1,5 @@
-import logging
-from time import perf_counter
-
 from valuate.predict import *
 
-LOGGER = logging.getLogger()
 
 def get_profit_rate(intent, popularity):
     """
@@ -360,13 +356,8 @@ class Predict(object):
         final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
 
         # 预测返回保值率
-        t = perf_counter()
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
         buy, private, sell, popularity = self.follow_process(use_time, mile, price_bn, dealer_hedge, cpersonal_hedge, province, model_slug, model_detail_slug)
-
-        elapsed_ms = round(((perf_counter() - t) * 1000), 2)
-        LOGGER.info('Read-db-elaspsed: %.2f' % elapsed_ms)
-
         # 根据交易方式修正预测值
         self.add_process_intent(buy, private, sell, popularity, price_bn)
 

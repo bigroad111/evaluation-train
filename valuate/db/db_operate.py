@@ -1,5 +1,9 @@
+from time import perf_counter
+import logging
+
 from valuate.db import *
 
+LOGGER = logging.getLogger()
 
 ###############################
 # 训练相关数据库操作
@@ -124,6 +128,17 @@ def update_table_to_local_db(df, tbale_name):
 ################################
 
 
+def time_logger(func):
+    def wrapped(*args, **kwargs):
+        t = perf_counter()
+        data = func(*args, **kwargs)
+        elapsed_ms = round(((perf_counter() - t) * 1000), 2)
+        LOGGER.info('Read-db-elaspsed: %.2f' % elapsed_ms)
+        return data
+    return wrapped
+
+
+@time_logger
 def query_valuate(model_detail_slug_id, city_id, column_num, use_time):
     """
     查询估值
@@ -136,6 +151,7 @@ def query_valuate(model_detail_slug_id, city_id, column_num, use_time):
     return pd.read_sql_query(valuate_map_query, runtime_engine)
 
 
+@time_logger
 def query_valuate_history(model_detail_slug_id, city_id, column_num, use_time):
     """
     查询历史估值
@@ -177,6 +193,7 @@ def query_valuate_history(model_detail_slug_id, city_id, column_num, use_time):
     return dealer_hedge, cpersonal_hedge
 
 
+@time_logger
 def query_valuate_future(model_detail_slug_id, city_id):
     """
     查询未来估值
