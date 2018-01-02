@@ -105,7 +105,8 @@ def process_unreasonable_history_price(data, nums):
         data[i+1] = temp[i]
 
     for i in range(0, nums):
-        if data[i] >= data[i + 1]:
+        rate = (data[i + 1] - data[i]) / data[i + 1]
+        if (data[i] >= data[i + 1]) | (0.003 > rate) | (0.0157 < rate):
             data[i + 1] = int(data[i] * 1.0083)
 
     return data
@@ -121,7 +122,8 @@ def process_unreasonable_future_price(data, nums):
         data[i+1] = temp[i]
 
     for i in range(0, nums):
-        if data[i] <= data[i + 1]:
+        rate = (data[i] - data[i + 1]) / data[i]
+        if (data[i] <= data[i + 1]) | (0.036 > rate) | (0.188 < rate):
             data[i + 1] = int(data[i] * 0.9)
 
     return data
@@ -131,7 +133,7 @@ def process_fill_zero(hedge):
     temp = hedge
     if len(hedge) < 18:
         for i in range(0, (18-len(hedge))):
-            temp = '0'+ temp
+            temp = '0'+temp
     return temp
 
 
@@ -163,13 +165,80 @@ def predict_from_db(model_detail_slug, city, use_time):
     return dealer_hedge, cpersonal_hedge
 
 
+def predict_from_db_history(model_detail_slug, city, use_time):
+    """
+    从生产库查询预测
+    """
+    # 查找city和model_detail_slug编号
+    city_id = province_city_map.loc[city, 'city_id']
+    model_detail_slug_id = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug_id']
+    # 计算查询字段编号和月编号
+    if (use_time % 6) == 0:
+        column_num = int(use_time / 6) - 1
+        month_num = 6
+    else:
+        column_num = int(use_time / 6)
+        month_num = use_time % 6
+    # 查询
+    dealer_hedge, cpersonal_hedge = db_operate.query_valuate_history(model_detail_slug_id, city_id, column_num, use_time)
+    # 查找对应值
+    result = []
+    if len(dealer_hedge) == 1:
+        dealer_hedge = process_fill_zero(dealer_hedge[0])
+        cpersonal_hedge = process_fill_zero(cpersonal_hedge[0])
+        for i in range(0, use_time):
+            dealer_per = dealer_hedge[i*3:(i+1)*3]
+            cpersonal_per = cpersonal_hedge[i * 3:(i + 1) * 3]
+            result.append([int(dealer_per)/1000, int(cpersonal_per)/1000, use_time])
+            result.reverse()
+    elif len(dealer_hedge) == 2:
+        dealer_hedge = process_fill_zero(dealer_hedge[0])+process_fill_zero(dealer_hedge[1])
+        cpersonal_hedge = process_fill_zero(cpersonal_hedge[0])+process_fill_zero(cpersonal_hedge[1])
+        for i in range(month_num-1, month_num+6):
+            dealer_per = dealer_hedge[i*3:(i+1)*3]
+            cpersonal_per = cpersonal_hedge[i * 3:(i + 1) * 3]
+            result.append([int(dealer_per)/1000, int(cpersonal_per)/1000, use_time])
+            result.reverse()
+    return result
+
+
+def predict_from_db_future(model_detail_slug, city, use_time, times):
+    """
+    从生产库查询预测
+    """
+    # 查找city和model_detail_slug编号
+    city_id = province_city_map.loc[city, 'city_id']
+    model_detail_slug_id = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug_id']
+    # 计算查询字段编号和月编号
+    if (use_time % 6) == 0:
+        column_num = int(use_time / 6) - 1
+        month_num = 6
+    else:
+        column_num = int(use_time / 6)
+        month_num = use_time % 6
+    # 查询
+    record = db_operate.query_valuate_future(model_detail_slug_id, city_id)
+    # 查找对应值
+    result = []
+    for i in range(0, times):
+        dealer_hedge = str(record.loc[0, 'b2c_year_' + str(column_num+i*2)])
+        dealer_hedge = process_fill_zero(dealer_hedge)
+        dealer_hedge = dealer_hedge[(month_num - 1) * 3:month_num * 3]
+        dealer_hedge = int(dealer_hedge) / 1000
+        cpersonal_hedge = str(record.loc[0, 'c2c_year_' + str(column_num+i*2)])
+        cpersonal_hedge = process_fill_zero(cpersonal_hedge)
+        cpersonal_hedge = cpersonal_hedge[(month_num - 1) * 3:month_num * 3]
+        cpersonal_hedge = int(cpersonal_hedge) / 1000
+        result.append([dealer_hedge, cpersonal_hedge, use_time+i*12])
+    return result
+
+
 def process_prices_relate(dealer_price, cpersonal_price):
     """
     人工处理三类价格的相关性
     """
     buy = dealer_price
     private = cpersonal_price
-
     # 计算buy与private的比例关系
     private_buy_rate = (buy - private) / private
     # 人工处理预测不合理的三类价格
@@ -250,6 +319,28 @@ class Predict(object):
         # 计算所有交易类型
         self.result = cal_intent_condition(self.result.predict_price.values, price_bn)
 
+    def follow_process(self, use_time, mile, price_bn, dealer_hedge, cpersonal_hedge, province, model_slug, model_detail_slug):
+        """
+        后续跟进处理
+        """
+        # 获取价格
+        dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
+        # 处理mile
+        dealer_price = process_mile(dealer_price, use_time, mile)
+        cpersonal_price = process_mile(cpersonal_price, use_time, mile)
+        # 处理价格之间的相关性
+        buy, private, sell = process_prices_relate(dealer_price, cpersonal_price)
+        # 获取流行度
+        index = str(model_slug) + '_' + str(province)
+        if index in province_popularity_index:
+            popularity = province_popularity_map.loc[index, 'popularity']
+        else:
+            popularity = 'C'
+        # 进行调整值最终调整
+        rate = process_adjust_profit(model_detail_slug, popularity)
+        buy, private, sell = buy * (1 + rate), private * (1 + rate), sell * (1 + rate)
+        return buy, private, sell, popularity
+
     def predict(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2, ret_type='records'):
         """
         预测返回
@@ -266,25 +357,7 @@ class Predict(object):
 
         # 预测返回保值率
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
-        dealer_price, cpersonal_price = dealer_hedge * price_bn, cpersonal_hedge * price_bn
-
-        # 处理mile
-        dealer_price = process_mile(dealer_price, use_time, mile)
-        cpersonal_price = process_mile(cpersonal_price, use_time, mile)
-
-        # 处理价格之间的相关性
-        buy, private, sell = process_prices_relate(dealer_price, cpersonal_price)
-
-        # 获取流行度
-        index = str(model_slug)+'_'+str(province)
-        if index in province_popularity_index:
-            popularity = province_popularity_map.loc[index, 'popularity']
-        else:
-            popularity = 'C'
-
-        # 进行调整值最终调整
-        rate = process_adjust_profit(model_detail_slug, popularity)
-        buy, private, sell = buy*(1+rate), private*(1+rate), sell*(1+rate)
+        buy, private, sell, popularity = self.follow_process(use_time, mile, price_bn, dealer_hedge, cpersonal_hedge, province, model_slug, model_detail_slug)
 
         # 根据交易方式修正预测值
         self.add_process_intent(buy, private, sell, popularity, price_bn)
@@ -294,6 +367,62 @@ class Predict(object):
         else:
             return self.result
 
+    def predict_for_history(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2):
+        """
+        预测历史数据返回
+        """
+        # 校验参数
+        check_params_value(city, model_detail_slug, use_time, mile, category='valuate')
+
+        # 查找款型对应的新车指导价,调整后的款型
+        price_bn = model_detail_map.loc[model_detail_slug, 'final_price_bn']
+        price_bn = price_bn * 10000
+        province = province_city_map.loc[city, 'province']
+        model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
+        final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
+
+        # 预测返回保值率
+        data_buy = []
+        data_sell = []
+        data_private = []
+        result = predict_from_db_history(final_model_detail_slug, city, use_time)
+        for dealer_hedge, cpersonal_hedge, use_time_per in result:
+            buy, private, sell, popularity = self.follow_process(use_time_per, mile, price_bn, dealer_hedge,
+                                                                 cpersonal_hedge, province, model_slug,
+                                                                 model_detail_slug)
+            data_buy.append(int(buy))
+            data_private.append(int(private))
+            data_sell.append(int(sell))
+        return data_buy, data_private, data_sell
+
+    def predict_for_future(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2, times=3):
+        """
+        预测历史数据返回
+        """
+        # 校验参数
+        check_params_value(city, model_detail_slug, use_time, mile, category='valuate')
+
+        # 查找款型对应的新车指导价,调整后的款型
+        price_bn = model_detail_map.loc[model_detail_slug, 'final_price_bn']
+        price_bn = price_bn * 10000
+        province = province_city_map.loc[city, 'province']
+        model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
+        final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
+
+        # 预测返回保值率
+        data_buy = []
+        data_sell = []
+        data_private = []
+        result = predict_from_db_future(final_model_detail_slug, city, use_time, times)
+        for dealer_hedge, cpersonal_hedge, use_time_per in result:
+            buy, private, sell, popularity = self.follow_process(use_time_per, mile, price_bn, dealer_hedge,
+                                                                 cpersonal_hedge, province, model_slug,
+                                                                 model_detail_slug)
+            data_buy.append(int(buy))
+            data_private.append(int(private))
+            data_sell.append(int(sell))
+        return data_buy, data_private, data_sell
+
     def history_price_trend(self, city='深圳', model_detail_slug='model_25023_cs', use_time=12, mile=2, ret_type='records'):
         """
         计算历史价格趋势
@@ -301,26 +430,17 @@ class Predict(object):
         # 校验参数
         check_params_value(city, model_detail_slug, use_time, mile, category='history')
         # 计算时间
-        times = [0, 1, 2, 3, 4, 5, 6]
         times_str = ['0', '-1', '-2', '-3', '-4', '-5', '-6']
         nums = 6
         if use_time <= 6:
-            times = []
             times_str = []
             nums = use_time-1
             for i in range(0, nums+1):
-                times.append(i)
                 times_str.append(str(-i))
         # 计算车商交易价,车商收购价的历史价格走势
-        data_buy = []
-        data_sell = []
-        data_private = []
-        for ut in times:
-            temp = self.predict(city, model_detail_slug, use_time-ut, mile, ret_type='normal')
-            data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
-            data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
-            data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
+        data_buy, data_private, data_sell = self.predict_for_history(city, model_detail_slug, use_time, mile)
 
+        # 处理异常值
         data_buy = process_unreasonable_history_price(data_buy, nums)
         data_sell = process_unreasonable_history_price(data_sell, nums)
         data_private = process_unreasonable_history_price(data_private, nums)
@@ -350,21 +470,12 @@ class Predict(object):
         times_str = ['0', '12', '24', '36']
         nums = 3
         if use_time > 204:
-            times = []
             times_str = []
             nums = int((240-use_time) / 12)
             for i in range(0, nums+1):
-                times.append(i*12)
                 times_str.append(str(i*12))
         # 计算个人交易价的未来价格趋势
-        data_buy = []
-        data_sell = []
-        data_private = []
-        for ut in times:
-            temp = self.predict(city, model_detail_slug, use_time+ut, mile, ret_type='normal')
-            data_buy.append(temp.loc[(temp['intent'] == 'buy'), 'good'].values[0])
-            data_sell.append(temp.loc[(temp['intent'] == 'sell'), 'good'].values[0])
-            data_private.append(temp.loc[(temp['intent'] == 'private'), 'good'].values[0])
+        data_buy, data_private, data_sell = self.predict_for_future(city, model_detail_slug, use_time, mile, len(times_str))
 
         data_buy = process_unreasonable_future_price(data_buy, nums)
         data_sell = process_unreasonable_future_price(data_sell, nums)

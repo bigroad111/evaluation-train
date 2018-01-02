@@ -1,8 +1,11 @@
 import gc
-
 import pandas as pd
-
+import numpy as np
+from datetime import datetime
 from valuate.db import db_operate
+from valuate.conf import global_settings as gl
+
+from valuate.predict.predict_batch import Predict as batch
 
 
 def store_train_data():
@@ -54,54 +57,83 @@ def store_need_udpate_tables():
     2.car_source
     """
     car_deal_history = db_operate.query_produce_car_deal_history()
-    car_deal_history.to_csv('../tmp/predict_old/car_deal_history.csv', index=False)
+    car_deal_history.to_csv('../tmp/update/car_deal_history.csv', index=False)
     del car_deal_history
     gc.collect()
 
-    car_source = db_operate.query_produce_car_source()
-    car_source.to_csv('../tmp/predict_old/car_source.csv', index=False)
-    del car_source
-    gc.collect()
+    # car_source = db_operate.query_produce_car_source()
+    # car_source.to_csv('../tmp/update/car_source.csv', index=False)
+    # del car_source
+    # gc.collect()
     print('下载需要更新的表,已完成!')
 
 
-# def process_need_udpate_tables():
-#     """
-#     预测成交价并存储在output中,交与数据库管理员
-#     """
-#     car_deal_history = pd.read_csv('../tmp/predict_old/car_deal_history.csv')
-#     # 删除数据不完整记录
-#     car_deal_history = car_deal_history.dropna()
-#     # 重置索引
-#     car_deal_history.reset_index(inplace=True)
-#     car_deal_history = car_deal_history.drop('index', axis=1)
-#     car_deal_history = transform.process_car_deal_history(car_deal_history)
-#     car_deal_history = Predict(car_deal_history)
-#     car_deal_history = car_deal_history.predict()
-#     car_deal_history = car_deal_history.loc[:, ['id', 'predict_price', 'condition']]
-#     car_deal_history = car_deal_history.rename(columns={'predict_price': 'price'})
-#     car_deal_history.to_csv('../output/car_deal_history_need_update.csv', index=False, float_format='%6.2f')
-#     del car_deal_history
-#     gc.collect()
-#     print('Car_deal_history表更新完成!')
-#
-#     car_source = pd.read_csv('../tmp/predict_old/car_source.csv')
-#     # 删除数据不完整记录
-#     car_source = car_source.drop(['brand_slug', 'model_slug', 'sold_time'], axis=1)
-#     car_source = car_source.dropna()
-#     car_source = car_source[car_source['source_type'].isin(gl.CAR_SOURCE_SOURCE_TYPE_VALUES)]
-#     # 重置索引
-#     car_source.reset_index(inplace=True)
-#     car_source = car_source.drop('index', axis=1)
-#     car_source = transform.process_car_source(car_source)
-#     car_source = Predict(car_source)
-#     car_source = car_source.predict()
-#     car_source = car_source.loc[:, ['id', 'predict_price', 'gpj_index']]
-#     car_source = car_source.rename(columns={'predict_price': 'eval_price'})
-#     car_source.to_csv('../output/car_source_need_update.csv', index=False, float_format='%6.2f')
-#     del car_source
-#     gc.collect()
-    print('Car_source表更新完成!')
+def process_need_udpate_tables():
+    """
+    预测成交价并存储在output中,交与数据库管理员
+    """
+    def process_time(df):
+        """
+        计算成交表使用时间
+        """
+        if len(str(df['deal_time'])) == 19:
+            deal_date = datetime.strptime(str(df['deal_time']), '%Y-%m-%d %H:%M:%S')
+        elif len(str(df['deal_time'])) == 10:
+            deal_date = datetime.strptime(str(df['deal_time']), '%Y-%m-%d')
+        else:
+            return np.NAN
+        return (deal_date.year - df['year']) * 12 + deal_date.month - df['month']
+
+    # car_deal_history = pd.read_csv('../tmp/update/car_deal_history.csv')
+    # car_deal_history['use_time'] = car_deal_history.apply(process_time, axis=1)
+    # car_deal_history['source_type'] = car_deal_history['deal_type'].map(gl.INTENT_MAP)
+    # # 匹配车型
+    # model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
+    # model_detail_map = model_detail_map.loc[:, ['model_slug', 'model_detail_slug']]
+    # # 匹配流行度
+    # province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+    # province_city_map = province_city_map.loc[:, ['province', 'city']]
+    # province_popularity_map = pd.read_csv('predict/map/province_popularity_map.csv')
+    # car_deal_history = car_deal_history.merge(model_detail_map, how='left', on='model_detail_slug')
+    # car_deal_history = car_deal_history.merge(province_city_map, how='left', on='city')
+    # car_deal_history = car_deal_history.merge(province_popularity_map, how='left', on=['model_slug', 'province'])
+    # car_deal_history['popularity'] = car_deal_history['popularity'].fillna('C')
+    # # 删除数据不完整记录
+    # car_deal_history = car_deal_history.dropna()
+    # # 重置索引
+    # car_deal_history.reset_index(inplace=True)
+    # car_deal_history = car_deal_history.drop('index', axis=1)
+    # car_deal_history.to_csv('../tmp/update/man.csv', index=False)
+    car_deal_history = pd.read_csv('../tmp/update/man.csv')
+    car_deal_history = car_deal_history.loc[:, gl.PREDICT_FEATURE]
+    predict = batch()
+    predict.predict_batch(car_deal_history, adjust_profit=True, store=True, is_update_process=True)
+
+    # car_deal_history = car_deal_history.predict()
+    # car_deal_history = car_deal_history.loc[:, ['id', 'predict_price', 'condition']]
+    # car_deal_history = car_deal_history.rename(columns={'predict_price': 'price'})
+    # car_deal_history.to_csv('../output/car_deal_history_need_update.csv', index=False, float_format='%6.2f')
+    # del car_deal_history
+    # gc.collect()
+    # print('Car_deal_history表更新完成!')
+    #
+    # car_source = pd.read_csv('../tmp/predict_old/car_source.csv')
+    # # 删除数据不完整记录
+    # car_source = car_source.drop(['brand_slug', 'model_slug', 'sold_time'], axis=1)
+    # car_source = car_source.dropna()
+    # car_source = car_source[car_source['source_type'].isin(gl.CAR_SOURCE_SOURCE_TYPE_VALUES)]
+    # # 重置索引
+    # car_source.reset_index(inplace=True)
+    # car_source = car_source.drop('index', axis=1)
+    # car_source = transform.process_car_source(car_source)
+    # car_source = Predict(car_source)
+    # car_source = car_source.predict()
+    # car_source = car_source.loc[:, ['id', 'predict_price', 'gpj_index']]
+    # car_source = car_source.rename(columns={'predict_price': 'eval_price'})
+    # car_source.to_csv('../output/car_source_need_update.csv', index=False, float_format='%6.2f')
+    # del car_source
+    # gc.collect()
+    # print('Car_source表更新完成!')
 
 
 def update_tables_to_local_db():

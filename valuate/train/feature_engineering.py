@@ -377,14 +377,14 @@ class FeatureEngineering(object):
         normal_models_df.to_csv('predict/map/valuated_model_detail.csv', index=False, encoding='utf-8')
 
     def execute(self):
-        # self.base_cleaning()
-        # self.find_no_models()
-        # self.process_open_depreciation()
-        # self.generate_train_data()
-        # self.add_c2b_data()
-        # self.add_other_process()
-        # self.add_other_process_step2()
-        # self.split_models()
+        self.base_cleaning()
+        self.find_no_models()
+        self.process_open_depreciation()
+        self.generate_train_data()
+        self.add_c2b_data()
+        self.add_other_process()
+        self.add_other_process_step2()
+        self.split_models()
         pass
 
 # 1.公里数对车辆价格的影响。

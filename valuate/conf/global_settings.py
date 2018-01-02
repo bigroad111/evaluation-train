@@ -117,6 +117,8 @@ HISTORY_CAR_SOURCE_QUERY = 'select cs.id,cs.model_detail_slug,cs.mile,cs.year,cs
 ###########################
 # 模型预测配置
 ###########################
+# 批量预测需要的特征
+PREDICT_FEATURE = ['id', 'model_slug', 'model_detail_slug', 'popularity', 'source_type', 'use_time', 'mile', 'city']
 
 # 公里数阈值和范围
 # 正常行驶的车辆以一年2.5万公里为正常基数，低于2.5万公里的价格的浮动在+3.5%以内

@@ -72,6 +72,66 @@ def df_process_prices_relate(df):
         return sell
 
 
+def df_process_prices_update(df):
+    """
+    人工处理三类价格的相关性
+    """
+    # 按畅销程度分级,各交易方式相比于标价的固定比例
+    profits = gl.PROFITS
+    profit = profits[df['popularity']]
+
+    buy = df['dealer_price']
+    private = df['cpersonal_price']
+    if (buy <= 0) | (private <= 0):
+        return 0
+    # 计算buy与private的比例关系
+    private_buy_rate = (buy - private) / private
+    # 人工处理预测不合理的三类价格
+    if (private_buy_rate < 0) | (abs(private_buy_rate) > 0.12):
+        private = int(buy * (1 - 0.0875))
+    sell = int(private * (1 - 0.0525))
+
+    if df['source_type'] == 'dealer':
+        return buy
+    elif df['source_type'] == 'cpersonal':
+        return private
+    elif df['source_type'] == 'sell_dealer':
+        return sell
+
+    price = buy / (1 - profit[0])
+    # 计算各交易方式的价格相比于标价的固定比例
+    if df['source_type'] == 'sell':
+        # 商家收购价相比加权平均价的比例
+        return sell
+    elif df['source_type'] == 'buy':
+        # 商家真实售价相比加权平均价的比例
+        return buy
+    elif df['source_type'] == 'release':
+        # 建议标价相比加权平均价的比例
+        return price
+    elif df['source_type'] == 'private':
+        # C2C价格相比加权平均价的比例
+        return private
+    elif df['source_type'] == 'lowest':
+        # 最低成交价相比加权平均价的比例
+        return price * (1 - profit[0] - profit[1] - profit[3])
+    elif df['source_type'] == 'cpo':
+        # 认证二手车价相比加权平均价的差异比例
+        return price * (1 - profit[0] - profit[8])
+    elif df['source_type'] == 'replace':
+        # 4S店置换价相比加权平均价的比例
+        return price * (1 - profit[0] - profit[4])
+    elif df['source_type'] == 'auction':
+        # 拍卖价相比加权平均价的差异比例
+        return price * (1 - profit[0] - profit[5])
+    elif df['source_type'] == 'avg-buy':
+        # 平均买车价相比加权平均价的差异比例
+        return price * (1 - profit[0] - profit[7])
+    elif df['source_type'] == 'avg-sell':
+        # 平均卖车价价相比加权平均价的差异比例
+        return price * (1 - profit[0] - profit[6])
+
+
 class Predict(object):
 
     def __init__(self):
@@ -81,7 +141,7 @@ class Predict(object):
         self.result = []
         self.valuate_model = []
 
-    def predict_batch(self, data, adjust_profit=False, store=False):
+    def predict_batch(self, data, adjust_profit=False, store=False, is_update_process=False):
         """
         从本地result批量预测
         """
@@ -103,8 +163,13 @@ class Predict(object):
             test = test.merge(result, how='left', on=['final_model_detail_slug', 'city'])
             test['dealer_price'] = test.apply(df_process_hedge, args=('dealer',), axis=1)
             test['cpersonal_price'] = test.apply(df_process_hedge, args=('cpersonal',), axis=1)
-            test['predict_price'] = test.apply(df_process_prices_relate, axis=1)
+            # 是否是相关表的价格更新处理
+            if is_update_process:
+                test['predict_price'] = test.apply(df_process_prices_update, axis=1)
+            else:
+                test['predict_price'] = test.apply(df_process_prices_relate, axis=1)
             test['predict_price'] = test.apply(df_process_mile, axis=1)
+            test = test.drop(['dealer_hedge', 'cpersonal_hedge'], axis=1)
             self.result = self.result.append(test)
             time2 = time.time()
             print(i, 'finish model predict:', model, ' cost time:', time2-time1)
@@ -112,12 +177,12 @@ class Predict(object):
             if store:
                 if ((i % 100) == 0) & (i != 0):
                     num = int(i / 100)
-                    self.result = self.result.loc[:, ['city', 'use_time', 'mile', 'model_detail_slug', 'price_bn', 'model_slug', 'predict_price']]
+                    self.result = self.result.loc[:, ['id', 'predict_price']]
                     self.result.to_csv('verify/set/self_set_predict_part' + str(num) + '.csv', index=False)
                     self.result = pd.DataFrame()
                 elif i == (len(models) - 1):
                     num = int(i / 100) + 1
-                    self.result = self.result.loc[:, ['city', 'use_time', 'mile', 'model_detail_slug', 'price_bn', 'model_slug', 'predict_price']]
+                    self.result = self.result.loc[:, ['id', 'predict_price']]
                     self.result.to_csv('verify/set/self_set_predict_part' + str(num) + '.csv', index=False)
                     self.result = pd.DataFrame()
 
