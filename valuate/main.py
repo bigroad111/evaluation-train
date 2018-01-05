@@ -56,11 +56,11 @@ if __name__ == "__main__":
     # while True:
     time1 = time.time()
     predict = api()
-    result = predict.predict(city='广州', model_detail_slug='13648_ah', use_time=229, mile=0, ret_type='normal')
+    result = predict.predict(city='苏州', model_detail_slug='112786_autotis', use_time=23, mile=4.9, ret_type='normal')
     print(result)
-    result = predict.future_price_trend(city='广州', model_detail_slug='13648_ah', use_time=229, mile=13, ret_type='normal')
+    result = predict.future_price_trend(city='广州', model_detail_slug='13648_ah', use_time=62, mile=13, ret_type='normal')
     print(result)
-    result = predict.history_price_trend(city='广州', model_detail_slug='13648_ah', use_time=229, mile=13, ret_type='normal')
+    result = predict.history_price_trend(city='广州', model_detail_slug='13648_ah', use_time=62, mile=13, ret_type='normal')
     time2 = time.time()
     print(time2 - time1)
     # # # pr.disable()
@@ -81,6 +81,5 @@ if __name__ == "__main__":
     # 因训练完新模型需要更新的相关表
     # process_tables.store_need_udpate_tables()
     # process_tables.process_need_udpate_tables()
-    # process_tables.update_tables_to_local_db()
 
     # print(gl.PRODUCE_VALUATE_ENGINE_INNER)

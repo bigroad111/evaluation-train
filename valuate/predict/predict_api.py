@@ -358,7 +358,7 @@ class Predict(object):
         province = province_city_map.loc[city, 'province']
         model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
         final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
-
+        print(price_bn, model_slug, final_model_detail_slug)
         # 预测返回保值率
         t = perf_counter()
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
@@ -474,7 +474,6 @@ class Predict(object):
         # 校验参数
         check_params_value(city, model_detail_slug, use_time, mile, category='future')
         # 计算时间
-        times = [0, 12, 24, 36]
         times_str = ['0', '12', '24', '36']
         nums = 3
         if use_time > 204:

@@ -92,22 +92,22 @@ class FeatureEngineering(object):
         # 查询训练数据
         query_train_data()
         # 加载各类相关表
-        self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
-        self.train = pd.read_csv('../tmp/train/train_source.csv')
-        self.train = self.train.append(self.history_train, ignore_index=True)
-        self.deal_records = pd.read_csv('../tmp/report/deal_records.csv')
-        self.open_city = pd.read_csv('../tmp/train/open_city.csv')
-        self.open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
-        self.open_category = pd.read_csv('../tmp/train/open_category.csv')
-        self.open_depreciation = pd.read_csv('../tmp/train/open_depreciation.csv')
-        self.province_popular = pd.read_csv('../tmp/train/open_province_popularity.csv')
-        self.open_category = self.open_category.rename(columns={'slug': 'global_slug', 'name': 'global_name'})
-        self.open_model_detail = self.open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
-        self.province_popular = self.province_popular.loc[:, ['province', 'model_slug', 'popularity']]
-
-        self.no_models = []
-        self.have_models = []
-        self.all_models = []
+        # self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
+        # self.train = pd.read_csv('../tmp/train/train_source.csv')
+        # self.train = self.train.append(self.history_train, ignore_index=True)
+        # self.deal_records = pd.read_csv('../tmp/report/deal_records.csv')
+        # self.open_city = pd.read_csv('../tmp/train/open_city.csv')
+        # self.open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
+        # self.open_category = pd.read_csv('../tmp/train/open_category.csv')
+        # self.open_depreciation = pd.read_csv('../tmp/train/open_depreciation.csv')
+        # self.province_popular = pd.read_csv('../tmp/train/open_province_popularity.csv')
+        # self.open_category = self.open_category.rename(columns={'slug': 'global_slug', 'name': 'global_name'})
+        # self.open_model_detail = self.open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
+        # self.province_popular = self.province_popular.loc[:, ['province', 'model_slug', 'popularity']]
+        #
+        # self.no_models = []
+        # self.have_models = []
+        # self.all_models = []
 
     def base_cleaning(self):
         """

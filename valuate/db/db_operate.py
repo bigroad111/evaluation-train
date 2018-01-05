@@ -10,14 +10,16 @@ def query_local_train_data():
     """
     查询本地库训练数据
     """
-    return pd.read_sql_query(gl.TRAIN_DATA_QUERY, runtime_engine)
+    engine = create_engine(gl.LOCAL_PINGJIA_ENGINE, encoding=gl.ENCODING)
+    return pd.read_sql_query(gl.TRAIN_DATA_QUERY, engine)
 
 
 def query_local_history_train_data():
     """
     查询本地库历史训练数据
     """
-    return pd.read_sql_query(gl.HISTORY_CAR_SOURCE_QUERY, runtime_engine)
+    engine = create_engine(gl.LOCAL_PINGJIA_ENGINE, encoding=gl.ENCODING)
+    return pd.read_sql_query(gl.HISTORY_CAR_SOURCE_QUERY, engine)
 
 
 def query_produce_open_model_detail():
@@ -113,11 +115,12 @@ def query_produce_eval_deal_records():
 ################################
 
 
-def update_table_to_local_db(df, tbale_name):
+def update_table_to_local_db(df, table_name):
     """
     更新表到本地库
     """
-    df.to_sql(tbale_name, runtime_engine, if_exists='replace', index=False)
+    engine = create_engine(gl.LOCAL_PINGJIA_ENGINE, encoding=gl.ENCODING)
+    df.to_sql(table_name, engine, if_exists='replace', index=False)
 
 ################################
 # 生产库估值查询

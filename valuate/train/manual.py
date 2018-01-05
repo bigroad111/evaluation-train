@@ -3,6 +3,7 @@ from valuate.predict.predict_batch import Predict
 from datetime import datetime
 
 import pandas as pd
+from valuate.conf import global_settings as gl
 
 
 def generate_deal_days(df):
@@ -14,16 +15,15 @@ def generate_deal_days(df):
 
 def generate_months(df):
     """
-    生成年份
+    计算成交表使用时间
     """
-    online_year = df['year']
-    online_month = df['month']
-    if str(df['sold_time']) == 'nan':
-        transaction_time = datetime.strptime(str(df['expired_at']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time.year - online_year)*12 + transaction_time.month - online_month
+    if str(df['sold_time']) != 'nan':
+        deal_date = datetime.strptime(str(df['sold_time']), '%Y-%m-%d %H:%M:%S')
+    elif str(df['expired_at']) != 'nan':
+        deal_date = datetime.strptime(str(df['expired_at']), '%Y-%m-%d %H:%M:%S')
     else:
-        transaction_time = datetime.strptime(str(df['sold_time']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time.year - online_year)*12 + transaction_time.month - online_month
+        return -1
+    return (deal_date.year - df['year']) * 12 + deal_date.month - df['month']
 
 
 class Manual(object):
@@ -65,7 +65,7 @@ class Manual(object):
                 # if len(temp) == 0:
                 print(df['model_detail_slug'], df['global_slug'])
                 model_slug = 'zhongtaiZ700'
-                price_bn = df['price_bn'] * 0.55
+                price_bn = df['price_bn']
                 model_detail_slug = '127445_autotis'
                 model_detail_slug_id = 277875
                 # else:
@@ -132,33 +132,68 @@ class Manual(object):
         not_in_train_data_details = pd.DataFrame(ret, columns=['model_detail_slug'])
         not_in_train_data_details.to_csv('predict/map/not_in_train_data_details.csv', index=False)
 
+    def generate_adjust_data(self):
+        """
+        生成调整数据
+        """
+        train = pd.read_csv('../tmp/train/train_source.csv')
+        final = train[(train['status'] == 'review') & (train['sold_time'].notnull())]
+        final.reset_index(inplace=True)
+        final = final.drop('index', axis=1)
+        # 匹配车型
+        model_detail_map = pd.read_csv('predict/map/model_detail_map.csv')
+        model_detail_map = model_detail_map.loc[:, ['model_slug', 'model_detail_slug']]
+        # 匹配流行度
+        province_city_map = pd.read_csv('predict/map/province_city_map.csv')
+        province_city_map = province_city_map.loc[:, ['province', 'city']]
+        province_popularity_map = pd.read_csv('predict/map/province_popularity_map.csv')
+        final = final.merge(model_detail_map, how='left', on='model_detail_slug')
+        final = final.merge(province_city_map, how='left', on='city')
+        final = final.merge(province_popularity_map, how='left', on=['model_slug', 'province'])
+        final['popularity'] = final['popularity'].fillna('C')
+        # 删除数据不完整记录和use_time异常值
+        final = final[(final['model_slug'].notnull()) & (final['price'].notnull()) & (final['price'] > 0)]
+        final.reset_index(inplace=True)
+        final = final.drop('index', axis=1)
+        # 生成款型最近的5条记录
+        final['sold_time'] = pd.to_datetime(final['sold_time'])
+        result = pd.DataFrame()
+        for i in range(0, 5):
+            temp = final.loc[final.groupby(['model_detail_slug', 'popularity']).sold_time.idxmax(), :]
+            final = final.drop(temp.index, axis=0)
+            final.reset_index(inplace=True)
+            final = final.drop('index', axis=1)
+            result = result.append(temp)
+            print('完成轮次:', i)
+        result.to_csv('../tmp/train/adjust_data.csv', index=False)
+
     def generate_adjust_profit_map(self):
         """
         生成供调整值用的映射表
         """
-        # train = pd.read_csv('../tmp/train/train_source.csv')
         # adjust_data = pd.read_csv('../tmp/train/adjust_data.csv')
-        # adjust_data = adjust_data.merge(train, how='left', on='id')
         # # 生成使用时间
         # adjust_data['use_time'] = adjust_data.apply(generate_months, axis=1)
-        # adjust_data = adjust_data.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'price', 'source_type', 'popularity']]
-        # adjust_data['price'] = adjust_data['price']*10000
-        # 生成最近的调整数据
-        # verify = Report()
-        # verify.generate_adjust_profit_data()
-        # 组合数据
-        # adjust_data_recently = pd.read_csv('../tmp/train/adjust_data_recently.csv')
-        # adjust_data = adjust_data.append(adjust_data_recently)
-        # adjust_data.to_csv('../tmp/train/man.csv', index=False)
+        # adjust_data['source_type'] = adjust_data['source_type'].map(gl.INTENT_MAP)
+        # # 删除数据不完整记录和use_time异常值
+        # adjust_data.loc[(adjust_data['use_time'] <= 0), 'use_time'] = 1
+        # adjust_data.loc[(adjust_data['use_time'] > 240), 'use_time'] = 240
+        # # 重置索引
+        # adjust_data.reset_index(inplace=True)
+        # adjust_data = adjust_data.drop('index', axis=1)
+
         # 预测数据
-        # adjust_data = pd.read_csv('../tmp/train/man.csv')
+        # feature = gl.PREDICT_FEATURE
+        # feature.append('price')
+        # adjust_data = adjust_data.loc[:, feature]
         # predict = Predict()
-        # result = predict.predict_batch(adjust_data)
-        # result = result.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'price', 'source_type', 'popularity', 'predict_price']]
-        # result.to_csv('../tmp/train/man1.csv', index=False)
-        adjust_data = pd.read_csv('../tmp/train/man1.csv')
+        # result = predict.predict_batch(adjust_data, is_update_process=True)
+        # result = result.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'source_type', 'popularity', 'price', 'predict_price']]
+        # result.to_csv('../tmp/train/man.csv', index=False)
+        adjust_data = pd.read_csv('../tmp/train/man.csv')
+        adjust_data['price'] = adjust_data['price'] * 10000
         adjust_data['rate'] = (adjust_data['price'] - adjust_data['predict_price']) / adjust_data['predict_price']
-        adjust_data = adjust_data[abs(adjust_data['rate']) <= 0.3]
+        # adjust_data = adjust_data[abs(adjust_data['rate']) <= 0.3]
         adjust_data.reset_index(inplace=True)
         adjust_data = adjust_data.drop('index', axis=1)
         adjust_profit_map = adjust_data.groupby(['model_detail_slug', 'popularity'])['rate'].median().reset_index()
@@ -170,5 +205,6 @@ class Manual(object):
         """
         # self.get_models_not_in_train_data()
         # self.generate_price_bn_tune_map()
-        self.generate_adjust_profit_map()
+        # self.generate_adjust_data()
+        # self.generate_adjust_profit_map()
         # self.generate_others_predict_relate_tables()

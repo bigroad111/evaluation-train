@@ -219,15 +219,15 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 268266,6.38,zhongxing-c3,2014,1.5,手动,95960_autotis,5.88,zhongxing-c3,6.38,95960_autotis,268266
 101117,5.88,zhongxing-c3,2014,1.5,手动,m106485_ba,5.88,zhongxing-c3,5.88,m106485_ba,101117
 101116,5.78,zhongxing-c3,2014,1.5,手动,m105967_ba,5.88,zhongxing-c3,5.78,m105967_ba,101116
-272243,17.98,zhongtaizhimaE30,2016,0.0,自动,105050_autotis,17.98,zhongtaiZ700,9.889000000000001,127445_autotis,277875
+272243,17.98,zhongtaizhimaE30,2016,0.0,自动,105050_autotis,17.98,zhongtaiZ700,17.98,127445_autotis,277875
 270971,10.88,zhongtaizhidouE20,2014,0.0,自动,95933_autotis,10.88,zhongtaizhidouE20,10.88,95933_autotis,270971
 276390,18.88,zhongtaizhidouD2,2017,0.0,,119224_autotis,,zhongtaizhidouD2,18.88,119224_autotis,276390
 276389,15.88,zhongtaizhidouD2,2017,0.0,,119225_autotis,,zhongtaizhidouD2,15.88,119225_autotis,276389
 276388,15.18,zhongtaizhidouD2,2017,0.0,,119227_autotis,,zhongtaizhidouD2,15.18,119227_autotis,276388
 274784,18.8,zhongtaizhidouD2,2016,0.0,自动,111566_autotis,17.34,zhongtaizhidouD2,18.8,111566_autotis,274784
 273517,15.88,zhongtaizhidouD2,2016,0.0,自动,110227_autotis,17.34,zhongtaizhidouD2,15.88,110227_autotis,273517
-273516,15.88,zhongtaizhidouD2,2015,0.0,自动,110431_autotis,15.88,zhongtaiZ700,8.734000000000002,127445_autotis,277875
-273515,15.88,zhongtaizhidouD1,2015,0.0,自动,110158_autotis,15.88,zhongtaiZ700,8.734000000000002,127445_autotis,277875
+273516,15.88,zhongtaizhidouD2,2015,0.0,自动,110431_autotis,15.88,zhongtaiZ700,15.88,127445_autotis,277875
+273515,15.88,zhongtaizhidouD1,2015,0.0,自动,110158_autotis,15.88,zhongtaiZ700,15.88,127445_autotis,277875
 128422,7.66,zhongtaiz200hb,2011,1.5,自动,8040_ah,6.96,zhongtaiz200hb,7.66,8040_ah,128422
 128421,7.26,zhongtaiz200hb,2011,1.5,自动,8039_ah,6.96,zhongtaiz200hb,7.26,8039_ah,128421
 128420,6.66,zhongtaiz200hb,2011,1.5,自动,8038_ah,6.96,zhongtaiz200hb,6.66,8038_ah,128420
@@ -240,7 +240,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 128413,6.06,zhongtaiz200hb,2011,1.3,手动,8035_ah,5.76,zhongtaiz200hb,6.06,8035_ah,128413
 128412,5.46,zhongtaiz200hb,2011,1.3,手动,8034_ah,5.76,zhongtaiz200hb,5.46,8034_ah,128412
 128411,4.96,zhongtaiz200hb,2011,1.3,手动,7723_ah,5.76,zhongtaiz200hb,4.96,7723_ah,128411
-272439,16.99,zhongtaiyun100,2016,0.0,自动,108864_autotis,16.99,zhongtaiZ700,9.3445,127445_autotis,277875
+272439,16.99,zhongtaiyun100,2016,0.0,自动,108864_autotis,16.99,zhongtaiZ700,16.99,127445_autotis,277875
 274475,7.59,zhongtaidamaiX5,2017,1.6,手动,111858_autotis,7.29,zhongtaidamaiX5,7.59,111858_autotis,274475
 274476,6.99,zhongtaidamaiX5,2017,1.6,手动,111857_autotis,7.29,zhongtaidamaiX5,6.99,111857_autotis,274476
 274189,12.19,zhongtaidamaiX5,2017,1.5,自动,111297_autotis,10.69,zhongtaidamaiX5,12.19,111297_autotis,274189
@@ -661,7 +661,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 276940,14.98,zhngtiT700,2017,1.8,自动,120139_autotis,13.48,zhngtiT700,14.98,120139_autotis,276940
 276939,13.98,zhngtiT700,2017,1.8,自动,120226_autotis,13.48,zhngtiT700,13.98,120226_autotis,276939
 276938,12.98,zhngtiT700,2017,1.8,自动,120225_autotis,13.48,zhngtiT700,12.98,120225_autotis,276938
-276941,11.98,zhngtiT700,2017,1.8,自动,120228_autotis,13.48,zhongtaiZ700,6.589,127445_autotis,277875
+276941,11.98,zhngtiT700,2017,1.8,自动,120228_autotis,13.48,zhongtaiZ700,11.98,127445_autotis,277875
 276942,11.68,zhngtiT700,2017,1.8,手动,119968_autotis,11.18,zhngtiT700,11.68,119968_autotis,276942
 276943,10.68,zhngtiT700,2017,1.8,手动,119969_autotis,11.18,zhngtiT700,10.68,119969_autotis,276943
 277142,14.68,zhngtiT600Coupe,2017,1.8,自动,120396_autotis,12.28,zhngtiT600Coupe,14.68,120396_autotis,277142
@@ -1301,7 +1301,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 273953,6.79,yongyuana380,2015,1.5,手动,111134_autotis,6.79,yongyuana380,6.79,111134_autotis,273953
 273954,6.59,yongyuana380,2014,1.5,手动,111131_autotis,6.29,yongyuana380,6.59,111131_autotis,273954
 273955,5.99,yongyuana380,2014,1.5,手动,111132_autotis,6.29,yongyuana380,5.99,111132_autotis,273955
-12631,9.88,yongyuana380,2013,2.0,手动,m18698_xc,9.18,zhongtaiZ700,5.434000000000001,127445_autotis,277875
+12631,9.88,yongyuana380,2013,2.0,手动,m18698_xc,9.18,zhongtaiZ700,9.88,127445_autotis,277875
 12634,9.88,yongyuana380,2013,2.0,手动,m17091_xc,9.18,yongyuana380,9.88,m17091_xc,12634
 12630,9.28,yongyuana380,2013,2.0,手动,m18697_xc,9.18,yongyuana380,9.28,m18697_xc,12630
 12633,9.28,yongyuana380,2013,2.0,手动,m17090_xc,9.18,yongyuana380,9.28,m17090_xc,12633
@@ -2045,7 +2045,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 265278,7.49,yidong,2015,1.6,手动,96480_autotis,8.29,yidong,7.49,96480_autotis,265278
 270140,11.79,yidong,2015,1.5,自动,99039_autotis,11.29,yidong,11.79,99039_autotis,270140
 270208,10.79,yidong,2015,1.5,自动,99182_autotis,11.29,yidong,10.79,99182_autotis,270208
-270039,24.99,yidong,2015,0.0,自动,98895_autotis,24.24,zhongtaiZ700,13.7445,127445_autotis,277875
+270039,24.99,yidong,2015,0.0,自动,98895_autotis,24.24,zhongtaiZ700,24.99,127445_autotis,277875
 270038,23.49,yidong,2015,0.0,自动,98894_autotis,24.24,yidong,23.49,98894_autotis,270038
 127818,9.49,yidong,2014,1.6,自动,17857_ah,8.89,yidong,9.49,17857_ah,127818
 127816,8.89,yidong,2014,1.6,自动,17855_ah,8.89,yidong,8.89,17855_ah,127816
@@ -2147,7 +2147,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 274396,9.98,yemaT70,2016,1.5,手动,111190_autotis,9.18,yemaT70,9.98,111190_autotis,274396
 274397,8.38,yemaT70,2016,1.5,手动,111193_autotis,9.18,yemaT70,8.38,111193_autotis,274397
 274827,23.98,yemaT70,2016,0.0,自动,111930_autotis,23.98,yemaT70,23.98,111930_autotis,274827
-269134,16.88,yemaT70,2015,1.8,自动,96470_autotis,11.43,zhongtaiZ700,9.284,127445_autotis,277875
+269134,16.88,yemaT70,2015,1.8,自动,96470_autotis,11.43,zhongtaiZ700,16.88,127445_autotis,277875
 269135,11.88,yemaT70,2015,1.8,自动,96469_autotis,11.43,yemaT70,11.88,96469_autotis,269135
 270505,10.98,yemaT70,2015,1.8,自动,99804_autotis,11.43,yemaT70,10.98,99804_autotis,270505
 269133,10.88,yemaT70,2015,1.8,自动,96468_autotis,11.43,yemaT70,10.88,96468_autotis,269133
@@ -3455,7 +3455,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 271309,20.83,wushilingmu-X,2015,2.5,自动,100724_autotis,21.130000000000003,wushilingmu-X,20.83,100724_autotis,271309
 270915,18.98,wushilingmu-X,2015,2.5,自动,100101_autotis,21.130000000000003,wushilingmu-X,18.98,100101_autotis,270915
 271310,18.88,wushilingmu-X,2015,2.5,自动,100722_autotis,21.130000000000003,wushilingmu-X,18.88,100722_autotis,271310
-270914,17.88,wushilingmu-X,2015,2.5,手动,100100_autotis,17.88,zhongtaiZ700,9.834,127445_autotis,277875
+270914,17.88,wushilingmu-X,2015,2.5,手动,100100_autotis,17.88,zhongtaiZ700,17.88,127445_autotis,277875
 272324,18.28,wushilingD-Max,2015,2.5,自动,105225_autotis,17.080000000000002,wushilingD-Max,18.28,105225_autotis,272324
 271105,15.88,wushilingD-Max,2015,2.5,自动,100505_autotis,17.080000000000002,wushilingD-Max,15.88,100505_autotis,271105
 272323,16.78,wushilingD-Max,2015,2.5,手动,104539_autotis,14.48,wushilingD-Max,16.78,104539_autotis,272323
@@ -3662,7 +3662,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 270520,34.09,woerwoS60L,2016,2.0,自动,99821_autotis,34.09,woerwoS60L,34.09,99821_autotis,270520
 270519,30.99,woerwoS60L,2016,2.0,自动,99820_autotis,34.09,woerwoS60L,30.99,99820_autotis,270519
 270518,26.69,woerwoS60L,2016,1.5,自动,99819_autotis,26.69,woerwoS60L,26.69,99819_autotis,270518
-270340,55.99,woerwoS60L,2015,2.0,自动,99477_autotis,34.09,zhongtaiZ700,30.794500000000003,127445_autotis,277875
+270340,55.99,woerwoS60L,2015,2.0,自动,99477_autotis,34.09,zhongtaiZ700,55.99,127445_autotis,277875
 270339,50.59,woerwoS60L,2015,2.0,自动,99476_autotis,34.09,woerwoS60L,50.59,99476_autotis,270339
 268932,39.09,woerwoS60L,2015,2.0,自动,95479_autotis,34.09,woerwoS60L,39.09,95479_autotis,268932
 268934,34.09,woerwoS60L,2015,2.0,自动,95478_autotis,34.09,woerwoS60L,34.09,95478_autotis,268934
@@ -4109,7 +4109,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 275523,109.8,volvo-xc90,2017,2.0,自动,113932_autotis,116.3,volvo-xc90,109.8,113932_autotis,275523
 275522,81.88,volvo-xc90,2017,2.0,自动,113934_autotis,116.3,volvo-xc90,81.88,113934_autotis,275522
 272951,135.8,volvo-xc90,2016,2.0,自动,109358_autotis,91.88,volvo-xc90,135.8,109358_autotis,272951
-271908,122.8,volvo-xc90,2016,2.0,自动,104170_autotis,91.88,zhongtaiZ700,67.54,127445_autotis,277875
+271908,122.8,volvo-xc90,2016,2.0,自动,104170_autotis,91.88,zhongtaiZ700,122.8,127445_autotis,277875
 274313,122.8,volvo-xc90,2016,2.0,自动,111262_autotis,91.88,volvo-xc90,122.8,111262_autotis,274313
 271907,109.8,volvo-xc90,2016,2.0,自动,104171_autotis,91.88,volvo-xc90,109.8,104171_autotis,271907
 274312,109.8,volvo-xc90,2016,2.0,自动,111260_autotis,91.88,volvo-xc90,109.8,111260_autotis,274312
@@ -7361,7 +7361,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 25088,6.28,ruilin-m5,2010,1.3,自动,8489_ah,6.28,ruilin-m5,6.28,8489_ah,25088
 25087,5.58,ruilin-m5,2010,1.3,手动,5393_ah,5.23,ruilin-m5,5.58,5393_ah,25087
 25086,4.88,ruilin-m5,2010,1.3,手动,8515_ah,5.23,ruilin-m5,4.88,8515_ah,25086
-269558,16.98,ruilin-m1,2013,0.0,自动,80098_autotis,16.98,zhongtaiZ700,9.339,127445_autotis,277875
+269558,16.98,ruilin-m1,2013,0.0,自动,80098_autotis,16.98,zhongtaiZ700,16.98,127445_autotis,277875
 126518,6.08,ruilin-m1,2011,1.3,自动,9322_ah,6.08,ruilin-m1,6.08,9322_ah,126518
 61454,5.38,ruilin-m1,2011,1.3,手动,m16326_pa,5.38,ruilin-m1,5.38,m16326_pa,61454
 124571,5.18,ruilin-m1,2011,1.0,手动,22698_autotis,4.48,ruilin-m1,5.18,22698_autotis,124571
@@ -7736,8 +7736,8 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 278216,11.98,rongweiRX5,2018,1.5,手动,127262_autotis,11.98,rongweiRX5,11.98,127262_autotis,278216
 278218,10.98,rongweiRX5,2018,1.5,手动,127266_autotis,11.98,rongweiRX5,10.98,127266_autotis,278218
 278217,9.98,rongweiRX5,2018,1.5,手动,127264_autotis,11.98,rongweiRX5,9.98,127264_autotis,278217
-275387,28.59,rongweiRX5,2017,1.5,自动,112447_autotis,26.59,zhongtaiZ700,15.7245,127445_autotis,277875
-275388,26.59,rongweiRX5,2017,1.5,自动,112535_autotis,26.59,zhongtaiZ700,14.624500000000001,127445_autotis,277875
+275387,28.59,rongweiRX5,2017,1.5,自动,112447_autotis,26.59,zhongtaiZ700,28.59,127445_autotis,277875
+275388,26.59,rongweiRX5,2017,1.5,自动,112535_autotis,26.59,zhongtaiZ700,26.59,127445_autotis,277875
 277397,15.88,rongweiRX5,2017,1.5,自动,121209_autotis,26.59,rongweiRX5,15.88,121209_autotis,277397
 276516,12.88,rongweiRX5,2017,1.5,手动,119309_autotis,10.98,rongweiRX5,12.88,119309_autotis,276516
 276847,10.98,rongweiRX5,2017,1.5,手动,119834_autotis,10.98,rongweiRX5,10.98,119834_autotis,276847
@@ -7754,7 +7754,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277517,17.88,rongwei950,2017,2.0,自动,124068_autotis,17.88,rongwei950,17.88,124068_autotis,277517
 277516,16.88,rongwei950,2017,2.0,自动,124069_autotis,17.88,rongwei950,16.88,124069_autotis,277516
 277396,22.68,rongwei950,2017,1.8,自动,120543_autotis,22.68,rongwei950,22.68,120543_autotis,277396
-270624,28.98,rongwei950,2015,2.0,自动,100111_autotis,26.48,zhongtaiZ700,15.939000000000002,127445_autotis,277875
+270624,28.98,rongwei950,2015,2.0,自动,100111_autotis,26.48,zhongtaiZ700,28.98,127445_autotis,277875
 270623,23.98,rongwei950,2015,2.0,自动,100110_autotis,26.48,rongwei950,23.98,100110_autotis,270623
 270622,20.98,rongwei950,2015,1.8,自动,100109_autotis,18.98,rongwei950,20.98,100109_autotis,270622
 270621,18.98,rongwei950,2015,1.8,自动,100108_autotis,18.98,rongwei950,18.98,100108_autotis,270621
@@ -8067,7 +8067,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 275307,167.8,richan-gt-r,2017,3.8,自动,112560_autotis,167.8,richan-gt-r,167.8,112560_autotis,275307
 275309,167.8,richan-gt-r,2017,3.8,自动,112559_autotis,167.8,richan-gt-r,167.8,112559_autotis,275309
 275308,162.8,richan-gt-r,2017,3.8,自动,112491_autotis,167.8,richan-gt-r,162.8,112491_autotis,275308
-269837,235.0,richan-gt-r,2015,3.8,自动,96651_autotis,165.5,zhongtaiZ700,129.25,127445_autotis,277875
+269837,235.0,richan-gt-r,2015,3.8,自动,96651_autotis,165.5,zhongtaiZ700,235.0,127445_autotis,277875
 129111,168.0,richan-gt-r,2015,3.8,自动,18964_ah,165.5,richan-gt-r,168.0,18964_ah,129111
 129115,168.0,richan-gt-r,2015,3.8,自动,17693_ah,165.5,richan-gt-r,168.0,17693_ah,129115
 129113,163.0,richan-gt-r,2015,3.8,自动,17691_ah,165.5,richan-gt-r,163.0,17691_ah,129113
@@ -9253,8 +9253,8 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 123788,11.98,qida,2005,1.6,手动,5807_autotis,11.98,qida,11.98,5807_autotis,123788
 276210,26.18,qichenchenfeng,2017,0.0,,119430_autotis,,qichenchenfeng,26.18,119430_autotis,276210
 269535,28.18,qichenchenfeng,2014,0.0,自动,92077_autotis,27.28,qichenchenfeng,28.18,92077_autotis,269535
-269537,27.28,qichenchenfeng,2014,0.0,自动,92076_autotis,27.28,zhongtaiZ700,15.004000000000001,127445_autotis,277875
-269536,26.78,qichenchenfeng,2014,0.0,自动,92075_autotis,27.28,zhongtaiZ700,14.729000000000001,127445_autotis,277875
+269537,27.28,qichenchenfeng,2014,0.0,自动,92076_autotis,27.28,zhongtaiZ700,27.28,127445_autotis,277875
+269536,26.78,qichenchenfeng,2014,0.0,自动,92075_autotis,27.28,zhongtaiZ700,26.78,127445_autotis,277875
 274525,13.38,qichenT70X,2016,2.0,自动,111491_autotis,12.935,qichenT70X,13.38,111491_autotis,274525
 274526,12.49,qichenT70X,2016,2.0,自动,111490_autotis,12.935,qichenT70X,12.49,111490_autotis,274526
 274524,11.68,qichenT70X,2016,2.0,手动,111835_autotis,11.68,qichenT70X,11.68,111835_autotis,274524
@@ -9664,7 +9664,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 269828,132.7,porsche-911,2015,3.4,自动,96638_autotis,142.7,porsche-911,132.7,96638_autotis,269828
 113322,269.2,porsche-911,2014,3.8,自动,16405_ah,232.7,porsche-911,269.2,16405_ah,113322
 127431,255.1,porsche-911,2014,3.8,自动,15955_ah,232.7,porsche-911,255.1,15955_ah,127431
-113321,232.7,porsche-911,2014,3.8,自动,16404_ah,232.7,zhongtaiZ700,127.985,127445_autotis,277875
+113321,232.7,porsche-911,2014,3.8,自动,16404_ah,232.7,zhongtaiZ700,232.7,127445_autotis,277875
 127430,219.7,porsche-911,2014,3.8,自动,15984_ah,232.7,porsche-911,219.7,15984_ah,127430
 113987,168.5,porsche-911,2014,3.8,自动,18043_ah,232.7,porsche-911,168.5,18043_ah,113987
 113986,151.5,porsche-911,2014,3.4,自动,18042_ah,151.5,porsche-911,151.5,18042_ah,113986
@@ -9718,7 +9718,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 20410,156.9,porsche-911,2010,3.6,自动,6443_ah,156.9,porsche-911,156.9,6443_ah,20410
 20409,152.7,porsche-911,2010,3.6,自动,6441_ah,156.9,porsche-911,152.7,6441_ah,20409
 20408,142.4,porsche-911,2010,3.6,自动,6433_ah,156.9,porsche-911,142.4,6433_ah,20408
-20407,330.0,porsche-911,2010,3.6,手动,4418_ah,330.0,zhongtaiZ700,181.50000000000003,127445_autotis,277875
+20407,330.0,porsche-911,2010,3.6,手动,4418_ah,330.0,zhongtaiZ700,330.0,127445_autotis,277875
 95307,169.0,porsche-911,2009,4.0,手动,m7241_ba,169.0,porsche-911,169.0,m7241_ba,95307
 95288,330.0,porsche-911,2009,3.6,手动,m5701_ba,330.0,porsche-911,330.0,m5701_ba,95288
 20375,170.0,porsche-911,2008,3.8,手动,4419_ah,157.95,porsche-911,170.0,4419_ah,20375
@@ -9980,7 +9980,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 271641,129.2,panamera,2016,3.0,自动,106050_autotis,127.5,panamera,129.2,106050_autotis,271641
 271644,125.8,panamera,2016,3.0,自动,103304_autotis,127.5,panamera,125.8,103304_autotis,271644
 271643,120.1,panamera,2016,3.0,自动,102587_autotis,127.5,panamera,120.1,102587_autotis,271643
-264165,407.2,panamera,2015,4.8,自动,64687_autotis,407.2,zhongtaiZ700,223.96,127445_autotis,277875
+264165,407.2,panamera,2015,4.8,自动,64687_autotis,407.2,zhongtaiZ700,407.2,127445_autotis,277875
 88974,318.8,panamera,2014,4.8,自动,17363_ah,268.8,panamera,318.8,17363_ah,88974
 20339,268.8,panamera,2014,4.8,自动,16389_ah,268.8,panamera,268.8,16389_ah,20339
 20338,219.8,panamera,2014,4.8,自动,16442_ah,268.8,panamera,219.8,16442_ah,20338
@@ -10211,7 +10211,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 268221,47.8,pajieluo,2005,3.8,自动,18808_autotis,47.8,pajieluo,47.8,18808_autotis,268221
 100437,48.6,pajieluo,2005,3.8,手动,m582_ba,47.55,pajieluo,48.6,m582_ba,100437
 100439,46.5,pajieluo,2005,3.8,手动,m108274_ba,47.55,pajieluo,46.5,m108274_ba,100439
-100459,35.5,pajieluo,2005,3.0,自动,m4888_ba,32.9,zhongtaiZ700,19.525000000000002,127445_autotis,277875
+100459,35.5,pajieluo,2005,3.0,自动,m4888_ba,32.9,zhongtaiZ700,35.5,127445_autotis,277875
 100467,30.3,pajieluo,2005,3.0,自动,m4889_ba,32.9,pajieluo,30.3,m4889_ba,100467
 100453,39.6,pajieluo,2005,3.0,手动,m4887_ba,34.5,pajieluo,39.6,m4887_ba,100453
 100448,34.5,pajieluo,2005,3.0,手动,m4886_ba,34.5,pajieluo,34.5,m4886_ba,100448
@@ -10655,7 +10655,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 273069,28.5,minicoupe,2016,2.0,手动,109707_autotis,28.5,minicoupe,28.5,109707_autotis,273069
 272620,34.0,minicoupe,2016,1.5,自动,109189_autotis,28.5,minicoupe,34.0,109189_autotis,272620
 272619,32.5,minicoupe,2016,1.5,自动,109190_autotis,28.5,minicoupe,32.5,109190_autotis,272619
-273067,28.5,minicoupe,2016,1.5,自动,109859_autotis,28.5,zhongtaiZ700,15.675,127445_autotis,277875
+273067,28.5,minicoupe,2016,1.5,自动,109859_autotis,28.5,zhongtaiZ700,28.5,127445_autotis,277875
 273068,28.5,minicoupe,2016,1.5,自动,109860_autotis,28.5,minicoupe,28.5,109860_autotis,273068
 274145,28.5,minicoupe,2016,1.5,自动,111403_autotis,28.5,minicoupe,28.5,111403_autotis,274145
 273066,25.5,minicoupe,2016,1.5,自动,109861_autotis,28.5,minicoupe,25.5,109861_autotis,273066
@@ -11225,7 +11225,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 113997,12.03,mengpaike-mp-x,2014,2.5,手动,1002484_ah,11.28,mengpaike-mp-x,12.03,1002484_ah,113997
 113999,11.28,mengpaike-mp-x,2014,2.5,手动,1002480_ah,11.28,mengpaike-mp-x,11.28,1002480_ah,113999
 113998,10.98,mengpaike-mp-x,2014,2.5,手动,1002477_ah,11.28,mengpaike-mp-x,10.98,1002477_ah,113998
-114011,18.8,mengpaike-mp-x,2014,2.4,手动,1002567_ah,11.21,zhongtaiZ700,10.340000000000002,127445_autotis,277875
+114011,18.8,mengpaike-mp-x,2014,2.4,手动,1002567_ah,11.21,zhongtaiZ700,18.8,127445_autotis,277875
 114010,12.65,mengpaike-mp-x,2014,2.4,手动,1002489_ah,11.21,mengpaike-mp-x,12.65,1002489_ah,114010
 114004,11.5,mengpaike-mp-x,2014,2.4,手动,1002486_ah,11.21,mengpaike-mp-x,11.5,1002486_ah,114004
 114009,10.92,mengpaike-mp-x,2014,2.4,手动,1002492_ah,11.21,mengpaike-mp-x,10.92,1002492_ah,114009
@@ -11781,7 +11781,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 91159,950.0,maybach-62,2010,5.5,自动,m11438_ba,950.0,maybach-62,950.0,m11438_ba,91159
 91158,1298.0,maybach-62,2009,6.0,自动,m9233_ba,1298.0,maybach-62,1298.0,m9233_ba,91158
 73519,900.0,maybach-62,2007,6.0,自动,m8709_ba,900.0,maybach-62,900.0,m8709_ba,73519
-91160,618.0,maybach-62,2005,5.5,自动,m3524_ba,618.0,zhongtaiZ700,339.90000000000003,127445_autotis,277875
+91160,618.0,maybach-62,2005,5.5,自动,m3524_ba,618.0,zhongtaiZ700,618.0,127445_autotis,277875
 125494,595.0,maybach-57s,2010,6.0,自动,50594_autotis,595.0,maybach-57s,595.0,50594_autotis,125494
 125493,595.0,maybach-57s,2007,6.0,自动,49934_autotis,595.0,maybach-57s,595.0,49934_autotis,125493
 4271,1298.0,maybach-57,2009,6.0,自动,model_13534_cs,900.0,maybach-57,1298.0,model_13534_cs,4271
@@ -12014,7 +12014,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 122315,8.98,luling,2005,2.2,手动,34028_autotis,9.18,luling,8.98,34028_autotis,122315
 276559,57.8,luhulanshengjiguang,2017,2.0,自动,119214_autotis,47.8,luhulanshengjiguang,57.8,119214_autotis,276559
 276555,55.8,luhulanshengjiguang,2017,2.0,自动,119212_autotis,47.8,luhulanshengjiguang,55.8,119212_autotis,276555
-276557,49.8,luhulanshengjiguang,2017,2.0,自动,119575_autotis,47.8,zhongtaiZ700,27.39,127445_autotis,277875
+276557,49.8,luhulanshengjiguang,2017,2.0,自动,119575_autotis,47.8,zhongtaiZ700,49.8,127445_autotis,277875
 276558,45.8,luhulanshengjiguang,2017,2.0,自动,119259_autotis,47.8,luhulanshengjiguang,45.8,119259_autotis,276558
 277342,45.8,luhulanshengjiguang,2017,2.0,自动,120419_autotis,47.8,luhulanshengjiguang,45.8,120419_autotis,277342
 276556,39.8,luhulanshengjiguang,2017,2.0,自动,119258_autotis,47.8,luhulanshengjiguang,39.8,119258_autotis,276556
@@ -12179,9 +12179,9 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 74536,109.8,luhu-faxian,2005,4.4,自动,m3735_ba,101.4,luhu-faxian,109.8,m3735_ba,74536
 74534,93.0,luhu-faxian,2005,4.4,自动,m3702_ba,101.4,luhu-faxian,93.0,m3702_ba,74534
 74529,95.8,luhu-faxian,2005,4.0,自动,m3736_ba,81.9,luhu-faxian,95.8,m3736_ba,74529
-74523,68.0,luhu-faxian,2005,4.0,自动,m3696_ba,81.9,zhongtaiZ700,37.400000000000006,127445_autotis,277875
+74523,68.0,luhu-faxian,2005,4.0,自动,m3696_ba,81.9,zhongtaiZ700,68.0,127445_autotis,277875
 74516,88.8,luhu-faxian,2005,2.7,自动,m8766_ba,88.8,luhu-faxian,88.8,m8766_ba,74516
-74512,73.0,luhu-faxian,2003,4.0,自动,m3701_ba,73.0,zhongtaiZ700,40.150000000000006,127445_autotis,277875
+74512,73.0,luhu-faxian,2003,4.0,自动,m3701_ba,73.0,zhongtaiZ700,73.0,127445_autotis,277875
 275427,15.19,lufengx8,2017,2.0,手动,112544_autotis,13.285,lufengx8,15.19,112544_autotis,275427
 275431,14.18,lufengx8,2017,2.0,手动,112487_autotis,13.285,lufengx8,14.18,112487_autotis,275431
 275426,13.99,lufengx8,2017,2.0,手动,112553_autotis,13.285,lufengx8,13.99,112553_autotis,275426
@@ -13049,7 +13049,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 268439,7.28,lifanX50,2014,1.5,手动,94546_autotis,6.68,lifanX50,7.28,94546_autotis,268439
 268437,6.68,lifanX50,2014,1.5,手动,94545_autotis,6.68,lifanX50,6.68,94545_autotis,268437
 268438,5.98,lifanX50,2014,1.5,手动,94544_autotis,6.68,lifanX50,5.98,94544_autotis,268438
-270900,11.98,lifan820,2015,2.4,自动,99875_autotis,11.48,zhongtaiZ700,6.589,127445_autotis,277875
+270900,11.98,lifan820,2015,2.4,自动,99875_autotis,11.48,zhongtaiZ700,11.98,127445_autotis,277875
 270899,10.98,lifan820,2015,2.4,自动,99874_autotis,11.48,lifan820,10.98,99874_autotis,270899
 270877,9.68,lifan820,2015,1.8,手动,99800_autotis,8.68,lifan820,9.68,99800_autotis,270877
 270876,8.68,lifan820,2015,1.8,手动,99799_autotis,8.68,lifan820,8.68,99799_autotis,270876
@@ -13064,7 +13064,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 272395,5.69,lifan630,2014,1.5,手动,103389_autotis,5.890000000000001,lifan630,5.69,103389_autotis,272395
 272392,5.59,lifan630,2014,1.5,手动,107138_autotis,5.890000000000001,lifan630,5.59,107138_autotis,272392
 272391,5.49,lifan630,2014,1.5,手动,107139_autotis,5.890000000000001,lifan630,5.49,107139_autotis,272391
-270244,24.98,lifan620,2015,0.0,自动,99268_autotis,24.18,zhongtaiZ700,13.739,127445_autotis,277875
+270244,24.98,lifan620,2015,0.0,自动,99268_autotis,24.18,zhongtaiZ700,24.98,127445_autotis,277875
 270243,23.38,lifan620,2015,0.0,自动,99267_autotis,24.18,lifan620,23.38,99267_autotis,270243
 126766,6.59,lifan620,2012,1.6,自动,12525_ah,6.59,lifan620,6.59,12525_ah,126766
 23716,6.98,lifan620,2012,1.5,手动,12529_ah,6.035,lifan620,6.98,12529_ah,23716
@@ -13201,8 +13201,8 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 268423,4.97,lifan520,2006,1.3,手动,19234_autotis,5.119999999999999,lifan520,4.97,19234_autotis,268423
 74211,4.67,lifan520,2006,1.3,手动,m3140_ba,5.119999999999999,lifan520,4.67,m3140_ba,74211
 271118,14.68,lifan330,2015,0.0,自动,100554_autotis,14.530000000000001,lifan330,14.68,100554_autotis,271118
-271119,14.38,lifan330,2015,0.0,自动,100553_autotis,14.530000000000001,zhongtaiZ700,7.909000000000001,127445_autotis,277875
-126769,5.48,lifan330,2014,1.3,自动,19616_ah,5.28,zhongtaiZ700,3.0140000000000007,127445_autotis,277875
+271119,14.38,lifan330,2015,0.0,自动,100553_autotis,14.530000000000001,zhongtaiZ700,14.38,127445_autotis,277875
+126769,5.48,lifan330,2014,1.3,自动,19616_ah,5.28,zhongtaiZ700,5.48,127445_autotis,277875
 126768,5.28,lifan330,2014,1.3,自动,19615_ah,5.28,lifan330,5.28,19615_ah,126768
 126767,4.98,lifan330,2014,1.3,自动,19614_ah,5.28,lifan330,4.98,19614_ah,126767
 23664,4.48,lifan330,2014,1.3,手动,15712_ah,4.18,lifan330,4.48,15712_ah,23664
@@ -14129,7 +14129,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 121989,80.5,landekuluzejinkou,2006,4.5,自动,49656_autotis,80.5,landekuluzejinkou,80.5,49656_autotis,121989
 121988,126.0,landekuluzejinkou,2005,4.7,自动,49655_autotis,126.0,landekuluzejinkou,126.0,49655_autotis,121988
 99409,82.0,landekuluzejinkou,2003,4.0,自动,m5856_ba,82.0,landekuluzejinkou,82.0,m5856_ba,99409
-99419,125.0,landekuluzejinkou,2001,4.7,自动,m5857_ba,117.5,zhongtaiZ700,68.75,127445_autotis,277875
+99419,125.0,landekuluzejinkou,2001,4.7,自动,m5857_ba,117.5,zhongtaiZ700,125.0,127445_autotis,277875
 99418,110.0,landekuluzejinkou,2001,4.7,自动,m5858_ba,117.5,landekuluzejinkou,110.0,m5858_ba,99418
 99416,63.4,landekuluzejinkou,2001,4.5,自动,m7904_ba,63.4,landekuluzejinkou,63.4,m7904_ba,99416
 99406,79.8,landekuluzejinkou,2001,4.0,自动,m4997_ba,79.8,landekuluzejinkou,79.8,m4997_ba,99406
@@ -14160,7 +14160,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 121976,73.3,landekuluze,2005,4.7,自动,7978_autotis,70.1,landekuluze,73.3,7978_autotis,121976
 103310,66.9,landekuluze,2005,4.7,自动,1367_ah,70.1,landekuluze,66.9,1367_ah,103310
 103309,64.5,landekuluze,2005,4.7,自动,2389_ah,70.1,landekuluze,64.5,2389_ah,103309
-121973,59.8,landekuluze,2005,4.7,自动,7972_autotis,70.1,zhongtaiZ700,32.89,127445_autotis,277875
+121973,59.8,landekuluze,2005,4.7,自动,7972_autotis,70.1,zhongtaiZ700,59.8,127445_autotis,277875
 103319,68.6,landekuluze,2005,4.5,自动,426_ah,67.4,landekuluze,68.6,426_ah,103319
 103318,66.2,landekuluze,2005,4.5,自动,115_ah,67.4,landekuluze,66.2,115_ah,103318
 121972,82.8,landekuluze,2003,4.7,自动,7977_autotis,82.8,landekuluze,82.8,7977_autotis,121972
@@ -14177,7 +14177,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 121620,46.5,lancer,2006,2.0,手动,49964_autotis,46.15,lancer,46.5,49964_autotis,121620
 121619,45.8,lancer,2006,2.0,手动,49963_autotis,46.15,lancer,45.8,49963_autotis,121619
 271329,350.0,lanbojiniHuracan,2016,5.2,自动,100892_autotis,324.5,lanbojiniHuracan,350.0,100892_autotis,271329
-272737,299.0,lanbojiniHuracan,2016,5.2,自动,109309_autotis,324.5,zhongtaiZ700,164.45000000000002,127445_autotis,277875
+272737,299.0,lanbojiniHuracan,2016,5.2,自动,109309_autotis,324.5,zhongtaiZ700,299.0,127445_autotis,277875
 85250,1500.0,lamborghini-reventon,2008,6.5,自动,4870_ah,1500.0,lamborghini-reventon,1500.0,4870_ah,85250
 122392,10.98,laibao-srv,2006,2.4,手动,42192_autotis,10.98,laibao-srv,10.98,42192_autotis,122392
 122390,10.12,laibao-srv,2005,2.2,手动,42188_autotis,9.95,laibao-srv,10.12,42188_autotis,122390
@@ -15943,7 +15943,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 274052,9.78,jilidihao,2016,1.3,自动,104680_autotis,9.93,jilidihao,9.78,104680_autotis,274052
 274050,8.78,jilidihao,2016,1.3,手动,101984_autotis,8.53,jilidihao,8.78,101984_autotis,274050
 274051,8.28,jilidihao,2016,1.3,手动,101990_autotis,8.53,jilidihao,8.28,101990_autotis,274051
-271676,24.98,jilidihao,2016,0.0,自动,104495_autotis,23.98,zhongtaiZ700,13.739,127445_autotis,277875
+271676,24.98,jilidihao,2016,0.0,自动,104495_autotis,23.98,zhongtaiZ700,24.98,127445_autotis,277875
 271677,23.98,jilidihao,2016,0.0,自动,104494_autotis,23.98,jilidihao,23.98,104494_autotis,271677
 271678,22.88,jilidihao,2016,0.0,自动,104493_autotis,23.98,jilidihao,22.88,104493_autotis,271678
 274110,9.08,jilidihao,2015,1.5,自动,99590_autotis,8.93,jilidihao,9.08,99590_autotis,274110
@@ -16020,7 +16020,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 75586,213.0,jiebao-xkr,2009,5.0,自动,m8358_ba,208.0,jiebao-xkr,213.0,m8358_ba,75586
 75584,203.0,jiebao-xkr,2009,5.0,自动,m8354_ba,208.0,jiebao-xkr,203.0,m8354_ba,75584
 75585,202.8,jiebao-xkr,2003,4.2,自动,m15537_ba,202.8,jiebao-xkr,202.8,m15537_ba,75585
-123606,202.8,jiebao-xkr,2002,4.2,自动,50817_autotis,202.8,zhongtaiZ700,111.54000000000002,127445_autotis,277875
+123606,202.8,jiebao-xkr,2002,4.2,自动,50817_autotis,202.8,zhongtaiZ700,202.8,127445_autotis,277875
 268809,213.0,jiebao-xk,2012,5.0,自动,59376_autotis,208.0,jiebao-xk,213.0,59376_autotis,268809
 268808,203.0,jiebao-xk,2012,5.0,自动,59375_autotis,208.0,jiebao-xk,203.0,59375_autotis,268808
 104268,152.0,jiebao-xk,2006,4.2,自动,2485_ah,147.0,jiebao-xk,152.0,2485_ah,104268
@@ -16032,7 +16032,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 271805,89.8,jiebao-xj,2016,3.0,自动,102254_autotis,107.8,jiebao-xj,89.8,102254_autotis,271805
 271804,79.8,jiebao-xj,2016,2.0,自动,103010_autotis,79.8,jiebao-xj,79.8,103010_autotis,271804
 264781,142.8,jiebao-xj,2015,3.0,自动,88979_autotis,121.3,jiebao-xj,142.8,88979_autotis,264781
-264778,139.8,jiebao-xj,2015,3.0,自动,88978_autotis,121.3,zhongtaiZ700,76.89000000000001,127445_autotis,277875
+264778,139.8,jiebao-xj,2015,3.0,自动,88978_autotis,121.3,zhongtaiZ700,139.8,127445_autotis,277875
 264775,122.8,jiebao-xj,2015,3.0,自动,81693_autotis,121.3,jiebao-xj,122.8,81693_autotis,264775
 264780,122.8,jiebao-xj,2015,3.0,自动,88977_autotis,121.3,jiebao-xj,122.8,88977_autotis,264780
 269862,122.8,jiebao-xj,2015,3.0,自动,96678_autotis,121.3,jiebao-xj,122.8,96678_autotis,269862
@@ -16551,7 +16551,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 276782,11.85,jianghuaiiEV5,2017,0.0,,119758_autotis,,jianghuaiiEV5,11.85,119758_autotis,276782
 273258,21.98,jianghuaiiEV5,2016,0.0,自动,109991_autotis,21.98,jianghuaiiEV5,21.98,109991_autotis,273258
 270830,18.08,jianghuaiiEV5,2015,0.0,自动,99537_autotis,15.98,jianghuaiiEV5,18.08,99537_autotis,270830
-271221,15.98,jianghuaiiEV5,2015,0.0,自动,100348_autotis,15.98,zhongtaiZ700,8.789000000000001,127445_autotis,277875
+271221,15.98,jianghuaiiEV5,2015,0.0,自动,100348_autotis,15.98,zhongtaiZ700,15.98,127445_autotis,277875
 271220,15.78,jianghuaiiEV5,2015,0.0,自动,100377_autotis,15.98,jianghuaiiEV5,15.78,100377_autotis,271220
 272344,5.88,jianghuaiheyueA13,2014,1.3,手动,101770_autotis,5.58,jianghuaiheyueA13,5.88,101770_autotis,272344
 272346,5.58,jianghuaiheyueA13,2014,1.3,手动,101771_autotis,5.58,jianghuaiheyueA13,5.58,101771_autotis,272346
@@ -17059,7 +17059,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 81317,48.3,infiniti-g,2009,3.7,自动,m7524_ba,57.15,infiniti-g,48.3,m7524_ba,81317
 26283,47.8,infiniti-g,2007,3.5,自动,3118_ah,46.3,infiniti-g,47.8,3118_ah,26283
 26282,44.8,infiniti-g,2007,3.5,自动,3117_ah,46.3,infiniti-g,44.8,3117_ah,26282
-26287,25.8,infiniti-g,2004,3.5,自动,1411_ah,25.8,zhongtaiZ700,14.190000000000001,127445_autotis,277875
+26287,25.8,infiniti-g,2004,3.5,自动,1411_ah,25.8,zhongtaiZ700,25.8,127445_autotis,277875
 26289,65.8,infiniti-g,2004,3.5,手动,1410_ah,65.8,infiniti-g,65.8,1410_ah,26289
 26258,121.8,infiniti-fx,2013,5.0,自动,13361_ah,119.3,infiniti-fx,121.8,13361_ah,26258
 26257,116.8,infiniti-fx,2013,5.0,自动,15421_ah,119.3,infiniti-fx,116.8,15421_ah,26257
@@ -17582,7 +17582,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 269945,79.58,huiteng,2015,3.0,自动,96796_autotis,84.13,huiteng,79.58,96796_autotis,269945
 264448,81.32,huiteng,2014,3.0,自动,89433_autotis,78.82,huiteng,81.32,89433_autotis,264448
 264447,76.32,huiteng,2014,3.0,自动,89432_autotis,78.82,huiteng,76.32,89432_autotis,264447
-128780,188.8,huiteng,2013,4.2,自动,16231_ah,188.8,zhongtaiZ700,103.84000000000002,127445_autotis,277875
+128780,188.8,huiteng,2013,4.2,自动,16231_ah,188.8,zhongtaiZ700,188.8,127445_autotis,277875
 1532,253.18,huiteng,2012,6.0,自动,model_26912_cs,253.18,huiteng,253.18,model_26912_cs,1532
 128779,146.32,huiteng,2012,4.2,自动,12517_ah,146.32,huiteng,146.32,12517_ah,128779
 128778,99.92,huiteng,2012,3.6,自动,12516_ah,99.92,huiteng,99.92,12516_ah,128778
@@ -17703,7 +17703,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 271404,6.98,huansuS2_1,2016,1.5,手动,100821_autotis,6.13,huansuS2_1,6.98,100821_autotis,271404
 271406,6.68,huansuS2_1,2016,1.5,手动,100822_autotis,6.13,huansuS2_1,6.68,100822_autotis,271406
 271405,6.38,huansuS2_1,2016,1.5,手动,100852_autotis,6.13,huansuS2_1,6.38,100852_autotis,271405
-271403,5.88,huansuS2_1,2016,1.5,手动,100825_autotis,6.13,zhongtaiZ700,3.234,127445_autotis,277875
+271403,5.88,huansuS2_1,2016,1.5,手动,100825_autotis,6.13,zhongtaiZ700,5.88,127445_autotis,277875
 271402,5.48,huansuS2_1,2016,1.5,手动,100820_autotis,6.13,huansuS2_1,5.48,100820_autotis,271402
 271788,5.38,huansuS2_1,2016,1.5,手动,107184_autotis,6.13,huansuS2_1,5.38,107184_autotis,271788
 269641,6.68,huansuS2_1,2015,1.5,手动,269641_gpj,6.68,huansuS2_1,6.68,269641_gpj,269641
@@ -19089,7 +19089,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 274757,8.99,haimafumeilaiMPV,2017,1.5,手动,111729_autotis,8.99,haimafumeilaiMPV,8.99,111729_autotis,274757
 277063,7.98,haimafumeilaiMPV,2017,1.5,手动,120102_autotis,8.99,haimafumeilaiMPV,7.98,120102_autotis,277063
 274765,9.28,haimafumeilaiM5,2017,1.6,自动,111658_autotis,9.03,haimafumeilaiM5,9.28,111658_autotis,274765
-274764,8.78,haimafumeilaiM5,2017,1.6,自动,111659_autotis,9.03,zhongtaiZ700,4.829,127445_autotis,277875
+274764,8.78,haimafumeilaiM5,2017,1.6,自动,111659_autotis,9.03,zhongtaiZ700,8.78,127445_autotis,277875
 274763,8.28,haimafumeilaiM5,2017,1.6,手动,111737_autotis,7.9799999999999995,haimafumeilaiM5,8.28,111737_autotis,274763
 274762,7.68,haimafumeilaiM5,2017,1.6,手动,111738_autotis,7.9799999999999995,haimafumeilaiM5,7.68,111738_autotis,274762
 272695,8.49,haimafumeilaiM5,2016,1.6,手动,109115_autotis,8.19,haimafumeilaiM5,8.49,109115_autotis,272695
@@ -19759,7 +19759,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 265195,24.48,geruisi-mpv,2014,2.7,手动,94075_autotis,23.73,geruisi-mpv,24.48,94075_autotis,265195
 265199,23.78,geruisi-mpv,2014,2.7,手动,94073_autotis,23.73,geruisi-mpv,23.78,94073_autotis,265199
 265202,23.68,geruisi-mpv,2014,2.7,手动,94074_autotis,23.73,geruisi-mpv,23.68,94074_autotis,265202
-265198,23.38,geruisi-mpv,2014,2.7,手动,94072_autotis,23.73,zhongtaiZ700,12.859,127445_autotis,277875
+265198,23.38,geruisi-mpv,2014,2.7,手动,94072_autotis,23.73,zhongtaiZ700,23.38,127445_autotis,277875
 265201,20.98,geruisi-mpv,2014,2.7,手动,94070_autotis,23.73,geruisi-mpv,20.98,94070_autotis,265201
 265200,20.68,geruisi-mpv,2014,2.7,手动,94071_autotis,23.73,geruisi-mpv,20.68,94071_autotis,265200
 265193,16.48,geruisi-mpv,2014,2.4,手动,94055_autotis,16.18,geruisi-mpv,16.48,94055_autotis,265193
@@ -20136,7 +20136,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 270820,14.58,futiansawana,2015,2.8,手动,99460_autotis,15.18,futiansawana,14.58,99460_autotis,270820
 270819,13.98,futiansawana,2015,2.8,手动,99459_autotis,15.18,futiansawana,13.98,99459_autotis,270819
 270818,13.58,futiansawana,2015,2.8,手动,99458_autotis,15.18,futiansawana,13.58,99458_autotis,270818
-270817,15.78,futiansawana,2015,2.0,手动,99457_autotis,14.18,zhongtaiZ700,8.679,127445_autotis,277875
+270817,15.78,futiansawana,2015,2.0,手动,99457_autotis,14.18,zhongtaiZ700,15.78,127445_autotis,277875
 270816,15.38,futiansawana,2015,2.0,手动,99456_autotis,14.18,futiansawana,15.38,99456_autotis,270816
 270815,14.78,futiansawana,2015,2.0,手动,99455_autotis,14.18,futiansawana,14.78,99455_autotis,270815
 270814,14.38,futiansawana,2015,2.0,手动,99454_autotis,14.18,futiansawana,14.38,99454_autotis,270814
@@ -20672,7 +20672,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 124097,4.2,fulaier,2001,0.8,手动,35974_autotis,3.89,fulaier,4.2,35974_autotis,124097
 124095,3.58,fulaier,2001,0.8,手动,1683_autotis,3.89,fulaier,3.58,1683_autotis,124095
 124094,3.4,fulaier,2001,0.8,手动,1678_autotis,3.89,fulaier,3.4,1678_autotis,124094
-124093,3.2,fulaier,2001,0.8,手动,1677_autotis,3.89,zhongtaiZ700,1.7600000000000002,127445_autotis,277875
+124093,3.2,fulaier,2001,0.8,手动,1677_autotis,3.89,zhongtaiZ700,3.2,127445_autotis,277875
 274339,13.88,fukesi,2017,1.6,自动,111246_autotis,13.280000000000001,fukesi,13.88,111246_autotis,274339
 274347,13.88,fukesi,2017,1.6,自动,111248_autotis,13.280000000000001,fukesi,13.88,111248_autotis,274347
 274338,12.68,fukesi,2017,1.6,自动,111247_autotis,13.280000000000001,fukesi,12.68,111247_autotis,274338
@@ -21773,7 +21773,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 276271,43.89,dzhngtng,2017,2.5,自动,119139_autotis,48.89,dzhngtng,43.89,119139_autotis,276271
 276266,42.89,dzhngtng,2017,2.0,自动,119300_autotis,35.39,dzhngtng,42.89,119300_autotis,276266
 276263,39.89,dzhngtng,2017,2.0,自动,119296_autotis,35.39,dzhngtng,39.89,119296_autotis,276263
-276268,36.89,dzhngtng,2017,2.0,自动,119298_autotis,35.39,zhongtaiZ700,20.2895,127445_autotis,277875
+276268,36.89,dzhngtng,2017,2.0,自动,119298_autotis,35.39,zhongtaiZ700,36.89,127445_autotis,277875
 276265,33.89,dzhngtng,2017,2.0,自动,119297_autotis,35.39,dzhngtng,33.89,119297_autotis,276265
 276267,32.89,dzhngtng,2017,2.0,自动,119299_autotis,35.39,dzhngtng,32.89,119299_autotis,276267
 276264,30.89,dzhngtng,2017,2.0,自动,119294_autotis,35.39,dzhngtng,30.89,119294_autotis,276264
@@ -22861,7 +22861,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 273570,10.79,dongfengfengxingF600,2016,2.0,手动,110232_autotis,10.79,dongfengfengxingF600,10.79,110232_autotis,273570
 273577,10.39,dongfengfengxingF600,2016,2.0,手动,110393_autotis,10.79,dongfengfengxingF600,10.39,110393_autotis,273577
 273571,9.99,dongfengfengxingF600,2016,2.0,手动,110234_autotis,10.79,dongfengfengxingF600,9.99,110234_autotis,273571
-273573,12.29,dongfengfengxingF600,2016,1.5,手动,110189_autotis,10.79,zhongtaiZ700,6.7595,127445_autotis,277875
+273573,12.29,dongfengfengxingF600,2016,1.5,手动,110189_autotis,10.79,zhongtaiZ700,12.29,127445_autotis,277875
 273572,11.29,dongfengfengxingF600,2016,1.5,手动,110186_autotis,10.79,dongfengfengxingF600,11.29,110186_autotis,273572
 273568,10.79,dongfengfengxingF600,2016,1.5,手动,110251_autotis,10.79,dongfengfengxingF600,10.79,110251_autotis,273568
 273574,10.39,dongfengfengxingF600,2016,1.5,手动,110252_autotis,10.79,dongfengfengxingF600,10.39,110252_autotis,273574
@@ -23969,9 +23969,9 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 122928,12.78,datong-v80,2014,2.5,手动,37654_autotis,18.98,datong-v80,12.78,37654_autotis,122928
 268576,12.78,datong-v80,2014,2.5,手动,79832_autotis,18.98,datong-v80,12.78,79832_autotis,268576
 93849,55.0,datong-v80,2013,2.5,手动,m106142_ba,55.0,datong-v80,55.0,m106142_ba,93849
-122927,55.0,datong-v80,2013,2.5,手动,37658_autotis,55.0,zhongtaiZ700,30.250000000000004,127445_autotis,277875
-126519,55.0,datong-v80,2013,2.5,手动,1001943_ah,55.0,zhongtaiZ700,30.250000000000004,127445_autotis,277875
-126520,55.0,datong-v80,2013,2.5,手动,1001944_ah,55.0,zhongtaiZ700,30.250000000000004,127445_autotis,277875
+122927,55.0,datong-v80,2013,2.5,手动,37658_autotis,55.0,zhongtaiZ700,55.0,127445_autotis,277875
+126519,55.0,datong-v80,2013,2.5,手动,1001943_ah,55.0,zhongtaiZ700,55.0,127445_autotis,277875
+126520,55.0,datong-v80,2013,2.5,手动,1001944_ah,55.0,zhongtaiZ700,55.0,127445_autotis,277875
 93976,12.78,datong-v80,2013,2.5,手动,m104843_ba,55.0,datong-v80,12.78,m104843_ba,93976
 122926,23.58,datong-v80,2012,2.5,手动,6301_autotis,17.14,datong-v80,23.58,6301_autotis,122926
 122925,20.48,datong-v80,2012,2.5,手动,6298_autotis,17.14,datong-v80,20.48,6298_autotis,122925
@@ -24352,7 +24352,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 12431,19.99,citroen-c5,2010,2.3,自动,m6321_xc,21.19,citroen-c5,19.99,m6321_xc,12431
 12426,18.69,citroen-c5,2010,2.0,自动,m6320_xc,18.69,citroen-c5,18.69,m6320_xc,12426
 12423,17.69,citroen-c5,2010,2.0,手动,m6319_xc,17.69,citroen-c5,17.69,m6319_xc,12423
-274034,18.29,citroen-c4l,2016,1.6,自动,111086_autotis,16.09,zhongtaiZ700,10.0595,127445_autotis,277875
+274034,18.29,citroen-c4l,2016,1.6,自动,111086_autotis,16.09,zhongtaiZ700,18.29,127445_autotis,277875
 274035,16.09,citroen-c4l,2016,1.6,自动,111087_autotis,16.09,citroen-c4l,16.09,111087_autotis,274035
 274036,15.19,citroen-c4l,2016,1.6,自动,111091_autotis,16.09,citroen-c4l,15.19,111091_autotis,274036
 274032,15.19,citroen-c4l,2016,1.2,自动,110953_autotis,14.89,citroen-c4l,15.19,110953_autotis,274032
@@ -24542,7 +24542,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 274886,19.98,chuanqiGS8,2017,2.0,自动,112328_autotis,19.130000000000003,chuanqiGS8,19.98,112328_autotis,274886
 274883,18.28,chuanqiGS8,2017,2.0,自动,112334_autotis,19.130000000000003,chuanqiGS8,18.28,112334_autotis,274883
 274884,16.98,chuanqiGS8,2017,2.0,自动,112333_autotis,19.130000000000003,chuanqiGS8,16.98,112333_autotis,274884
-274882,16.38,chuanqiGS8,2017,2.0,自动,112238_autotis,19.130000000000003,zhongtaiZ700,9.009,127445_autotis,277875
+274882,16.38,chuanqiGS8,2017,2.0,自动,112238_autotis,19.130000000000003,zhongtaiZ700,16.38,127445_autotis,277875
 124747,11.77,chuanqi-x,2008,2.8,手动,35101_autotis,10.415,chuanqi-x,11.77,35101_autotis,124747
 124748,9.06,chuanqi-x,2008,2.8,手动,35102_autotis,10.415,chuanqi-x,9.06,35102_autotis,124748
 264880,5.38,chuanqi-x,2008,1.5,手动,41055_autotis,5.38,chuanqi-x,5.38,41055_autotis,264880
@@ -24595,7 +24595,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 91902,35.9,chrysler-dajielong,2007,3.3,自动,m3576_ba,33.9,chrysler-dajielong,35.9,m3576_ba,91902
 91900,31.9,chrysler-dajielong,2007,3.3,自动,m39_ba,33.9,chrysler-dajielong,31.9,m39_ba,91900
 91903,31.9,chrysler-dajielong,2007,3.3,自动,m3577_ba,33.9,chrysler-dajielong,31.9,m3577_ba,91903
-271648,49.19,chrysler-300cjinkou,2016,3.6,自动,101505_autotis,49.19,zhongtaiZ700,27.0545,127445_autotis,277875
+271648,49.19,chrysler-300cjinkou,2016,3.6,自动,101505_autotis,49.19,zhongtaiZ700,49.19,127445_autotis,277875
 271647,39.99,chrysler-300cjinkou,2016,3.0,自动,108095_autotis,39.99,chrysler-300cjinkou,39.99,108095_autotis,271647
 113866,39.99,chrysler-300cjinkou,2014,3.0,自动,18692_ah,39.99,chrysler-300cjinkou,39.99,18692_ah,113866
 104355,49.19,chrysler-300cjinkou,2013,3.6,自动,14572_ah,47.14,chrysler-300cjinkou,49.19,14572_ah,104355
@@ -24881,9 +24881,9 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 269955,9.98,chery-cross,2006,2.0,手动,96822_autotis,10.98,chery-cross,9.98,96822_autotis,269955
 277000,10.39,chery-airuize7,2017,1.5,自动,120174_autotis,10.04,chery-airuize7,10.39,120174_autotis,277000
 277001,9.69,chery-airuize7,2017,1.5,自动,120173_autotis,10.04,chery-airuize7,9.69,120173_autotis,277001
-273881,21.29,chery-airuize7,2016,1.6,自动,111035_autotis,13.79,zhongtaiZ700,11.7095,127445_autotis,277875
-273880,19.29,chery-airuize7,2016,1.6,自动,111037_autotis,13.79,zhongtaiZ700,10.6095,127445_autotis,277875
-273882,17.99,chery-airuize7,2016,1.6,自动,111036_autotis,13.79,zhongtaiZ700,9.8945,127445_autotis,277875
+273881,21.29,chery-airuize7,2016,1.6,自动,111035_autotis,13.79,zhongtaiZ700,21.29,127445_autotis,277875
+273880,19.29,chery-airuize7,2016,1.6,自动,111037_autotis,13.79,zhongtaiZ700,19.29,127445_autotis,277875
+273882,17.99,chery-airuize7,2016,1.6,自动,111036_autotis,13.79,zhongtaiZ700,17.99,127445_autotis,277875
 273877,9.59,chery-airuize7,2016,1.6,自动,111155_autotis,13.79,chery-airuize7,9.59,111155_autotis,273877
 273878,8.89,chery-airuize7,2016,1.6,自动,111156_autotis,13.79,chery-airuize7,8.89,111156_autotis,273878
 273879,8.29,chery-airuize7,2016,1.6,自动,111162_autotis,13.79,chery-airuize7,8.29,111162_autotis,273879
@@ -24923,7 +24923,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 123968,85.99,chengshi,2007,4.6,自动,51718_autotis,129.0,chengshi,85.99,51718_autotis,123968
 85241,138.0,chengshi,2004,4.6,自动,974_ah,138.0,chengshi,138.0,974_ah,85241
 85240,75.0,chengshi,2004,4.1,自动,616_ah,75.0,chengshi,75.0,616_ah,85240
-73882,65.0,chengshi,2002,4.6,自动,m3279_ba,65.0,zhongtaiZ700,35.75,127445_autotis,277875
+73882,65.0,chengshi,2002,4.6,自动,m3279_ba,65.0,zhongtaiZ700,65.0,127445_autotis,277875
 271858,5.69,changhefuruidaM50,2015,1.5,手动,101903_autotis,5.34,changhefuruidaM50,5.69,101903_autotis,271858
 271859,5.69,changhefuruidaM50,2015,1.5,手动,101907_autotis,5.34,changhefuruidaM50,5.69,101907_autotis,271859
 271856,5.49,changhefuruidaM50,2015,1.5,手动,106418_autotis,5.34,changhefuruidaM50,5.49,106418_autotis,271856
@@ -26856,7 +26856,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277375,36.98,byd-e6,2017,0.0,,121564_autotis,,byd-e6,36.98,121564_autotis,277375
 277493,33.0,byd-e6,2017,0.0,,123927_autotis,,byd-e6,33.0,123927_autotis,277493
 277390,30.98,byd-e6,2017,0.0,,121162_autotis,,byd-e6,30.98,121162_autotis,277390
-271886,36.98,byd-e6,2016,0.0,自动,101364_autotis,33.0,zhongtaiZ700,20.339,127445_autotis,277875
+271886,36.98,byd-e6,2016,0.0,自动,101364_autotis,33.0,zhongtaiZ700,36.98,127445_autotis,277875
 271887,33.0,byd-e6,2016,0.0,自动,101365_autotis,33.0,byd-e6,33.0,101365_autotis,271887
 271888,30.98,byd-e6,2016,0.0,自动,101363_autotis,33.0,byd-e6,30.98,101363_autotis,271888
 269545,36.98,byd-e6,2014,0.0,自动,91172_autotis,33.0,byd-e6,36.98,91172_autotis,269545
@@ -27256,7 +27256,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 20972,15.99,buick-angkela,2013,1.4,自动,14047_ah,17.69,buick-angkela,15.99,14047_ah,20972
 20971,14.99,buick-angkela,2013,1.4,手动,14046_ah,14.99,buick-angkela,14.99,14046_ah,20971
 24498,800.0,bseries_964,2004,7.3,自动,1372_ah,800.0,bseries_964,800.0,1372_ah,24498
-273728,30.99,bseries_908,2017,2.0,自动,110550_autotis,29.49,zhongtaiZ700,17.0445,127445_autotis,277875
+273728,30.99,bseries_908,2017,2.0,自动,110550_autotis,29.49,zhongtaiZ700,30.99,127445_autotis,277875
 273726,27.99,bseries_908,2017,2.0,自动,110549_autotis,29.49,bseries_908,27.99,110549_autotis,273726
 273727,26.99,bseries_908,2017,1.5,自动,110464_autotis,25.54,bseries_908,26.99,110464_autotis,273727
 273725,26.49,bseries_908,2017,1.5,自动,110465_autotis,25.54,bseries_908,26.49,110465_autotis,273725
@@ -27961,9 +27961,9 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277034,25.59,bseries_1810,2017,0.0,,120104_autotis,,bseries_1810,25.59,120104_autotis,277034
 277033,24.59,bseries_1810,2017,0.0,,120103_autotis,,bseries_1810,24.59,120103_autotis,277033
 277035,23.59,bseries_1810,2017,0.0,,120138_autotis,,bseries_1810,23.59,120138_autotis,277035
-272942,30.98,bseries_1810,2016,0.0,自动,109396_autotis,27.98,zhongtaiZ700,17.039,127445_autotis,277875
+272942,30.98,bseries_1810,2016,0.0,自动,109396_autotis,27.98,zhongtaiZ700,30.98,127445_autotis,277875
 272940,28.98,bseries_1810,2016,0.0,自动,109400_autotis,27.98,bseries_1810,28.98,109400_autotis,272940
-272941,26.98,bseries_1810,2016,0.0,自动,109401_autotis,27.98,zhongtaiZ700,14.839000000000002,127445_autotis,277875
+272941,26.98,bseries_1810,2016,0.0,自动,109401_autotis,27.98,zhongtaiZ700,26.98,127445_autotis,277875
 272943,25.98,bseries_1810,2016,0.0,自动,109399_autotis,27.98,bseries_1810,25.98,109399_autotis,272943
 270388,21.98,bseries_1810,2015,1.5,自动,99583_autotis,21.48,bseries_1810,21.98,99583_autotis,270388
 270387,20.98,bseries_1810,2015,1.5,自动,99582_autotis,21.48,bseries_1810,20.98,99582_autotis,270387
@@ -28116,7 +28116,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 273778,16.6,bseries_1740,2016,1.0,自动,110766_autotis,16.6,bseries_1740,16.6,110766_autotis,273778
 272624,17.6,bseries_1740,2016,0.9,自动,109089_autotis,16.6,bseries_1740,17.6,109089_autotis,272624
 272623,15.6,bseries_1740,2016,0.9,自动,109090_autotis,16.6,bseries_1740,15.6,109090_autotis,272623
-263853,25.5,bseries_1740,2015,1.0,自动,88804_autotis,13.6,zhongtaiZ700,14.025,127445_autotis,277875
+263853,25.5,bseries_1740,2015,1.0,自动,88804_autotis,13.6,zhongtaiZ700,25.5,127445_autotis,277875
 269850,15.89,bseries_1740,2015,1.0,自动,96666_autotis,13.6,bseries_1740,15.89,96666_autotis,269850
 269849,14.39,bseries_1740,2015,1.0,自动,96665_autotis,13.6,bseries_1740,14.39,96665_autotis,269849
 269876,13.6,bseries_1740,2015,1.0,自动,96694_autotis,13.6,bseries_1740,13.6,96694_autotis,269876
@@ -28134,7 +28134,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 85919,12.69,bseries_1740,2014,1.0,自动,17651_ah,16.09,bseries_1740,12.69,17651_ah,85919
 268170,12.69,bseries_1740,2014,1.0,自动,81684_autotis,16.09,bseries_1740,12.69,81684_autotis,268170
 269527,23.5,bseries_1740,2014,0.0,自动,89199_autotis,23.5,bseries_1740,23.5,89199_autotis,269527
-25089,38.8,bseries_1740,2013,1.0,自动,15850_ah,15.895,zhongtaiZ700,21.34,127445_autotis,277875
+25089,38.8,bseries_1740,2013,1.0,自动,15850_ah,15.895,zhongtaiZ700,38.8,127445_autotis,277875
 25103,18.99,bseries_1740,2013,1.0,自动,16239_ah,15.895,bseries_1740,18.99,16239_ah,25103
 25102,18.8,bseries_1740,2013,1.0,自动,16277_ah,15.895,bseries_1740,18.8,16277_ah,25102
 25106,18.39,bseries_1740,2013,1.0,自动,14484_ah,15.895,bseries_1740,18.39,14484_ah,25106
@@ -28308,7 +28308,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 275456,99.8,bseries_1518,2017,3.6,自动,112875_autotis,99.8,bseries_1518,99.8,112875_autotis,275456
 275454,88.8,bseries_1518,2017,3.0,自动,113855_autotis,79.3,bseries_1518,88.8,113855_autotis,275454
 275455,69.8,bseries_1518,2017,3.0,自动,113854_autotis,79.3,bseries_1518,69.8,113854_autotis,275455
-275453,58.8,bseries_1518,2017,2.0,自动,112786_autotis,58.8,zhongtaiZ700,32.34,127445_autotis,277875
+275453,58.8,bseries_1518,2017,2.0,自动,112786_autotis,58.8,zhongtaiZ700,58.8,127445_autotis,277875
 271640,99.8,bseries_1518,2016,3.6,自动,106917_autotis,99.3,bseries_1518,99.8,106917_autotis,271640
 269875,98.8,bseries_1518,2016,3.6,自动,96693_autotis,99.3,bseries_1518,98.8,96693_autotis,269875
 271638,88.8,bseries_1518,2016,3.0,自动,102940_autotis,69.8,bseries_1518,88.8,102940_autotis,271638
@@ -28492,7 +28492,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 273114,58.8,boshje718,2016,2.0,自动,110094_autotis,59.3,boshje718,58.8,110094_autotis,273114
 273155,13.68,borui_1,2016,2.4,自动,109674_autotis,13.629999999999999,borui_1,13.68,109674_autotis,273155
 271675,13.58,borui_1,2016,2.4,自动,102006_autotis,13.629999999999999,borui_1,13.58,102006_autotis,271675
-274210,21.98,borui_1,2016,1.8,自动,111391_autotis,14.68,zhongtaiZ700,12.089,127445_autotis,277875
+274210,21.98,borui_1,2016,1.8,自动,111391_autotis,14.68,zhongtaiZ700,21.98,127445_autotis,277875
 273154,14.68,borui_1,2016,1.8,自动,110127_autotis,14.68,borui_1,14.68,110127_autotis,273154
 271674,14.58,borui_1,2016,1.8,自动,106470_autotis,14.68,borui_1,14.58,106470_autotis,271674
 270757,22.98,borui_1,2015,3.5,自动,99305_autotis,22.98,borui_1,22.98,99305_autotis,270757
@@ -28895,7 +28895,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 264689,42.8,bmw-5-jinkou,2000,2.0,自动,57300_autotis,42.8,bmw-5-jinkou,42.8,57300_autotis,264689
 264687,40.6,bmw-5-jinkou,2000,2.0,手动,57301_autotis,40.6,bmw-5-jinkou,40.6,57301_autotis,264687
 276733,70.1,bmw-5-gt,2017,2.0,自动,119850_autotis,70.1,bmw-5-gt,70.1,119850_autotis,276733
-274648,168.8,bmw-5-gt,2015,4.0,自动,111850_autotis,168.8,zhongtaiZ700,92.84000000000002,127445_autotis,277875
+274648,168.8,bmw-5-gt,2015,4.0,自动,111850_autotis,168.8,zhongtaiZ700,168.8,127445_autotis,277875
 274645,92.8,bmw-5-gt,2015,3.0,自动,111846_autotis,85.8,bmw-5-gt,92.8,111846_autotis,274645
 274647,85.8,bmw-5-gt,2015,3.0,自动,111844_autotis,85.8,bmw-5-gt,85.8,111844_autotis,274647
 274646,82.8,bmw-5-gt,2015,3.0,自动,111519_autotis,85.8,bmw-5-gt,82.8,111519_autotis,274646
@@ -29393,7 +29393,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 275942,13.99,biyadiS7,2017,2.0,自动,118996_autotis,14.49,biyadiS7,13.99,118996_autotis,275942
 275944,12.99,biyadiS7,2017,2.0,自动,119016_autotis,14.49,biyadiS7,12.99,119016_autotis,275944
 275939,11.99,biyadiS7,2017,1.5,手动,118933_autotis,11.49,biyadiS7,11.99,118933_autotis,275939
-275940,10.99,biyadiS7,2017,1.5,手动,118952_autotis,11.49,zhongtaiZ700,6.0445,127445_autotis,277875
+275940,10.99,biyadiS7,2017,1.5,手动,118952_autotis,11.49,zhongtaiZ700,10.99,127445_autotis,277875
 272938,13.99,biyadiS7,2016,2.0,自动,109518_autotis,12.99,biyadiS7,13.99,109518_autotis,272938
 272937,12.99,biyadiS7,2016,2.0,自动,109519_autotis,12.99,biyadiS7,12.99,109519_autotis,272937
 272939,11.99,biyadiS7,2016,2.0,自动,109520_autotis,12.99,biyadiS7,11.99,109520_autotis,272939
@@ -30283,7 +30283,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 264569,85.8,benz-ml,2005,3.7,自动,58598_autotis,85.8,benz-ml,85.8,58598_autotis,264569
 97970,92.8,benz-ml,2001,4.3,自动,m8927_ba,92.8,benz-ml,92.8,m8927_ba,97970
 97961,75.8,benz-ml,2001,3.2,自动,m100094_ba,75.8,benz-ml,75.8,m100094_ba,97961
-269958,190.8,benz-m-amg,2015,5.5,自动,96839_autotis,190.8,zhongtaiZ700,104.94000000000001,127445_autotis,277875
+269958,190.8,benz-m-amg,2015,5.5,自动,96839_autotis,190.8,zhongtaiZ700,190.8,127445_autotis,277875
 264573,189.8,benz-m-amg,2014,5.5,自动,89360_autotis,189.8,benz-m-amg,189.8,89360_autotis,264573
 264572,199.8,benz-m-amg,2012,5.5,自动,58443_autotis,199.8,benz-m-amg,199.8,58443_autotis,264572
 264575,195.8,benz-m-amg,2011,6.2,自动,58393_autotis,195.8,benz-m-amg,195.8,58393_autotis,264575
@@ -30703,7 +30703,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 278081,423.8,bentley-oulu,2015,6.0,自动,127281_autotis,414.8,bentley-oulu,423.8,127281_autotis,278081
 278075,405.8,bentley-oulu,2015,6.0,自动,127543_autotis,414.8,bentley-oulu,405.8,127543_autotis,278075
 278084,369.8,bentley-oulu,2015,6.0,自动,127283_autotis,414.8,bentley-oulu,369.8,127283_autotis,278084
-264731,526.8,bentley-oulu,2015,4.0,自动,64708_autotis,344.8,zhongtaiZ700,289.74,127445_autotis,277875
+264731,526.8,bentley-oulu,2015,4.0,自动,64708_autotis,344.8,zhongtaiZ700,526.8,127445_autotis,277875
 278068,354.8,bentley-oulu,2015,4.0,自动,127259_autotis,344.8,bentley-oulu,354.8,127259_autotis,278068
 278065,334.8,bentley-oulu,2015,4.0,自动,127402_autotis,344.8,bentley-oulu,334.8,127402_autotis,278065
 278072,304.8,bentley-oulu,2015,4.0,自动,127403_autotis,344.8,bentley-oulu,304.8,127403_autotis,278072
@@ -30819,7 +30819,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 271722,7.58,bentengB30,2016,1.6,手动,103120_autotis,7.43,bentengB30,7.58,103120_autotis,271722
 271725,7.28,bentengB30,2016,1.6,手动,103121_autotis,7.43,bentengB30,7.28,103121_autotis,271725
 271724,6.98,bentengB30,2016,1.6,手动,103119_autotis,7.43,bentengB30,6.98,103119_autotis,271724
-272846,19.98,benteng-b90,2016,1.8,自动,109423_autotis,16.68,zhongtaiZ700,10.989,127445_autotis,277875
+272846,19.98,benteng-b90,2016,1.8,自动,109423_autotis,16.68,zhongtaiZ700,19.98,127445_autotis,277875
 272845,17.78,benteng-b90,2016,1.8,自动,109424_autotis,16.68,benteng-b90,17.78,109424_autotis,272845
 272848,15.58,benteng-b90,2016,1.8,自动,109425_autotis,16.68,benteng-b90,15.58,109425_autotis,272848
 272847,14.58,benteng-b90,2016,1.8,自动,109548_autotis,16.68,benteng-b90,14.58,109548_autotis,272847
@@ -31026,7 +31026,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 272861,115.8,benchiGLSjinkou,2016,3.0,自动,109345_autotis,115.8,benchiGLSjinkou,115.8,109345_autotis,272861
 272860,107.6,benchiGLSjinkou,2016,3.0,自动,109574_autotis,115.8,benchiGLSjinkou,107.6,109574_autotis,272860
 275700,199.8,benchiGLSjiAMG,2017,5.5,自动,118568_autotis,199.8,benchiGLSjiAMG,199.8,118568_autotis,275700
-272864,199.8,benchiGLSjiAMG,2016,5.5,自动,109203_autotis,199.8,zhongtaiZ700,109.89000000000001,127445_autotis,277875
+272864,199.8,benchiGLSjiAMG,2016,5.5,自动,109203_autotis,199.8,zhongtaiZ700,199.8,127445_autotis,277875
 276717,177.8,benchiGLSjiAMG,2012,5.5,自动,119897_autotis,177.8,benchiGLSjiAMG,177.8,119897_autotis,276717
 275275,119.8,benchiGLEjinkou,2017,3.0,自动,112512_autotis,90.0,benchiGLEjinkou,119.8,112512_autotis,275275
 277645,103.8,benchiGLEjinkou,2017,3.0,自动,126833_autotis,90.0,benchiGLEjinkou,103.8,126833_autotis,277645
@@ -31050,7 +31050,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277646,106.8,benchiGLEjiAMG,2017,3.0,自动,127120_autotis,105.3,benchiGLEjiAMG,106.8,127120_autotis,277646
 275695,103.8,benchiGLEjiAMG,2017,3.0,自动,118707_autotis,105.3,benchiGLEjiAMG,103.8,118707_autotis,275695
 272859,103.8,benchiGLEjiAMG,2016,3.0,自动,109494_autotis,103.8,benchiGLEjiAMG,103.8,109494_autotis,272859
-271385,198.8,benchiGLEjiAMG,2015,5.5,自动,100828_autotis,192.8,zhongtaiZ700,109.34000000000002,127445_autotis,277875
+271385,198.8,benchiGLEjiAMG,2015,5.5,自动,100828_autotis,192.8,zhongtaiZ700,198.8,127445_autotis,277875
 271174,192.8,benchiGLEjiAMG,2015,5.5,自动,100384_autotis,192.8,benchiGLEjiAMG,192.8,100384_autotis,271174
 271384,185.8,benchiGLEjiAMG,2015,5.5,自动,100829_autotis,192.8,benchiGLEjiAMG,185.8,100829_autotis,271384
 271173,105.8,benchiGLEjiAMG,2015,3.0,自动,100480_autotis,101.3,benchiGLEjiAMG,105.8,100480_autotis,271173
@@ -31351,7 +31351,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 270777,26.88,beijingqicheshenbaoD80,2015,2.3,自动,99389_autotis,26.88,beijingqicheshenbaoD80,26.88,99389_autotis,270777
 270776,23.18,beijingqicheshenbaoD80,2015,2.0,自动,99388_autotis,23.18,beijingqicheshenbaoD80,23.18,99388_autotis,270776
 270775,20.48,beijingqicheshenbaoD80,2015,1.8,自动,99387_autotis,20.48,beijingqicheshenbaoD80,20.48,99387_autotis,270775
-274099,16.88,beijingqicheshenbaoD60,2014,1.8,自动,104416_autotis,14.88,zhongtaiZ700,9.284,127445_autotis,277875
+274099,16.88,beijingqicheshenbaoD60,2014,1.8,自动,104416_autotis,14.88,zhongtaiZ700,16.88,127445_autotis,277875
 274097,14.88,beijingqicheshenbaoD60,2014,1.8,自动,104411_autotis,14.88,beijingqicheshenbaoD60,14.88,104411_autotis,274097
 274098,12.98,beijingqicheshenbaoD60,2014,1.8,自动,104413_autotis,14.88,beijingqicheshenbaoD60,12.98,104413_autotis,274098
 274095,13.98,beijingqicheshenbaoD60,2014,1.8,手动,107724_autotis,12.98,beijingqicheshenbaoD60,13.98,107724_autotis,274095
@@ -31400,7 +31400,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277151,22.49,beijingqicheEUxi,2017,0.0,,120245_autotis,,beijingqicheEUxi,22.49,120245_autotis,277151
 275859,21.59,beijingqicheEUxi,2017,0.0,,118995_autotis,,beijingqicheEUxi,21.59,118995_autotis,275859
 275860,20.59,beijingqicheEUxi,2017,0.0,,118903_autotis,,beijingqicheEUxi,20.59,118903_autotis,275860
-271669,25.49,beijingqicheEUxi,2016,0.0,自动,107500_autotis,24.74,zhongtaiZ700,14.0195,127445_autotis,277875
+271669,25.49,beijingqicheEUxi,2016,0.0,自动,107500_autotis,24.74,zhongtaiZ700,25.49,127445_autotis,277875
 274510,23.99,beijingqicheEUxi,2016,0.0,自动,111662_autotis,24.74,beijingqicheEUxi,23.99,111662_autotis,274510
 276194,28.8,beijingqicheBJ80,2017,2.8,手动,119310_autotis,28.55,beijingqicheBJ80,28.8,119310_autotis,276194
 276193,28.3,beijingqicheBJ80,2017,2.8,手动,119311_autotis,28.55,beijingqicheBJ80,28.3,119311_autotis,276193
@@ -31412,14 +31412,14 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 274506,11.88,beijingqicheBJ20,2016,1.5,手动,111833_autotis,10.88,beijingqicheBJ20,11.88,111833_autotis,274506
 274504,10.88,beijingqicheBJ20,2016,1.5,手动,111834_autotis,10.88,beijingqicheBJ20,10.88,111834_autotis,274504
 274505,9.68,beijingqicheBJ20,2016,1.5,手动,111837_autotis,10.88,beijingqicheBJ20,9.68,111837_autotis,274505
-273414,18.99,beijingqiche-e,2016,0.0,自动,110219_autotis,18.384999999999998,zhongtaiZ700,10.4445,127445_autotis,277875
-273413,17.78,beijingqiche-e,2016,0.0,自动,110222_autotis,18.384999999999998,zhongtaiZ700,9.779000000000002,127445_autotis,277875
+273414,18.99,beijingqiche-e,2016,0.0,自动,110219_autotis,18.384999999999998,zhongtaiZ700,18.99,127445_autotis,277875
+273413,17.78,beijingqiche-e,2016,0.0,自动,110222_autotis,18.384999999999998,zhongtaiZ700,17.78,127445_autotis,277875
 272093,34.69,beijingqiche-e,2015,0.0,自动,102817_autotis,21.79,beijingqiche-e,34.69,102817_autotis,272093
 272095,24.69,beijingqiche-e,2015,0.0,自动,102180_autotis,21.79,beijingqiche-e,24.69,102180_autotis,272095
 272096,22.69,beijingqiche-e,2015,0.0,自动,102181_autotis,21.79,beijingqiche-e,22.69,102181_autotis,272096
-270161,20.89,beijingqiche-e,2015,0.0,自动,99074_autotis,21.79,zhongtaiZ700,11.489500000000001,127445_autotis,277875
-270160,18.89,beijingqiche-e,2015,0.0,自动,99073_autotis,21.79,zhongtaiZ700,10.389500000000002,127445_autotis,277875
-271078,17.69,beijingqiche-e,2015,0.0,自动,100454_autotis,21.79,zhongtaiZ700,9.729500000000002,127445_autotis,277875
+270161,20.89,beijingqiche-e,2015,0.0,自动,99074_autotis,21.79,zhongtaiZ700,20.89,127445_autotis,277875
+270160,18.89,beijingqiche-e,2015,0.0,自动,99073_autotis,21.79,zhongtaiZ700,18.89,127445_autotis,277875
+271078,17.69,beijingqiche-e,2015,0.0,自动,100454_autotis,21.79,zhongtaiZ700,17.69,127445_autotis,277875
 122305,6.81,beijingqiche-e,2014,1.5,自动,48817_autotis,6.81,beijingqiche-e,6.81,48817_autotis,122305
 122304,6.18,beijingqiche-e,2014,1.5,手动,48816_autotis,6.18,beijingqiche-e,6.18,48816_autotis,122304
 79526,8.78,beijingqiche-e,2013,1.5,自动,m103670_ba,7.61,beijingqiche-e,8.78,m103670_ba,79526
@@ -31694,9 +31694,9 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 6672,120.0,baomam3,2008,4.0,自动,m4803_xc,120.0,baomam3,120.0,m4803_xc,6672
 97749,90.0,baomam3,2002,3.2,自动,m15468_ba,90.0,baomam3,90.0,m15468_ba,97749
 270977,198.8,baomai8,2014,1.5,自动,89320_autotis,198.8,baomai8,198.8,89320_autotis,270977
-274649,52.28,baomai3,2016,0.7,自动,111613_autotis,52.28,zhongtaiZ700,28.754,127445_autotis,277875
+274649,52.28,baomai3,2016,0.7,自动,111613_autotis,52.28,zhongtaiZ700,52.28,127445_autotis,277875
 274651,45.58,baomai3,2016,0.0,自动,111614_autotis,43.93,baomai3,45.58,111614_autotis,274651
-274650,42.28,baomai3,2016,0.0,自动,111496_autotis,43.93,zhongtaiZ700,23.254,127445_autotis,277875
+274650,42.28,baomai3,2016,0.0,自动,111496_autotis,43.93,zhongtaiZ700,42.28,127445_autotis,277875
 274263,41.68,baomai3,2015,0.0,自动,111198_autotis,41.68,baomai3,41.68,111198_autotis,274263
 270976,52.0,baomai3,2014,0.7,自动,82988_autotis,52.0,baomai3,52.0,82988_autotis,270976
 269798,45.0,baomai3,2014,0.0,自动,96573_autotis,45.0,baomai3,45.0,96573_autotis,269798
@@ -32180,7 +32180,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 23255,9.78,baodian,2007,2.4,手动,1000351_ah,9.78,baodian,9.78,1000351_ah,23255
 23253,8.08,baodian,2007,2.0,手动,1000350_ah,8.08,baodian,8.08,1000350_ah,23253
 92191,8.88,baodian,2005,2.8,手动,m10100_ba,8.08,baodian,8.88,m10100_ba,92191
-92179,7.28,baodian,2005,2.8,手动,m10099_ba,8.08,zhongtaiZ700,4.0040000000000004,127445_autotis,277875
+92179,7.28,baodian,2005,2.8,手动,m10099_ba,8.08,zhongtaiZ700,7.28,127445_autotis,277875
 124272,9.9,baodian,2003,2.8,手动,18662_autotis,9.4,baodian,9.9,18662_autotis,124272
 124271,8.9,baodian,2003,2.8,手动,18661_autotis,9.4,baodian,8.9,18661_autotis,124271
 113908,13.99,baodi,2012,2.5,手动,1002345_ah,13.99,baodi,13.99,1002345_ah,113908
@@ -32355,7 +32355,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 68146,88.6,audi-q7,2013,3.0,自动,m21973_pa,104.58,audi-q7,88.6,m21973_pa,68146
 68134,88.1,audi-q7,2013,3.0,自动,m21976_pa,104.58,audi-q7,88.1,m21976_pa,68134
 68133,82.1,audi-q7,2013,3.0,自动,m21975_pa,104.58,audi-q7,82.1,m21975_pa,68133
-6318,257.8,audi-q7,2012,6.0,自动,m10074_xc,257.8,zhongtaiZ700,141.79000000000002,127445_autotis,277875
+6318,257.8,audi-q7,2012,6.0,自动,m10074_xc,257.8,zhongtaiZ700,257.8,127445_autotis,277875
 6306,131.9,audi-q7,2012,3.0,自动,m9815_xc,104.58,audi-q7,131.9,m9815_xc,6306
 6302,116.7,audi-q7,2012,3.0,自动,m9818_xc,104.58,audi-q7,116.7,m9818_xc,6302
 6297,110.6,audi-q7,2012,3.0,自动,m9817_xc,104.58,audi-q7,110.6,m9817_xc,6297
@@ -32464,7 +32464,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 275718,29.08,audi-q3,2017,1.4,自动,118783_autotis,27.5,audi-q3,29.08,118783_autotis,275718
 275719,29.08,audi-q3,2017,1.4,自动,118782_autotis,27.5,audi-q3,29.08,118782_autotis,275719
 275716,25.92,audi-q3,2017,1.4,自动,118781_autotis,27.5,audi-q3,25.92,118781_autotis,275716
-275717,23.42,audi-q3,2017,1.4,自动,118780_autotis,27.5,zhongtaiZ700,12.881000000000002,127445_autotis,277875
+275717,23.42,audi-q3,2017,1.4,自动,118780_autotis,27.5,zhongtaiZ700,23.42,127445_autotis,277875
 273191,34.49,audi-q3,2016,2.0,自动,110108_autotis,30.39,audi-q3,34.49,110108_autotis,273191
 273192,33.58,audi-q3,2016,2.0,自动,110106_autotis,30.39,audi-q3,33.58,110106_autotis,273192
 273188,32.08,audi-q3,2016,2.0,自动,110007_autotis,30.39,audi-q3,32.08,110007_autotis,273188
@@ -32480,7 +32480,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 272489,25.18,audi-q3,2016,1.4,自动,109002_autotis,25.92,audi-q3,25.18,109002_autotis,272489
 273186,23.42,audi-q3,2016,1.4,自动,109763_autotis,25.92,audi-q3,23.42,109763_autotis,273186
 114223,42.88,audi-q3,2015,2.0,自动,19465_ah,33.785,audi-q3,42.88,19465_ah,114223
-270452,41.39,audi-q3,2015,2.0,自动,99673_autotis,33.785,zhongtaiZ700,22.7645,127445_autotis,277875
+270452,41.39,audi-q3,2015,2.0,自动,99673_autotis,33.785,zhongtaiZ700,41.39,127445_autotis,277875
 114222,39.68,audi-q3,2015,2.0,自动,19464_ah,33.785,audi-q3,39.68,19464_ah,114222
 270451,38.19,audi-q3,2015,2.0,自动,99672_autotis,33.785,audi-q3,38.19,99672_autotis,270451
 114221,35.68,audi-q3,2015,2.0,自动,19463_ah,33.785,audi-q3,35.68,19463_ah,114221
@@ -32842,8 +32842,8 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 277189,45.78,audi-a5,2017,2.0,自动,120261_autotis,50.78,audi-a5,45.78,120261_autotis,277189
 277193,45.38,audi-a5,2017,2.0,自动,120384_autotis,50.78,audi-a5,45.38,120384_autotis,277193
 277191,39.8,audi-a5,2017,2.0,自动,120381_autotis,50.78,audi-a5,39.8,120381_autotis,277191
-271046,62.8,audi-a5,2016,2.0,自动,100277_autotis,56.98,zhongtaiZ700,34.54,127445_autotis,277875
-272655,62.8,audi-a5,2016,2.0,自动,109144_autotis,56.98,zhongtaiZ700,34.54,127445_autotis,277875
+271046,62.8,audi-a5,2016,2.0,自动,100277_autotis,56.98,zhongtaiZ700,62.8,127445_autotis,277875
+272655,62.8,audi-a5,2016,2.0,自动,109144_autotis,56.98,zhongtaiZ700,62.8,127445_autotis,277875
 271183,59.8,audi-a5,2016,2.0,自动,100507_autotis,56.98,audi-a5,59.8,100507_autotis,271183
 272656,59.8,audi-a5,2016,2.0,自动,109171_autotis,56.98,audi-a5,59.8,109171_autotis,272656
 272659,58.6,audi-a5,2016,2.0,自动,109145_autotis,56.98,audi-a5,58.6,109145_autotis,272659
@@ -33855,7 +33855,7 @@ id,price_bn,model_slug,year,volume,control,model_detail_slug,median_price_bn,fin
 276103,8.98,MGZS,2017,1.5,手动,119366_autotis,8.48,MGZS,8.98,119366_autotis,276103
 276101,8.48,MGZS,2017,1.5,手动,119598_autotis,8.48,MGZS,8.48,119598_autotis,276101
 276102,7.88,MGZS,2017,1.5,手动,119368_autotis,8.48,MGZS,7.88,119368_autotis,276102
-276104,7.38,MGZS,2017,1.5,手动,119370_autotis,8.48,zhongtaiZ700,4.059,127445_autotis,277875
+276104,7.38,MGZS,2017,1.5,手动,119370_autotis,8.48,zhongtaiZ700,7.38,127445_autotis,277875
 276099,11.58,MGZS,2017,1.0,自动,119247_autotis,11.23,MGZS,11.58,119247_autotis,276099
 276098,10.88,MGZS,2017,1.0,自动,119246_autotis,11.23,MGZS,10.88,119246_autotis,276098
 273594,9.99,MGGT,2016,1.5,自动,110741_autotis,9.19,MGGT,9.99,110741_autotis,273594

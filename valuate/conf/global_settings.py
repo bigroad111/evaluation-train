@@ -25,7 +25,7 @@ PRODUCE_VALUATE_ENGINE_INNER_PYMYSQL = 'mysql+pymysql://'+PRODUCE_DB_INNER_USER+
 PRODUCE_VALUATE_ENGINE_INNER_MYSQL_CON = 'mysql+mysqlconnector://'+PRODUCE_DB_INNER_USER+':'+PRODUCE_DB_INNER_PASSWD+'@'+PRODUCE_DB_ADDR_INNER+'/valuate?charset=utf8'
 
 # 本地库
-LOCAL_DB_ADDR = '192.168.1.47'
+LOCAL_DB_ADDR = '192.168.1.48'
 LOCAL_DB_USER = 'pingjia'
 LOCAL_DB_PASSWD = '654321'
 LOCAL_PINGJIA_ENGINE = 'mysql+pymysql://'+LOCAL_DB_USER+':'+LOCAL_DB_PASSWD+'@'+LOCAL_DB_ADDR+'/pingjia?charset=utf8'
@@ -104,8 +104,8 @@ PRODUCE_OPEN_CITY_QUERY = 'select '+PRODUCE_OPEN_CITY_COLUMNS+' from '+OPEN_CITY
 #                    'from car_source  as cs left join open_model_detail as omd on cs.model_detail_slug=omd.detail_model_slug ' \
 #                    ' where cs.global_sibling = 0 and cs.model_detail_slug is not null and cs.pub_time > \'2017-01-01\' limit 10'
 
-TRAIN_DATA_QUERY = 'select cs.id,cs.model_detail_slug,cs.mile,cs.year,cs.month,cs.city,cs.price,cs.status,cs.source_type,cs.domain,cs.expired_at,cs.sold_time ' \
-                        'from car_source  as cs where cs.global_sibling = 0 and cs.model_detail_slug is not null and cs.pub_time > \'2017-01-01\' '
+TRAIN_DATA_QUERY = 'select cs.id,cs.model_detail_slug,cs.mile,cs.year,cs.month,cs.city,cs.price,cs.status,cs.source_type,cs.domain,cs.dealer_id,cs.expired_at,cs.sold_time ' \
+                        'from car_source  as cs where cs.global_sibling = 0 and cs.model_detail_slug is not null'
 
 # 车源历史表
 HISTORY_CAR_SOURCE = 'car_source_archive'

@@ -53,8 +53,8 @@ def df_process_prices_relate(df):
     """
     人工处理三类价格的相关性
     """
-    buy = df['dealer_price']
-    private = df['cpersonal_price']
+    buy = int(df['dealer_price'])
+    private = int(df['cpersonal_price'])
     if (buy <= 0) | (private <= 0):
         return 0
     # 计算buy与private的比例关系
@@ -63,7 +63,6 @@ def df_process_prices_relate(df):
     if (private_buy_rate < 0) | (abs(private_buy_rate) > 0.12):
         private = int(buy * (1 - 0.0875))
     sell = int(private * (1 - 0.0525))
-
     if df['source_type'] == 'dealer':
         return buy
     elif df['source_type'] == 'cpersonal':
@@ -198,40 +197,41 @@ class Predict(object):
         """
         从模型批量预测
         """
-        data = data.sort_values(by=['model_slug', 'model_detail_slug'])
-        models = list(set(data.model_slug.values))
-        result = pd.DataFrame()
-        for model in models:
-            # 加载估值模型
-            self.valuate_model = xgb.Booster()
-            self.valuate_model.load_model('predict/models/' + model + '/model/xgboost_level2.model')
-
-            test = data.loc[(data['model_slug'] == model), :]
-            test.reset_index(inplace=True)
-            popularity_map = pd.read_csv('predict/models/' + model + '/data/test.csv')
-            popularity_map = popularity_map.loc[:, ['city', 'model_detail_slug', 'popularity']]
-            popularity_map = popularity_map.drop_duplicates()
-            encode_city = pd.read_csv('predict/models/' + model + '/feature_encode/city.csv')
-            encode_model_detail_slug = pd.read_csv('predict/models/' + model + '/feature_encode/model_detail_slug.csv')
-            encode_popularity = pd.read_csv('predict/models/' + model + '/feature_encode/popularity.csv')
-            encode_source_type = pd.read_csv('predict/models/' + model + '/feature_encode/source_type.csv')
-            test = test.merge(popularity_map, how='left', on=['model_detail_slug', 'city'])
-            test = test.merge(encode_city, how='left', on='city')
-            test = test.merge(encode_model_detail_slug, how='left', on='model_detail_slug')
-            test = test.merge(encode_popularity, how='left', on='popularity')
-            test = test.merge(encode_source_type, how='left', on='source_type')
-
-            # 加载特征顺序
-            with open('predict/models/' + model + '/feature_encode/feature_order.txt', 'rb') as fp:
-                feature_name = pickle.load(fp)
-
-            # 预测保值率
-            pred = test.loc[:, feature_name]
-            predict_hedge = np.exp(self.valuate_model.predict(xgb.DMatrix(pred)))
-            test['predict_hedge'] = pd.Series(predict_hedge).values
-            test['price_bn'] = test['price_bn'] * 10000
-            test['predict_price'] = test['predict_hedge'] * test['price_bn']
-            result = result.append(test)
-        result['predict_price'] = result.apply(df_process_mile, axis=1)
-        return result
+        pass
+        # data = data.sort_values(by=['model_slug', 'model_detail_slug'])
+        # models = list(set(data.model_slug.values))
+        # result = pd.DataFrame()
+        # for model in models:
+        #     # 加载估值模型
+        #     self.valuate_model = xgb.Booster()
+        #     self.valuate_model.load_model('predict/models/' + model + '/model/xgboost_level2.model')
+        #
+        #     test = data.loc[(data['model_slug'] == model), :]
+        #     test.reset_index(inplace=True)
+        #     popularity_map = pd.read_csv('predict/models/' + model + '/data/test.csv')
+        #     popularity_map = popularity_map.loc[:, ['city', 'model_detail_slug', 'popularity']]
+        #     popularity_map = popularity_map.drop_duplicates()
+        #     encode_city = pd.read_csv('predict/models/' + model + '/feature_encode/city.csv')
+        #     encode_model_detail_slug = pd.read_csv('predict/models/' + model + '/feature_encode/model_detail_slug.csv')
+        #     encode_popularity = pd.read_csv('predict/models/' + model + '/feature_encode/popularity.csv')
+        #     encode_source_type = pd.read_csv('predict/models/' + model + '/feature_encode/source_type.csv')
+        #     test = test.merge(popularity_map, how='left', on=['model_detail_slug', 'city'])
+        #     test = test.merge(encode_city, how='left', on='city')
+        #     test = test.merge(encode_model_detail_slug, how='left', on='model_detail_slug')
+        #     test = test.merge(encode_popularity, how='left', on='popularity')
+        #     test = test.merge(encode_source_type, how='left', on='source_type')
+        #
+        #     # 加载特征顺序
+        #     with open('predict/models/' + model + '/feature_encode/feature_order.txt', 'rb') as fp:
+        #         feature_name = pickle.load(fp)
+        #
+        #     # 预测保值率
+        #     pred = test.loc[:, feature_name]
+        #     predict_hedge = np.exp(self.valuate_model.predict(xgb.DMatrix(pred)))
+        #     test['predict_hedge'] = pd.Series(predict_hedge).values
+        #     test['price_bn'] = test['price_bn'] * 10000
+        #     test['predict_price'] = test['predict_hedge'] * test['price_bn']
+        #     result = result.append(test)
+        # result['predict_price'] = result.apply(df_process_mile, axis=1)
+        # return result
 
