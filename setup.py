@@ -5,7 +5,7 @@ PACKAGES = [NAME] + ["%s.%s" % (NAME, i) for i in find_packages(NAME)]
 
 setup(
     name=NAME,
-    version='2.1.7',
+    version='2.1.8',
     author='DJ Leo',
     author_email='m18349125880@gmail.com',
     description='Used car valuation module',
