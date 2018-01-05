@@ -354,7 +354,6 @@ class Predict(object):
         province = province_city_map.loc[city, 'province']
         model_slug = model_detail_map.loc[model_detail_slug, 'model_slug']
         final_model_detail_slug = model_detail_map.loc[model_detail_slug, 'final_model_detail_slug']
-        print(price_bn, model_slug, final_model_detail_slug)
         # 预测返回保值率
         dealer_hedge, cpersonal_hedge = predict_from_db(final_model_detail_slug, city, use_time)
         buy, private, sell, popularity = self.follow_process(use_time, mile, price_bn, dealer_hedge, cpersonal_hedge, province, model_slug, model_detail_slug)
