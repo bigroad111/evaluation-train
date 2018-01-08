@@ -18,7 +18,7 @@ class Verify(object):
         open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
         open_city = pd.read_csv('../tmp/train/open_city.csv')
         open_city = open_city[open_city['parent'] != 0]
-
+        print('总计款型:', len(set(open_model_detail.model_detail_slug.values)))
         for i, model_details in enumerate(list(set(open_model_detail.model_detail_slug.values))):
             time1 = time.time()
             test_set = pd.DataFrame()
@@ -52,6 +52,7 @@ class Verify(object):
             final = final.append(temp)
             print('完成part:', i, '组装')
         final = final.merge(model_detail_map, how='left', on='model_detail_slug')
+        final = final[final['price_bn'].notnull()]
         final.to_csv('verify/set/self_test_set.csv', index=False)
 
     def generate_verify_tables(self):

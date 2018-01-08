@@ -139,9 +139,9 @@ class Report(object):
         self.final['exist'] = 'Y'
         self.final.loc[(self.final['good'].isnull()), 'exist'] = 'N'
         self.final.loc[(self.final['good'] == '0,0'), 'exist'] = 'N'
-        self.final['predict_price_excellent'] = self.final.apply(process_category_price, args=('excellent',), axis=1)
+        # self.final['predict_price_excellent'] = self.final.apply(process_category_price, args=('excellent',), axis=1)
         self.final['predict_price_good'] = self.final.apply(process_category_price, args=('good',), axis=1)
-        self.final['predict_price_fair'] = self.final.apply(process_category_price, args=('fair',), axis=1)
+        # self.final['predict_price_fair'] = self.final.apply(process_category_price, args=('fair',), axis=1)
 
     def keep_all_have_data(self):
         """
@@ -246,11 +246,11 @@ class Report(object):
         predict = batch()
         result = predict.predict_batch(gongpingjia.loc[:, ['car_id', 'city', 'model_slug', 'model_detail_slug',  'source_type', 'use_time', 'mile', 'popularity']], adjust_profit=True)
         result = result.loc[:, ['car_id', 'predict_price']]
-        result['predict_price_excellent'] = result['predict_price'] * 1.03 / 100
+        # result['predict_price_excellent'] = result['predict_price'] * 1.03 / 100
         result['predict_price_good'] = result['predict_price'] / 100
-        result['predict_price_fair'] = result['predict_price'] * 0.89 / 100
+        # result['predict_price_fair'] = result['predict_price'] * 0.89 / 100
         result = result.drop('predict_price', axis=1)
-        gongpingjia = gongpingjia.drop(['predict_price_excellent', 'predict_price_good', 'predict_price_fair'], axis=1)
+        gongpingjia = gongpingjia.drop(['predict_price_good'], axis=1)
         gongpingjia = gongpingjia.merge(result, how='left', on='car_id')
         self.final = self.final.drop(self.final[self.final['domain'] == 'gongpingjia.com'].index)
         self.final = self.final.append(gongpingjia, ignore_index=True)

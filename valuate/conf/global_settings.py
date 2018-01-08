@@ -156,7 +156,7 @@ PRODUCE_EVAL_SOURCE_QUERY = 'select '+PRODUCE_EVAL_SOURCE_COLUMNS+' from ' + EVA
 EVAL_SOURCE_QUERY = 'select es.id,es.car_id,es.excellent,es.good,es.fair,es.domain,es.price,es.status,es.created,cs.title,cs.pub_time,' \
                     'cs.model_slug,cs.model_detail_slug,cs.mile,cs.year,cs.month,cs.city,cs.source_type,cs.expired_at,cs.sold_time,omd.price_bn ' \
                     'from datasource.eval_source as es left join pingjia.car_source as cs on cs.id=es.car_id ' \
-                    'left join pingjia.open_model_detail as omd on cs.model_detail_slug = omd.detail_model_slug'
+                    'left join pingjia.open_model_detail as omd on cs.model_detail_slug = omd.detail_model_slug '
 
 DEAL_TYPE_MAP_CATEGORY = {1: 'c_2_c', 2: 'c_2_b', 3: 'b_2_c'}
 DEAL_TYPE_MAP_SOURCE_TYPE = {1: 'cpersonal', 2: 'sell_dealer', 3: 'dealer'}

@@ -171,25 +171,25 @@ class Manual(object):
         """
         生成供调整值用的映射表
         """
-        adjust_data = pd.read_csv('../tmp/train/adjust_data.csv')
-        # 生成使用时间
-        adjust_data['use_time'] = adjust_data.apply(generate_months, axis=1)
-        adjust_data['source_type'] = adjust_data['source_type'].map(gl.INTENT_MAP)
-        # 删除数据不完整记录和use_time异常值
-        adjust_data.loc[(adjust_data['use_time'] <= 0), 'use_time'] = 1
-        adjust_data.loc[(adjust_data['use_time'] > 240), 'use_time'] = 240
-        # 重置索引
-        adjust_data.reset_index(inplace=True)
-        adjust_data = adjust_data.drop('index', axis=1)
-
-        # 预测数据
-        feature = gl.PREDICT_FEATURE
-        feature.append('price')
-        adjust_data = adjust_data.loc[:, feature]
-        predict = Predict()
-        result = predict.predict_batch(adjust_data, is_update_process=True)
-        result = result.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'source_type', 'popularity', 'price', 'predict_price']]
-        result.to_csv('../tmp/train/man.csv', index=False)
+        # adjust_data = pd.read_csv('../tmp/train/adjust_data.csv')
+        # # 生成使用时间
+        # adjust_data['use_time'] = adjust_data.apply(generate_months, axis=1)
+        # adjust_data['source_type'] = adjust_data['source_type'].map(gl.INTENT_MAP)
+        # # 删除数据不完整记录和use_time异常值
+        # adjust_data.loc[(adjust_data['use_time'] <= 0), 'use_time'] = 1
+        # adjust_data.loc[(adjust_data['use_time'] > 240), 'use_time'] = 240
+        # # 重置索引
+        # adjust_data.reset_index(inplace=True)
+        # adjust_data = adjust_data.drop('index', axis=1)
+        #
+        # # 预测数据
+        # feature = gl.PREDICT_FEATURE
+        # feature.append('price')
+        # adjust_data = adjust_data.loc[:, feature]
+        # predict = Predict()
+        # result = predict.predict_batch(adjust_data, is_update_process=True)
+        # result = result.loc[:, ['model_detail_slug', 'mile', 'use_time', 'city', 'source_type', 'popularity', 'price', 'predict_price']]
+        # result.to_csv('../tmp/train/man.csv', index=False)
         adjust_data = pd.read_csv('../tmp/train/man.csv')
         adjust_data['price'] = adjust_data['price'] * 10000
         adjust_data['rate'] = (adjust_data['price'] - adjust_data['predict_price']) / adjust_data['predict_price']
@@ -205,6 +205,6 @@ class Manual(object):
         """
         # self.get_models_not_in_train_data()
         # self.generate_price_bn_tune_map()
-        # self.generate_adjust_data()
+        self.generate_adjust_data()
         self.generate_adjust_profit_map()
         # self.generate_others_predict_relate_tables()
