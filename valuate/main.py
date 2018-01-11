@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # while True:
     time1 = time.time()
     predict = api()
-    result = predict.predict(city='苏州', model_detail_slug='112786_autotis', use_time=23, mile=4.9, ret_type='normal')
+    result = predict.predict(city='北京', model_detail_slug='119366_autotis', use_time=7, mile=2, ret_type='normal')
     print(result)
     result = predict.future_price_trend(city='广州', model_detail_slug='13648_ah', use_time=62, mile=13, ret_type='normal')
     print(result)
