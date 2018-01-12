@@ -12,22 +12,22 @@ def  store_train_data():
     """
     查询训练数据并存储在tmp中
     """
-    history_train = db_operate.query_local_history_train_data()
-    history_train.to_csv('../tmp/train/history_train_source.csv', index=False)
-    del history_train
-    gc.collect()
-    print('下载历史训练数据,已完成!')
-    train = db_operate.query_local_train_data()
-    train.to_csv('../tmp/train/train_source.csv', index=False)
-    del train
-    gc.collect()
-    print('下载当前训练数据,已完成!')
-    #
-    # open_model_detail = db_operate.query_produce_open_model_detail()
-    # open_model_detail = open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
-    # open_model_detail.to_csv('../tmp/train/open_model_detail.csv', index=False)
-    # del open_model_detail
+    # history_train = db_operate.query_local_history_train_data()
+    # history_train.to_csv('../tmp/train/history_train_source.csv', index=False)
+    # del history_train
     # gc.collect()
+    # print('下载历史训练数据,已完成!')
+    # train = db_operate.query_local_train_data()
+    # train.to_csv('../tmp/train/train_source.csv', index=False)
+    # del train
+    # gc.collect()
+    # print('下载当前训练数据,已完成!')
+    #
+    open_model_detail = db_operate.query_produce_open_model_detail()
+    open_model_detail = open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
+    open_model_detail.to_csv('../tmp/train/open_model_detail.csv', index=False)
+    del open_model_detail
+    gc.collect()
     #
     # open_category = db_operate.query_produce_open_category()
     # open_category.to_csv('../tmp/train/open_category.csv', index=False)
@@ -76,10 +76,10 @@ def process_need_udpate_tables():
     print('开始处理!')
     # process_car_deal_history()
     # print('完成car_deal_history处理!')
-    process_car_source()
+    # process_car_source()
     # print('完成car_source处理!')
-    # update_tables_to_local_db()
-    # print('完成本地库上传!')
+    update_tables_to_local_db()
+    print('完成本地库上传!')
 
 
 def process_car_source():

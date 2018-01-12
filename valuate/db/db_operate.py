@@ -30,7 +30,8 @@ def query_produce_open_model_detail():
     """
     查询款型库
     """
-    return pd.read_sql_query(gl.PRODUCE_OPEN_MODEL_DETAIL_QUERY, runtime_engine)
+    engine = create_engine(gl.PRODUCE_PINGJIA_ENGINE, encoding=gl.ENCODING)
+    return pd.read_sql_query(gl.PRODUCE_OPEN_MODEL_DETAIL_QUERY, engine)
 
 
 def query_produce_open_category():

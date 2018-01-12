@@ -86,28 +86,54 @@ def calculate_price(df):
     return float('%.2f' % (df['depreciation_rate'] * df['price_bn'] * random.uniform(0.99, 1.00))) + 0.1 - 0.1 * random.uniform(0.99, 1.00)
 
 
+# 特征工程处理流程:
+# 1.常规异常数据处理
+# 2.以瓜子二手车直卖网上线为时间点,取数据 2015.9
+# 3.以平台可信度为准,直接将可信度高平台的数据纳入训练集
+# 4.查找没有训练集的款型,将可信度一般平台的数据纳入训练集,依照['dealer','cpersonal','cpo']到['odealer','personal']
+# 5.查找没有训练集的款型,补充人造数据
+
+# 将数据分类(需要解释说明)
+# 1.加价的款型
+# 2.正常逻辑的款型,符合文强范围
+# 3.贬值率极高的款型
+# 4.纯粹没有数据的款型
+
+
 class FeatureEngineering(object):
 
     def __init__(self):
         # 查询训练数据
-        query_train_data()
+        # query_train_data()
         # 加载各类相关表
         # self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
         # self.train = pd.read_csv('../tmp/train/train_source.csv')
         # self.train = self.train.append(self.history_train, ignore_index=True)
-        # self.deal_records = pd.read_csv('../tmp/report/deal_records.csv')
-        # self.open_city = pd.read_csv('../tmp/train/open_city.csv')
-        # self.open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
-        # self.open_category = pd.read_csv('../tmp/train/open_category.csv')
-        # self.open_depreciation = pd.read_csv('../tmp/train/open_depreciation.csv')
-        # self.province_popular = pd.read_csv('../tmp/train/open_province_popularity.csv')
-        # self.open_category = self.open_category.rename(columns={'slug': 'global_slug', 'name': 'global_name'})
-        # self.open_model_detail = self.open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
-        # self.province_popular = self.province_popular.loc[:, ['province', 'model_slug', 'popularity']]
-        #
-        # self.no_models = []
-        # self.have_models = []
-        # self.all_models = []
+        self.deal_records = pd.read_csv('../tmp/report/deal_records.csv')
+        self.open_city = pd.read_csv('../tmp/train/open_city.csv')
+        self.open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
+        self.open_category = pd.read_csv('../tmp/train/open_category.csv')
+        self.open_depreciation = pd.read_csv('../tmp/train/open_depreciation.csv')
+        self.province_popular = pd.read_csv('../tmp/train/open_province_popularity.csv')
+        self.open_category = self.open_category.rename(columns={'slug': 'global_slug', 'name': 'global_name'})
+        self.open_model_detail = self.open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
+        self.province_popular = self.province_popular.loc[:, ['province', 'model_slug', 'popularity']]
+
+        self.no_models = []
+        self.have_models = []
+        self.all_models = []
+
+    def execute(self):
+        """
+        执行流程
+        """
+        # self.base_cleaning()
+        self.process_domain_priority()
+        self.process_open_depreciation()
+        self.generate_train_data()
+        # self.add_other_process()
+        # self.add_other_process_step2()
+        # self.split_models()
 
     def base_cleaning(self):
         """
@@ -116,10 +142,7 @@ class FeatureEngineering(object):
         # 删掉price<0的记录
         self.train = self.train[self.train['price'] > 0]
         # 只保留正规车商的记录
-        self.train = self.train[self.train['source_type'].isin(['cpersonal', 'cpo', 'dealer', 'odealer', 'personal'])]
-        self.train = self.train[self.train['sold_time'].notnull()]
-        self.train = self.train[self.train['model_detail_slug'].notnull()]
-        self.train = self.train[self.train['status'] == 'review']
+        self.train = self.train[(self.train['status'] == 'review') & (self.train['sold_time'].notnull()) & (self.train['model_detail_slug'].notnull())]
         # 删除掉未知城市,款型和98年之前的记录,
         open_city = self.open_city[self.open_city['parent'] != 0]
         cities = list(set(open_city.name.values))
@@ -131,29 +154,63 @@ class FeatureEngineering(object):
         self.train = self.train[self.train['month'].isin(np.arange(1, 13))]
         self.train.reset_index(inplace=True)
         self.train = self.train.drop('index', axis=1)
-        # 计算使用月数,删除使用时间小于0和14年之前的记录
+        # 计算使用月数,删除使用时间小于0和16年之前的记录
         self.train['use_time'] = self.train.apply(generate_months, axis=1)
-        self.train = self.train.merge(self.open_model_detail, on='model_detail_slug', how='left')
-        self.train = self.train.drop(self.train[(self.train['use_time'] < 0) | (self.train['sold_time'] < '2014-01-01')].index)
-        self.train = self.train.drop(['year', 'month', 'expired_at', 'sold_time', 'status', 'volume'], axis=1)
-        self.train.reset_index(inplace=True)
-        self.train = self.train.drop('index', axis=1)
+        open_model_detail = self.open_model_detail.loc[:, ['price_bn', 'model_detail_slug']]
+        self.train = self.train.merge(open_model_detail, on='model_detail_slug', how='left')
+        self.train = self.train.drop(self.train[(self.train['use_time'] < 0) | (self.train['sold_time'] < '2016-01-01')].index)
 
-    def find_no_models(self):
+        self.train.reset_index(inplace=True)
+        self.train = self.train.drop(['index', 'dealer_id', 'year', 'month', 'expired_at', 'sold_time', 'status'], axis=1)
+        self.train.to_csv('../tmp/train/train_bak.csv', index=False)
+
+    def process_domain_priority(self):
+        """
+        平台可信度处理
+        """
+        self.train = pd.read_csv('../tmp/train/train_bak.csv')
+        domain_priority = pd.read_csv('../tmp/train/domain_priority.csv')
+        domain_priority = domain_priority.loc[:, ['domain', 'type']]
+        self.train = self.train.merge(domain_priority, how='left', on='domain')
+        result = pd.DataFrame()
+        # 直接将可信度高平台的数据纳入训练集
+        part1 = self.train.loc[(self.train['type'] == 2), :]
+        result = result.append(part1)
+        # 将可信度一般平台的数据纳入训练集,依照['dealer','cpersonal','cpo']到['odealer','personal']
+        no_models = self.find_no_models(result)
+        print('step1缺少数据的款型:', len(no_models))
+        part2 = self.train.loc[(self.train['type'] == 1), :]
+        part2_branch1 = part2[part2['model_detail_slug'].isin(no_models)]
+        part2_branch1 = part2_branch1[part2_branch1['source_type'].isin(['dealer', 'cpersonal', 'cpo'])]
+        result = result.append(part2_branch1)
+
+        no_models = self.find_no_models(result)
+        print('step2缺少数据的款型:', len(no_models))
+        part2 = self.train.loc[(self.train['type'] == 1), :]
+        part2_branch2 = part2[part2['model_detail_slug'].isin(no_models)]
+        part2_branch2 = part2_branch2[part2_branch2['source_type'].isin(['odealer', 'personal'])]
+        result = result.append(part2_branch2)
+
+        self.no_models = self.find_no_models(result)
+        print('step3缺少数据的款型:', len(self.no_models))
+        result.to_csv('../tmp/train/train_bak1.csv', index=False)
+
+    def find_no_models(self, data):
         """
         查找训练数据记录小于5或没有的款型
         """
         # 获取数据量<5的款型
-        less_data_search = self.train.groupby(['model_detail_slug']).count()
+        less_data_search = data.groupby(['model_detail_slug']).count()
         less_data_search = less_data_search.loc[(less_data_search['id'] < 5), :]
         self.no_models = less_data_search.index.tolist()
 
         # 获取训练数据没有的款型
-        self.have_models = set(self.train.model_detail_slug.values)
+        self.have_models = set(data.model_detail_slug.values)
         self.all_models = set(self.open_model_detail.model_detail_slug.values)
         for model_detail in self.all_models:
             if model_detail not in self.have_models:
                 self.no_models.append(model_detail)
+        return self.no_models
 
     def process_open_depreciation(self):
         """
@@ -185,18 +242,27 @@ class FeatureEngineering(object):
         artificial_data['price'] = artificial_data.apply(calculate_price, axis=1)
         artificial_data['domain'] = 'artificial'
 
-        artificial_data = artificial_data.drop(['depreciation_rate', 'global_name', 'attribute', 'parent', 'volume'], axis=1)
+        artificial_data = artificial_data.drop(['depreciation_rate', 'global_name', 'attribute', 'parent', 'volume', 'global_slug', 'year', 'control', 'detail_model'], axis=1)
         artificial_data.to_csv('../tmp/train/artificial_data.csv', index=False)
         # artificial_data['transfer_owner'] = 0
 
         # 将真实数据与人造数据组合存储
+        self.train = pd.read_csv('../tmp/train/train_bak1.csv')
         self.train = self.train.append(artificial_data, ignore_index=True)
 
         # city为空的填充深圳
         self.train['city'] = self.train['city'].fillna('深圳')
 
-        # 标价单位是万元,改成元
+        # 删掉老旧车型
+        self.train = self.train.drop(self.train[(self.train['use_time'].isnull()) | (self.train['price'].isnull()) | (self.train['price_bn'].isnull()) | (self.train['price_bn'] <= 0) | (self.train['price'] <= 0) | (self.train['use_time'] < 0)].index)
+        self.train.loc[(self.train['use_time'] == 0), 'use_time'] = 1
+
+        self.train['price_bn'] = self.train['price_bn'] * 10000
         self.train['price'] = self.train['price'] * 10000
+        self.train['price'] = self.train['price'].astype(int)
+        self.train['price_bn'] = self.train['price_bn'].astype(int)
+        self.train['use_time'] = self.train['use_time'].astype(int)
+        self.train.to_csv('../tmp/train/train_bak1.csv', index=False)
 
     def add_c2b_data(self):
         self.deal_records = self.deal_records.loc[:, ['id', 'model_detail_slug', 'city', 'mile', 'price', 'deal_date', 'reg_date', 'deal_type', 'source']]
@@ -375,17 +441,6 @@ class FeatureEngineering(object):
 
         normal_models_df = pd.DataFrame(normal_models, columns=['model_slug'])
         normal_models_df.to_csv('predict/map/valuated_model_detail.csv', index=False, encoding='utf-8')
-
-    def execute(self):
-        self.base_cleaning()
-        self.find_no_models()
-        self.process_open_depreciation()
-        self.generate_train_data()
-        self.add_c2b_data()
-        self.add_other_process()
-        self.add_other_process_step2()
-        self.split_models()
-        pass
 
 # 1.公里数对车辆价格的影响。
 # 1. 正常行驶的车辆以一年2.5万公里为正常基数，低于2.5万公里的价格的浮动在+3.5%以内  大于2.5万公里的若每年的平均行驶里程大于2.5万公里小于5万公里价格浮动在-3.5-7.5%  若年平均形式里程大于5万公里及以上影响价格在-7.5-12.5%之间。

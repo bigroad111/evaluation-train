@@ -72,7 +72,7 @@ LOCAL_CAR_SOURCE_COLUMNS = 'cs.id,cs.model_detail_slug,cs.mile,cs.year,cs.month,
 
 # 款型表
 OPEN_MODEL_DETAIL = 'open_model_detail'
-PRODUCE_OPEN_MODEL_DETAIL_COLUMNS = 'id,price_bn,global_slug,year,volume,control,detail_model_slug'
+PRODUCE_OPEN_MODEL_DETAIL_COLUMNS = 'id,price_bn,global_slug,year,volume,control,detail_model,detail_model_slug'
 PRODUCE_OPEN_MODEL_DETAIL_QUERY = 'select '+PRODUCE_OPEN_MODEL_DETAIL_COLUMNS+' from ' + OPEN_MODEL_DETAIL + ' where status = \'Y\' or status = \'A\''
 
 # 车型表

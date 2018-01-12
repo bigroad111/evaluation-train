@@ -193,7 +193,7 @@ class Manual(object):
         adjust_data = pd.read_csv('../tmp/train/man.csv')
         adjust_data['price'] = adjust_data['price'] * 10000
         adjust_data['rate'] = (adjust_data['price'] - adjust_data['predict_price']) / adjust_data['predict_price']
-        # adjust_data = adjust_data[abs(adjust_data['rate']) <= 0.3]
+        adjust_data = adjust_data[abs(adjust_data['rate']) <= 0.3]
         adjust_data.reset_index(inplace=True)
         adjust_data = adjust_data.drop('index', axis=1)
         adjust_profit_map = adjust_data.groupby(['model_detail_slug', 'popularity'])['rate'].median().reset_index()
@@ -205,6 +205,6 @@ class Manual(object):
         """
         # self.get_models_not_in_train_data()
         # self.generate_price_bn_tune_map()
-        self.generate_adjust_data()
+        # self.generate_adjust_data()
         self.generate_adjust_profit_map()
         # self.generate_others_predict_relate_tables()
