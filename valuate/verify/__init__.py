@@ -4,7 +4,6 @@ import time
 import pandas as pd
 import multiprocessing
 from valuate.conf import global_settings as gl
-from valuate.predict.predict_batch import Predict as batch
 
 # 重定位根路径
 path = os.path.abspath(os.path.dirname(gl.__file__))

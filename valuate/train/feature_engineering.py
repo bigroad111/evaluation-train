@@ -16,39 +16,9 @@ def query_train_data():
     process_tables.store_train_data()
 
 
-def generate_deal_days(df):
+def generate_used_months(df):
     """
-    计算成交表使用时间
-    """
-    return (datetime.strptime(df['deal_date'], '%Y-%m-%d') - datetime.strptime(df['reg_date'], '%Y-%m-%d')).days
-
-
-def generate_deal_months(df):
-    """
-    计算成交表使用时间
-    """
-    deal_date = datetime.strptime(df['deal_date'], '%Y-%m-%d')
-    reg_date = datetime.strptime(df['reg_date'], '%Y-%m-%d')
-    return (deal_date.year - reg_date.year)*12 + deal_date.month - reg_date.month
-
-
-def generate_days(df):
-    """
-    生成年份
-    """
-    online_time = str(df['year'])+'-'+str(df['month'])+'-'+'1'
-    online_time = datetime.strptime(online_time, '%Y-%m-%d')
-    if str(df['sold_time']) == 'nan':
-        transaction_time = datetime.strptime(str(df['expired_at']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time - online_time).days
-    else:
-        transaction_time = datetime.strptime(str(df['sold_time']), "%Y-%m-%d %H:%M:%S")
-        return (transaction_time - online_time).days
-
-
-def generate_months(df):
-    """
-    生成年份
+    生成使用的月份
     """
     online_year = df['year']
     online_month = df['month']
@@ -60,23 +30,31 @@ def generate_months(df):
         return (transaction_time.year - online_year)*12 + transaction_time.month - online_month
 
 
-def c2b_get_month(df):
+def generate_used_years(df):
     """
-    获取月份
+    生成使用的年份
     """
-    transaction_time = datetime.strptime(str(df['deal_date']), "%Y-%m-%d")
-    return transaction_time.month
+    online_year = df['year']
+    if str(df['sold_time']) == 'nan':
+        transaction_time = datetime.strptime(str(df['expired_at']), "%Y-%m-%d %H:%M:%S")
+        return transaction_time.year - online_year
+    else:
+        transaction_time = datetime.strptime(str(df['sold_time']), "%Y-%m-%d %H:%M:%S")
+        return transaction_time.year - online_year
+
+
+def calculate_mile_per_month(df):
+    """
+    计算每月公里数
+    """
+    return float('%.2f' % (df['mile'] / df['used_years']))
 
 
 def calculate_mile(df):
     """
-    计算公里数，平均每年2万公里
+    计算公里数，平均每年2.5万公里
     """
-    if df['use_time'] < 1:
-        return 0.00
-    else:
-        # return float('%.2f' % ((df['use_time'] * 2)*(random.uniform(0.95, 1.05)) / 12))
-        return float('%.2f' % ((df['use_time'] * 2) / 12))
+    return float('%.2f' % ((df['use_time'] * 2.5) / 12))
 
 
 def calculate_price(df):
@@ -84,7 +62,6 @@ def calculate_price(df):
     计算标价
     """
     return float('%.2f' % (df['depreciation_rate'] * df['price_bn'] * random.uniform(0.99, 1.00))) + 0.1 - 0.1 * random.uniform(0.99, 1.00)
-
 
 # 特征工程处理流程:
 # 1.常规异常数据处理
@@ -105,10 +82,15 @@ class FeatureEngineering(object):
     def __init__(self):
         # 查询训练数据
         # query_train_data()
+
+        self.train = []
+        self.no_models = []
+        self.have_models = []
+        self.all_models = []
         # 加载各类相关表
-        # self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
-        # self.train = pd.read_csv('../tmp/train/train_source.csv')
-        # self.train = self.train.append(self.history_train, ignore_index=True)
+        self.history_train = pd.read_csv('../tmp/train/history_train_source.csv')
+        self.train = pd.read_csv('../tmp/train/train_source.csv')
+        self.train = self.train.append(self.history_train, ignore_index=True)
         self.deal_records = pd.read_csv('../tmp/report/deal_records.csv')
         self.open_city = pd.read_csv('../tmp/train/open_city.csv')
         self.open_model_detail = pd.read_csv('../tmp/train/open_model_detail.csv')
@@ -119,30 +101,29 @@ class FeatureEngineering(object):
         self.open_model_detail = self.open_model_detail.rename(columns={'detail_model_slug': 'model_detail_slug'})
         self.province_popular = self.province_popular.loc[:, ['province', 'model_slug', 'popularity']]
 
-        self.no_models = []
-        self.have_models = []
-        self.all_models = []
-
     def execute(self):
         """
         执行流程
         """
-        # self.base_cleaning()
-        self.process_domain_priority()
-        self.process_open_depreciation()
-        self.generate_train_data()
+        self.base_clean()
+        self.extra_clean()
+        # self.feature_engineering_assign_model()
+
+        # self.process_domain_priority()
+        # self.process_open_depreciation()
+        # self.generate_train_data()
         # self.add_other_process()
         # self.add_other_process_step2()
         # self.split_models()
 
-    def base_cleaning(self):
+    def base_clean(self):
         """
         数据常规预处理
         """
         # 删掉price<0的记录
         self.train = self.train[self.train['price'] > 0]
         # 只保留正规车商的记录
-        self.train = self.train[(self.train['status'] == 'review') & (self.train['sold_time'].notnull()) & (self.train['model_detail_slug'].notnull())]
+        self.train = self.train[(self.train['status'] == 'review') & (self.train['sold_time'].notnull()) & (self.train['sold_time'] >= '2016-01-01') & (self.train['model_detail_slug'].notnull())]
         # 删除掉未知城市,款型和98年之前的记录,
         open_city = self.open_city[self.open_city['parent'] != 0]
         cities = list(set(open_city.name.values))
@@ -152,17 +133,53 @@ class FeatureEngineering(object):
         self.train = self.train[self.train['year'] > 1997]
         # 删掉没有处理时间的记录和时间记录异常值
         self.train = self.train[self.train['month'].isin(np.arange(1, 13))]
-        self.train.reset_index(inplace=True)
-        self.train = self.train.drop('index', axis=1)
-        # 计算使用月数,删除使用时间小于0和16年之前的记录
-        self.train['use_time'] = self.train.apply(generate_months, axis=1)
-        open_model_detail = self.open_model_detail.loc[:, ['price_bn', 'model_detail_slug']]
+        self.train.reset_index(inplace=True, drop='index')
+        # 计算使用月数,删除使用时间小于0和16年之前的记录,依据瓜子和人人车上线时间2015.9
+        self.train['used_months'] = self.train.apply(generate_used_months, axis=1)
+        self.train['used_years'] = self.train.apply(generate_used_years, axis=1)
+        open_model_detail = self.open_model_detail.loc[:, ['price_bn', 'global_slug', 'model_detail_slug']]
+        open_model_detail = open_model_detail.rename(columns={'global_slug': 'model_slug'})
         self.train = self.train.merge(open_model_detail, on='model_detail_slug', how='left')
-        self.train = self.train.drop(self.train[(self.train['use_time'] < 0) | (self.train['sold_time'] < '2016-01-01')].index)
-
-        self.train.reset_index(inplace=True)
-        self.train = self.train.drop(['index', 'dealer_id', 'year', 'month', 'expired_at', 'sold_time', 'status'], axis=1)
+        self.train = self.train.drop(self.train[(self.train['used_months'] <= 0)].index)
+        self.train.reset_index(inplace=True, drop=True)
+        self.train = self.train.drop(['dealer_id', 'year', 'month', 'expired_at', 'status'], axis=1)
         self.train.to_csv('../tmp/train/train_bak.csv', index=False)
+
+    def extra_clean(self):
+        """
+        数据额外处理
+        """
+        self.train = pd.read_csv('../tmp/train/train_bak.csv')
+        # 上牌和交易时间没有跨年的,按照1年处理
+        self.train.loc[(self.train['used_years'] == 0), 'used_years'] = 1
+        # 将odealer和personal数据改为,dealer和cpersonal
+        self.train = self.train[self.train['source_type'].isin(['odealer', 'dealer', 'cpersonal', 'personal'])]
+        self.train.reset_index(inplace=True, drop=True)
+        self.train.loc[(self.train['source_type'].isin(['odealer', 'dealer'])), 'source_type'] = 'dealer'
+        self.train.loc[(self.train['source_type'].isin(['cpersonal', 'personal'])), 'source_type'] = 'cpersonal'
+        # 剔除mile超过正常值的记录,每年不超过2.5万公里
+        self.train['mile_per_year'] = self.train.apply(calculate_mile_per_month, axis=1)
+        self.train = self.train[self.train['mile_per_year'] < 2.5]
+
+        self.train.reset_index(inplace=True, drop=True)
+        self.train = self.train.drop(['mile_per_year'], axis=1)
+        self.train.to_csv('../tmp/train/train_bak.csv', index=False)
+
+    def feature_engineering_assign_model(self):
+        """
+        对指定车型进行特征工程
+        """
+        def get_assign_model_source_data(data, model_slug):
+            """
+            获取指定车型的源数据
+            """
+            result = data.loc[(data['model_slug'] == model_slug), :]
+            result.reset_index(inplace=True, drop=True)
+            return result
+
+        self.train = pd.read_csv('../tmp/train/train_bak.csv')
+        model_source_data = get_assign_model_source_data(self.train, 'yihu')
+        model_source_data.to_csv('../tmp/train/model_test_data.csv', index=False)
 
     def process_domain_priority(self):
         """
@@ -263,32 +280,6 @@ class FeatureEngineering(object):
         self.train['price_bn'] = self.train['price_bn'].astype(int)
         self.train['use_time'] = self.train['use_time'].astype(int)
         self.train.to_csv('../tmp/train/train_bak1.csv', index=False)
-
-    def add_c2b_data(self):
-        self.deal_records = self.deal_records.loc[:, ['id', 'model_detail_slug', 'city', 'mile', 'price', 'deal_date', 'reg_date', 'deal_type', 'source']]
-        open_model_detail = self.open_model_detail.loc[:, ['price_bn', 'model_detail_slug', 'global_slug']]
-
-        self.deal_records = self.deal_records.merge(open_model_detail, how='left', on='model_detail_slug')
-        self.deal_records['use_time'] = self.deal_records.apply(generate_deal_months, axis=1)
-        self.deal_records['source_type'] = self.deal_records['deal_type'].map(gl.DEAL_TYPE_MAP_SOURCE_TYPE)
-        self.deal_records = self.deal_records.drop(['deal_date', 'reg_date', 'deal_type'], axis=1)
-
-        self.deal_records['mile'] = self.deal_records['mile'] / 10000
-        self.deal_records = self.deal_records[self.deal_records['source_type'] == 'sell_dealer']
-        self.deal_records.reset_index(inplace=True)
-        self.deal_records = self.deal_records.drop('index', axis=1)
-        self.deal_records = self.deal_records.rename(columns={'source': 'domain'})
-
-        # 存储
-        self.train = self.train.append(self.deal_records, ignore_index=True)
-        # 删掉老旧车型
-        self.train = self.train.drop(self.train[(self.train['use_time'].isnull()) | (self.train['price'].isnull()) | (self.train['price_bn'].isnull()) | (self.train['price_bn'] <= 0) | (self.train['price'] <= 0) | (self.train['use_time'] < 0)].index)
-        self.train.loc[(self.train['use_time'] == 0), 'use_time'] = 1
-
-        self.train['price_bn'] = self.train['price_bn'] * 10000
-        self.train['price'] = self.train['price'].astype(int)
-        self.train['price_bn'] = self.train['price_bn'].astype(int)
-        self.train['use_time'] = self.train['use_time'].astype(int)
 
     def add_other_process(self):
         """
